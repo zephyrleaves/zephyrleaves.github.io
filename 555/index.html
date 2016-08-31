@@ -1,0 +1,797 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>MySQL 单表插入 10w+ TPS达成 | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="装B留念:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 单表插入 10w+ TPS达成">
+<meta property="og:url" content="http://blog.zephyrleaves.net/555/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="装B留念:">
+<meta property="og:image" content="http://pic.yupoo.com/zephyrleaves/BORhMTX8/medish.jpg">
+<meta property="og:image" content="http://pic.yupoo.com/zephyrleaves/BORvqtgf/medish.jpg">
+<meta property="og:updated_time" content="2015-08-15T05:26:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL 单表插入 10w+ TPS达成">
+<meta name="twitter:description" content="装B留念:">
+<meta name="twitter:image" content="http://pic.yupoo.com/zephyrleaves/BORhMTX8/medish.jpg">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/555/" title="MySQL 单表插入 10w+ TPS达成" itemprop="url">MySQL 单表插入 10w+ TPS达成</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2012-03-16T08:34:19.000Z" itemprop="datePublished"> 发表于 2012-03-16</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>装B留念:</p>
+<p><img src="http://pic.yupoo.com/zephyrleaves/BORhMTX8/medish.jpg" alt=""></p>
+<a id="more"></a>
+<p>MySQL服务端机器配置和操作系统信息,没有使用FlashCache哦:</p>
+<pre><code># Aspersa System Summary Report
+
+Uptime | 84 days, 19:00, 3 users, load average: 0.00, 0.21, 0.16  
+Platform | Linux  
+Release | Red Hat Enterprise Linux Server release 5.4 (Tikanga)  
+Kernel | 2.6.18-164.el5  
+Architecture | CPU = 64-bit, OS = 64-bit  
+Threading | NPTL 2.5  
+Compiler | GNU CC version 4.1.2 20080704 (Red Hat 4.1.2-44).  
+SELinux | Disabled  
+Virtualized | No virtualization detected
+
+# Processor
+
+Processors | physical = 2, cores = 8, virtual = 16, hyperthreading = yes  
+Speeds | 16x2261.058  
+Models | 16xIntel(R) Xeon(R) CPU E5520 @ 2.27GHz  
+Caches | 16x8192 KB
+
+# Memory
+
+Total | 23.53G  
+Free | 2.16G  
+Used | physical = 21.38G, swap = 240.00k, virtual = 21.38G  
+Buffers | 1.03G  
+Caches | 13.60G  
+Dirty | 156 kB  
+UsedRSS | 6.1G  
+Swappiness | vm.swappiness = 60  
+DirtyPolicy | vm.dirty\_ratio = 40, vm.dirty\_background_ratio = 10
+
+# Mounted Filesystems
+
+Filesystem Size Used Type Opts Mountpoint  
+/dev/sda10 766G 11% ext3 rw /uxx  
+/dev/sda1 122M 16% ext3 rw /boot  
+/dev/sda2 15G 67% ext3 rw /  
+/dev/sda3 15G 76% ext3 rw /usr  
+/dev/sda5 8.6G 2% ext3 rw /tmp  
+tmpfs 12G 0% tmpfs rw /dev/shm
+
+# Disk Schedulers And Queue Size
+
+sda | [cfq] 128
+
+# Disk Partioning
+
+Device Type Start End Size  
+============ ==== ========== ========== ==================
+
+# Kernel Inode State
+
+dentry-state | 297447 276749 45 0 0 0  
+file-nr | 3570 0 2390094  
+inode-nr | 220730 32
+
+# LVM Volumes
+
+WARNING: Running as a non-root user. Functionality may be unavailable.
+
+# RAID Controller
+
+Controller | LSI Logic MegaRAID SAS  
+Model | , interface, ports  
+Cache | Memory, BBU  
+BBU | % Charged, Temperature C, isSOHGood=
+
+VirtualDev Size RAID Level Disks SpnDpth Stripe Status Cache  
+========== ========= ========== ===== ======= ====== ======= =========
+
+PhysiclDev Type State Errors Vendor Model Size  
+========== ==== ======= ====== ======= ============ ===========
+
+# Network Config
+
+Controller | Broadcom Corporation NetXtreme II BCM5709 Gigabit Ethernet (rev 20)  
+Controller | Broadcom Corporation NetXtreme II BCM5709 Gigabit Ethernet (rev 20)  
+Controller | Broadcom Corporation NetXtreme II BCM5709 Gigabit Ethernet (rev 20)  
+Controller | Broadcom Corporation NetXtreme II BCM5709 Gigabit Ethernet (rev 20)  
+Controller | Broadcom Corporation NetXtreme II BCM5709 Gigabit Ethernet (rev 20)  
+Controller | Broadcom Corporation NetXtreme II BCM5709 Gigabit Ethernet (rev 20)  
+Controller | Broadcom Corporation NetXtreme II BCM5709 Gigabit Ethernet (rev 20)  
+Controller | Broadcom Corporation NetXtreme II BCM5709 Gigabit Ethernet (rev 20)  
+FIN Timeout | net.ipv4.tcp\_fin\_timeout = 60  
+Port Range | net.ipv4.ip\_local\_port_range = 32768 61000
+
+# Interface Statistics
+
+interface rx\_bytes rx\_packets rx\_errors tx\_bytes tx\_packets tx\_errors  
+========= ========= ========== ========== ========== ========== ==========  
+lo 600000000 500000 0 600000000 500000 0  
+eth0 0 0 0 0 0 0  
+eth1 0 0 0 0 0 0  
+eth2 0 0 0 0 0 0  
+eth3 0 0 0 0 0 0  
+eth4 1000000000 600000000 0 2000000000 450000000 0  
+eth5 0 0 0 0 0 0  
+eth6 1250000000 15000000 0 0 0 0  
+eth7 0 0 0 0 0 0  
+sit0 0 0 0 0 0 0  
+bond0 2500000000 600000000 0 2000000000 450000000 0
+
+# The End
+</code></pre><p>MySQL 使用Percona 5.5.18</p>
+<p>my.cnf的配置如下</p>
+<pre><code>default-storage-engine = INNODB  
+innodb\_flush\_method = O_DIRECT  
+innodb\_file\_per_table = 1  
+innodb\_flush\_log\_at\_trx_commit = 1  
+innodb\_lock\_wait_timeout = 100  
+innodb\_additional\_mem\_pool\_size = 20M  
+innodb\_buffer\_pool_size = 5G  
+innodb\_log\_buffer_size= 800M  
+innodb\_log\_file_size = 200M  
+innodb\_log\_files\_in\_group = 4  
+innodb\_file\_io_threads = 4  
+innodb\_thread\_concurrency = 32  
+innodb\_max\_dirty\_pages\_pct = 90  
+innodb\_data\_file_path = ibdata1:1G:autoextend  
+innodb\_sync\_spin_loops = 0  
+innodb\_spin\_wait_delay = 0
+
+tdh\_socket\_thread_num = 8  
+tdh\_socket\_slow\_read\_thread_num = 64  
+tdh\_socket\_io\_thread\_num = 4  
+tdh\_socket\_write\_thread\_num = 16  
+tdh\_socket\_optimize_on = 1  
+tdh\_socket\_cache\_table\_num\_for\_thd = 40  
+</code></pre><p>插入的表结构</p>
+<pre><code>CREATE TABLE `test` (  
+`id` int(20) unsigned NOT NULL AUTO_INCREMENT,  
+`k` int(20) DEFAULT NULL,  
+`i` int(20) NOT NULL,  
+`c` char(120) DEFAULT NULL,  
+`kc` int(20) DEFAULT &apos;1&apos;,  
+PRIMARY KEY (`id`)  
+) ENGINE=InnoDB DEFAULT CHARSET=gbk; 
+</code></pre><p>压测脚本:</p>
+<pre><code>package benchmark.insert
+
+import benchmark.StressTest  
+import com.taobao.tdhs.client.TDHSClient  
+import com.taobao.tdhs.client.TDHSClientImpl  
+import com.taobao.tdhs.client.response.TDHSResponse  
+import com.taobao.tdhs.client.response.TDHSResponseEnum  
+import java.util.concurrent.atomic.AtomicLong
+
+/**  
+* @author [文通][1]  
+* @since 12-2-9 下午3:31  
+*  
+*/
+
+int step = 100000000
+
+int index = Integer.valueOf(args[0])
+
+AtomicLong id = new AtomicLong((index - 1) * step + 1)
+
+TDHSClient client = new TDHSClientImpl(new InetSocketAddress(&quot;t-wentong&quot;, 9999), 2);
+
+def s = new StressTest(count: step)  
+s.add({  
+def _id = id.incrementAndGet()  
+String table = &quot;test&quot;  
+TDHSResponse response = client.createStatement(index).insert().use(&quot;benchmark_insert&quot;).from(table)  
+.value(&quot;id&quot;, _id.toString())  
+.value(&quot;k&quot;, &quot;10000&quot;)  
+.value(&quot;i&quot;, _id.toString())  
+.value(&quot;c&quot;, \_id.toString() + &quot;\_abcdefghijklmnopqrstuvwxyz&quot;).insert()
+
+if (response != null &amp;amp;&amp;amp; response.getStatus() != TDHSResponseEnum.ClientStatus.OK) {  
+System.out.println(response);  
+}  
+}, 100)
+
+s.run()  
+client.shutdown()
+</code></pre><p>使用TDH_SOCKET进行插入能到这么高TPS的关键:</p>
+<ul>
+<li><p>TDH_SOCKET提供group commit:</p>
+<pre><code>*   减少redo log的fsync次数,使IOPS不成为瓶颈
+</code></pre></li>
+<li>TDH_SOCKET能提供并发写.</li>
+<li><p>自增id的生成策略需要分段自增:</p>
+<pre><code>*   如果采用全自增id生成策略(即默认innodb提供的自增id生成策略)的话,会在高并发插入的时候遇到一个block的写锁.
+</code></pre><ul>
+<li><p>因为是顺序自增,所以并发插入的记录都会集中写入到同一个page上,而一个线程写page会对这个page做一次rw&#95;lock&#95;x&#95;lock&#95;func(&amp;(block-&gt;lock), 0, file, line); 那么这个写锁会成为瓶颈,使TPS无法上去所以只要改变生成id的策略:</p>
+<pre><code>*   分段自增比如一个写线程一下子获取1-10000的id范围 下一个写线程获取10001-20000的id范围..
+</code></pre><ul>
+<li>每个写线程在各自的范围里面自增的生成id,那么即能保证一定的顺序写,又能使写page不会因为并发写锁而性能下降!</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>好,当上了10wTPS之后你会发现CPU占用:</p>
+<p><img src="http://pic.yupoo.com/zephyrleaves/BORvqtgf/medish.jpg" alt=""></p>
+<p>发现CPU的占用还不是很高..但是这个时候的瓶颈在于log_sys-&gt;mutex 这个锁了.因为插入么最后要写undo log.</p>
+<p>至于TDH_SOCKET是啥…..先买个关子~</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MySQL/">MySQL</a><a href="/tags/数据库/">数据库</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/570/" title="一个状态模式的小改进">
+  <strong>上一篇：</strong><br/>
+  <span>
+  一个状态模式的小改进</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/391/"  title="HandlerSocket返回错误码167的bug分析">
+ <strong>下一篇：</strong><br/> 
+ <span>HandlerSocket返回错误码167的bug分析
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="555" data-title="MySQL 单表插入 10w+ TPS达成" data-url="http://blog.zephyrleaves.net/?p=555"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

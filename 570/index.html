@@ -1,0 +1,691 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>一个状态模式的小改进 | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="设计模式中的状态模式
+
+这是标准的状态模式.其中Context管理所有状态,而每个状态都是自己的类,而状态的流转逻辑由状态自己执行.
+然后完整的状态模式实现太过”重”,而且状态流转的描述在代码上也不会是一目了然.所以我对状态模式进行了简化和优化.使其很”轻”,易于使用和实现,而且对于状态流转在代码上也能一目了然.所有的流转逻辑都能在一屏上显示出来.
+先来介绍一下重新优化后的状态模式的一些概念:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个状态模式的小改进">
+<meta property="og:url" content="http://blog.zephyrleaves.net/570/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="设计模式中的状态模式
+
+这是标准的状态模式.其中Context管理所有状态,而每个状态都是自己的类,而状态的流转逻辑由状态自己执行.
+然后完整的状态模式实现太过”重”,而且状态流转的描述在代码上也不会是一目了然.所以我对状态模式进行了简化和优化.使其很”轻”,易于使用和实现,而且对于状态流转在代码上也能一目了然.所有的流转逻辑都能在一屏上显示出来.
+先来介绍一下重新优化后的状态模式的一些概念:">
+<meta property="og:image" content="http://pic.yupoo.com/zephyrleaves/BPjuMor7/medish.jpg">
+<meta property="og:updated_time" content="2015-08-15T05:01:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一个状态模式的小改进">
+<meta name="twitter:description" content="设计模式中的状态模式
+
+这是标准的状态模式.其中Context管理所有状态,而每个状态都是自己的类,而状态的流转逻辑由状态自己执行.
+然后完整的状态模式实现太过”重”,而且状态流转的描述在代码上也不会是一目了然.所以我对状态模式进行了简化和优化.使其很”轻”,易于使用和实现,而且对于状态流转在代码上也能一目了然.所有的流转逻辑都能在一屏上显示出来.
+先来介绍一下重新优化后的状态模式的一些概念:">
+<meta name="twitter:image" content="http://pic.yupoo.com/zephyrleaves/BPjuMor7/medish.jpg">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/570/" title="一个状态模式的小改进" itemprop="url">一个状态模式的小改进</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2012-03-19T08:29:14.000Z" itemprop="datePublished"> 发表于 2012-03-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>设计模式中的状态模式</p>
+<p><img src="http://pic.yupoo.com/zephyrleaves/BPjuMor7/medish.jpg" alt=""></p>
+<p>这是标准的状态模式.其中Context管理所有状态,而每个状态都是自己的类,而状态的流转逻辑由状态自己执行.</p>
+<p>然后完整的状态模式实现太过”重”,而且状态流转的描述在代码上也不会是一目了然.所以我对状态模式进行了简化和优化.使其很”轻”,易于使用和实现,而且对于状态流转在代码上也能一目了然.所有的流转逻辑都能在一屏上显示出来.</p>
+<p>先来介绍一下重新优化后的状态模式的一些概念:</p>
+<ul>
+<li>State:首先就是状态</li>
+<li>Event:事件,事件的触发使State状态发生改变</li>
+<li>Next:实为路径,就是描述一个状态 触发某个事件后会变成具体其他状态的描述</li>
+<li>Status:状态实例,State只是状态的描述,而Status就状态的实例,可以被执行根据State的描述来转换成新的State</li>
+</ul>
+<p>代码可以见 <a href="https://github.com/zephyrleaves/easy-state" target="_blank" rel="external">https://github.com/zephyrleaves/easy-state</a></p>
+<a id="more"></a>
+<p>我们来看一个例子就能知道他是怎么用的了</p>
+<p>首先我们先定义Event事件.</p>
+<pre><code>public enum OrderEvent implements Event{  
+//正在进行中  
+DO,  
+//做完了  
+DONE;
+
+@Override public String getName() {  
+return name();  
+}  
+} 
+</code></pre><p>可以看到Event实际是一个枚举,列举了一系列状态相关的事件</p>
+<p>然后我们再定义状态</p>
+<pre><code>public enum OrderState implements State {  
+@Next(arc = {&quot;DO-&amp;gt;END&quot;, &quot;DONE-&amp;gt;END&quot;})  
+INIT,  
+@Next()  
+TEST,  
+END;
+
+@Override public int getValue() {  
+return ordinal();  
+}
+
+@Override public String getOrginName() {  
+return name();  
+}
+
+@Override public OrderState getStateByName(String name) {  
+return valueOf(name);  
+}  
+}  
+</code></pre><p> 可以看到State本身也是枚举,而不同的是在状态上有@Next这样的annotation来描述状态流转的逻辑</p>
+<p> 例如INIT上的@Next 表示当前如果发生DO这个Event,那么当前状态就是跳转到END上</p>
+<p> 最后看一下串联起来的执行结果</p>
+<pre><code>public class StatusTest {  
+@org.testng.annotations.BeforeTest  
+public void setUp() {  
+}
+
+@Test  
+public void testConstuructor() {  
+Status status = new Status(OrderState.INIT); //初始化状态为INIT  
+Assert.assertEquals(OrderState.valueOf(&quot;INIT&quot;), status.getCurrentState());  
+}
+
+@Test  
+public void testHappen() {  
+Status status = new Status(OrderState.INIT); //初始化状态为INIT  
+Assert.assertEquals(OrderState.INIT, status.getCurrentState());  
+HappenedResult result = status.happen(OrderEvent.DO); //当前状态出发了DO事件  
+Assert.assertEquals(result, HappenedResult.SUCCESS); //跳转成功  
+Assert.assertTrue(result.isSuccess());  
+Assert.assertEquals(status.getCurrentState(), OrderState.END); //当前状态已经跳转为END  
+Assert.assertEquals(status.getPreviousState(), OrderState.INIT); //上一个状态为INIT
+
+HappenedResult result1 = status.happen(null); //没有发生事件  
+Assert.assertEquals(result1, HappenedResult.NO_EVENT); //提示你没事件发生  
+Assert.assertEquals(status.getCurrentState(), OrderState.END); //当前状态还是END  
+Assert.assertEquals(status.getPreviousState(), OrderState.INIT); //上一个状态还是INIT
+
+HappenedResult result2 = status.happen(OrderEvent.DONE); //在当前状态发了DONE事件  
+Assert.assertEquals(result2, HappenedResult.NO_NEXT); //这个状态下没有定义会触发DONE事件  
+Assert.assertEquals(status.getCurrentState(), OrderState.END); //当前状态还是END  
+Assert.assertEquals(status.getPreviousState(), OrderState.INIT); //上一个状态还是INIT
+
+Status status1 = new Status(OrderState.TEST); //初始化状态为TEST  
+HappenedResult result3 = status1.happen(OrderEvent.DO); //在当前状态发了DO事件  
+Assert.assertEquals(result3, HappenedResult.NO_ARC); //这个状态下没有定义会触发的事件  
+Assert.assertEquals(status1.getCurrentState(), OrderState.TEST); //当前状态还是TEST  
+Assert.assertEquals(status1.getPreviousState(), null); //没有上一个状态  
+}  
+}  
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/598/" title="TDH_Socket开源介绍">
+  <strong>上一篇：</strong><br/>
+  <span>
+  TDH_Socket开源介绍</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/555/"  title="MySQL 单表插入 10w+ TPS达成">
+ <strong>下一篇：</strong><br/> 
+ <span>MySQL 单表插入 10w+ TPS达成
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="570" data-title="一个状态模式的小改进" data-url="http://blog.zephyrleaves.net/?p=570"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

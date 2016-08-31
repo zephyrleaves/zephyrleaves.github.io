@@ -1,0 +1,769 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>MBMvc 的 一些 tips | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="使用MBMvc的一些tips
+大家可以来看看">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MBMvc 的 一些 tips">
+<meta property="og:url" content="http://blog.zephyrleaves.net/692/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="使用MBMvc的一些tips
+大家可以来看看">
+<meta property="og:updated_time" content="2015-08-15T04:40:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MBMvc 的 一些 tips">
+<meta name="twitter:description" content="使用MBMvc的一些tips
+大家可以来看看">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/692/" title="MBMvc 的 一些 tips" itemprop="url">MBMvc 的 一些 tips</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2013-02-18T07:58:52.000Z" itemprop="datePublished"> 发表于 2013-02-18</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#小提示"><span class="toc-number">1.</span> <span class="toc-text">小提示:</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#开始"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">开始</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#自动注册为Notification-Observer"><span class="toc-number">1.0.0.0.2.</span> <span class="toc-text">自动注册为Notification Observer</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ProxyObject"><span class="toc-number">1.0.0.0.3.</span> <span class="toc-text">ProxyObject</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#KVO的封装"><span class="toc-number">1.0.0.0.4.</span> <span class="toc-text">KVO的封装</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#拦截器"><span class="toc-number">1.0.0.0.5.</span> <span class="toc-text">拦截器</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<p>使用MBMvc的一些tips</p>
+<p>大家可以来看看</p>
+<a id="more"></a>
+<h1 id="小提示"><a href="#小提示" class="headerlink" title="小提示:"></a>小提示:</h1><h5 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h5><pre><code>//可以直接自动扫描全部Command进行自动异步的Command注册
+[[TBMBGlobalFacade instance] registerCommandAutoAsync];
+</code></pre><p>在应用起来时需要调用这个方法来注册所有的Command</p>
+<pre><code>@interface TBMBDemoRootViewController : TBMBDefaultRootViewController
+@end
+</code></pre><p>记得继承<code>TBMBDefaultRootViewController</code></p>
+<h5 id="自动注册为Notification-Observer"><a href="#自动注册为Notification-Observer" class="headerlink" title="自动注册为Notification Observer"></a>自动注册为Notification Observer</h5><p>在<code>TBMBDefaultRootViewController</code>类似的<code>TBMBMessageReceiver</code> 或 <code>TBMBCommand</code> 中<br>如果方法名以<code>$$</code>开头的话,这个方法会自动被注册为Notification Observer</p>
+<p>如:</p>
+<pre><code>//这里用来处理业务逻辑哦
+@interface TBMBDemoStep2Command : TBMBSimpleStaticCommand
+
+//以$$开头的方法 会被自动注册为Notification,然后用  TBMBGlobalSendXXX 的方法发通知,这里就能被执行
+//如果有相同的方法名的话,是都会被执行到的
++ (void)$$getDate:(id &amp;lt;TBMBNotification&amp;gt;)notification;
+@end
+</code></pre><p>那么使用 <code>TBMBGlobalSendNotificationForSEL</code> 就可以直接发消息调用到这个方法</p>
+<h5 id="ProxyObject"><a href="#ProxyObject" class="headerlink" title="ProxyObject"></a>ProxyObject</h5><p>在<code>TBMBDefaultRootViewController</code>类似的<code>TBMBMessageReceiver</code> 或 <code>TBMBCommand</code> 中 有一个<code>proxyObject</code>属性或方法来返回一个<code>TBMBMessageProxy</code>对象,这是一个代理对象,用这个对象去调用,会使调用消息化,直接变成异步执行,(所以这里方法调用有return的话都是return nil了,因为是异步了)</p>
+<p>如:</p>
+<pre><code>- (void)showTime {
+    //这是在主线程执行
+    //用proxyObject 而不是self 传递到 command的回调Block中,使Block不对self做一次retain,从而不干扰self本身的生命周期
+    TBMBDemoStep3ViewController *delegate = self.proxyObject;
+    //用Command的proxyObject来调用 ,是这个调用被消息化,并被异步执行
+    [[TBMBDemoStep3Command proxyObject] getData:^(NSDate *date) {
+        //这是在worker线程被执行
+        //这个delegate是个代理,他的调用receiveDate也会被消息化,如果这个时候 self被dealloc ,delegate也不会变成野指针从而导致crash
+        [delegate receiveDate:date];
+    }];
+}
+
+- (void)receiveDate:(NSDate *)date {
+    //这是在主线程执行
+    self.alertText = [NSString stringWithFormat:@&quot;现在时间:%@&quot;, date];
+}
+</code></pre><h5 id="KVO的封装"><a href="#KVO的封装" class="headerlink" title="KVO的封装"></a>KVO的封装</h5><p>KVO的封装的用法</p>
+<p>MBMVC对KVO进行了一次封装,主要特点就是autoUnbind,即不需要你主动调用removeObserver,MBMvc对NSObject的dealloc做了一次AOP,在调用dealloc前会自动remove掉它上面的所有KVO的Observer</p>
+<p>AutoBind可以通过TBMBSetAutoUnbind来进行开关</p>
+<ul>
+<li>TBMBBindObject</li>
+</ul>
+<p>Demo 如下:</p>
+<pre><code>TBMBBindObject(tbKeyPath(self, viewDO.alertText),  ^(id old, id new) {
+    if (old != [TBMBBindInitValue value]) {
+        [self alert:new];
+    }
+}
+);
+</code></pre><p> TBMBBindObject的效果就是绑定,当self的viewDO这个属性下面的alertText这个属性发生改变时,后面的Change Block会被执行</p>
+<p> 并且可以取得以前的值和现在是值,而如果当old值是<code>[TBMBBindInitValue value]</code>时表明,这是第一次调用,因为MBMvc是封装了KVO,</p>
+<p> <code>[TBMBBindInitValue value]</code>的出现对应的就是<code>NSKeyValueObservingOptionInitial</code>的效果</p>
+<p> 其中TBMBBindObject调用后会返回一个TBMBBindObserver,这个TBMBBindObserver包含了Change Block</p>
+<p> 而这个TBMBBindObserver是会被挂载在TBMBBindObject调用的第一个参数的对象上面</p>
+<p> 其中<code>tbKeyPath</code>是一个宏,比如<code>tbKeyPath(self, alertText)</code> 展开后对应<code>self , @&quot;alertText&quot;</code></p>
+<p> ,而使用<code>tbKeyPath</code>的目的就是为了在编译期做校验,当keypath错误时,使编译不通过</p>
+<ul>
+<li>TBMBBindObjectWeak</li>
+</ul>
+<p>Demo 如下:</p>
+<pre><code>TBMBBindObjectWeak(tbKeyPath(self, alertText), navView, ^(TBMBDemoStep1View *host, id old, id new) {
+    if (old != [TBMBBindInitValue value]) {
+        [host alert:new];
+    }
+}
+);
+</code></pre><p>TBMBBindObjectWeak的目的就是在TBMBBindObject的基础上使上面Demo中的navView在后面的Change Block的是弱引用的方式存在的.</p>
+<p>为什么要有TBMBBindObjectWeak?</p>
+<p>如上 TBMBBindObjectWeak会生成一个包含了Change Block的TBMBBindObserver,而这个TBMBBindObserver是会被上面Demo中的self强引用的</p>
+<p>那么如果上面Demo中的navView也强引用了上面Demo中的self的话,会形成循环引用,导致内存泄露,所以这里使用的弱引用来包含navView</p>
+<p>那么使用弱引用会不会导致野指针了,这里TBMBBindObjectWeak做了一个优化,可以看TBMBBindObjectWeak的实现</p>
+<pre><code>inline id &amp;lt;TBMBBindObserver&amp;gt; TBMBBindObjectWeak(id bindable, NSString *keyPath, id host, TBMB_HOST_CHANGE_BLOCK changeBlock) {
+    if (changeBlock) {
+        __block __unsafe_unretained id _host = host;
+        id &amp;lt;TBMBBindObserver&amp;gt; observer = TBMBBindObject(bindable, keyPath, ^(id old, id new) {
+            changeBlock(_host, old, new);
+        }
+        );
+        if (bindable != host) {       //弱引用则自动挂载 避免弱引用导致野指针 最后crash
+            TBMBAttachBindObserver(observer, host);
+        }
+        return observer;
+    }
+    return nil;
+}
+</code></pre><p>可以看到对于host会做一次TBMBAttachBindObserver,使TBMBBindObserver也会绑定在host上,那么当host被dealloc的时候, TBMBBindObserver会执行removeObserver,</p>
+<p>这时Change Block会被释放,从而避免野指针的产生</p>
+<ul>
+<li>TBMBBindObjectStrong</li>
+</ul>
+<p>Demo 如下:</p>
+<pre><code>TBMBBindObjectWeak(tbKeyPath(self, title), view, ^(TBMBTestMemoryView *host, id old, id new) {
+    if (old != [TBMBBindInitValue value]) {
+        NSLog(@&quot;%@&quot;, host);
+    }
+}
+);
+</code></pre><p>TBMBBindObjectStrong相对TBMBBindObjectWeak即change block对host的引用是强引用</p>
+<ul>
+<li>TBMBAttachBindObserver</li>
+</ul>
+<p>这个在TBMBBindObjectWeak的实现中已经看到了,目的是把TBMBBindObserver绑定到其他对象上,从而使TBMBBindObserver的生命周期&lt;=被绑的对象</p>
+<ul>
+<li>TBMBAutoNilDelegate</li>
+</ul>
+<p>Demo 如下:</p>
+<pre><code>&lt;pre&gt;`UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds];
+//用TBMBAutoNilDelegate设置delegate可以保证在delegate dealloc的时候 会被自动置为nil
+TBMBAutoNilDelegate(UITableView *, tableView, delegate, self)
+TBMBAutoNilDelegate(UITableView *, tableView, dataSource, self)
+`&lt;/pre&gt;
+
+对于被标为assign的delegate属性 用TBMBAutoNilDelegate来设置delegate的话在,delegate对象被dealloc的时候会自动把delegate属性设置为nil,从而避免野指针的产生
+
+目的是可以当你在dealloc的时候少写一行代码来设置`X.delegate=nil`
+</code></pre><ul>
+<li><p>TBMBWhenThisKeyPathChange</p>
+<p>Demo 如下:</p>
+<p>//这里监听 当self.viewDO.alertText被改变时会触发这个操作<br>TBMBWhenThisKeyPathChange(viewDO, alertText){</p>
+<pre><code>if (!isInit &amp;amp;&amp;amp; new) {
+    [[[UIAlertView alloc]
+                   initWithTitle:@&quot;title&quot;
+                         message:new
+                        delegate:nil cancelButtonTitle:@&quot;关闭&quot;
+               otherButtonTitles:nil] show];
+}
+</code></pre><p>}</p>
+</li>
+</ul>
+<p>TBMBWhenThisKeyPathChange是一个宏,用来生成一个可以自动绑定的方法,上如Demo会生成如下代码</p>
+<pre><code>//这里监听 当self.viewDO.alertText被改变时会触发这个操作
+__$$keyPathChange_viewDO$_$alertText:(BOOL)isInit old:(id)old new:(id)new{
+    if (!isInit &amp;amp;&amp;amp; new) {
+        [[[UIAlertView alloc]
+                       initWithTitle:@&quot;title&quot;
+                             message:new
+                            delegate:nil cancelButtonTitle:@&quot;关闭&quot;
+                   otherButtonTitles:nil] show];
+    }
+}
+</code></pre><p> 而这个方法在<code>TBMBDefaultRootViewController</code>或<code>TBMBDefaultPage</code>中会被自动注册为Bind</p>
+<p> 即self.viewDO.alertText被改变时会调用这个方法</p>
+<p> 如果其他地方需要使用可以调用TBMBAutoBindingKeyPath来对方法进行解析和绑定</p>
+<h5 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h5><p> MBMvc支持拦截器,可以拦截发送到Command的Notification</p>
+<p> 如有一个拦截器</p>
+<pre><code>#import &quot;TBMBLogInterceptor.h&quot;
+#import &quot;TBMBCommandInvocation.h&quot;
+#import &quot;TBMBGlobalFacade.h&quot;
+#import &quot;TBMBUtil.h&quot;
+
+//这是一个拦截器 当调用的Command 方法返回 YES时 会发一个$$receiveLog:通知出去
+@implementation TBMBLogInterceptor {
+
+}
+- (id)intercept:(id &amp;lt;TBMBCommandInvocation&amp;gt;)invocation {
+    NSLog(@&quot;invocation: %@&quot;, invocation);
+    id ret = [invocation invoke];
+    NSLog(@&quot;Return: %@&quot;, ret);
+
+    if ([ret isKindOfClass:[NSNumber class]] &amp;amp;&amp;amp; [ret boolValue]) {
+        TBMBGlobalSendNotificationForSELWithBody((@selector($$receiveLog:)),
+                [NSString stringWithFormat:@&quot;[%@][%d] has log @ %@&quot;, invocation.commandClass,
+                                           TBMBIsNotificationProxy(invocation.notification), [NSDate date]]
+        );
+    } else {
+        TBMBGlobalSendNotificationForSEL((@selector($$receiveNonLog:)));
+    }
+    return ret;
+}
+
+@end
+</code></pre><p>这个拦截器拦截 调用Command的返回结果..如果调用Command的return值是 YES的话 则再发送一个名为$$receiveLog:的消息来打日志,否则发送$$receiveNonLog:</p>
+<p>配置拦截器主要在 应用起来的时候设置</p>
+<pre><code>//设置拦截器
+[[TBMBGlobalFacade instance] setInterceptors:[NSArray arrayWithObjects:[[TBMBLogInterceptor alloc] init], nil]];
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/iOS/">iOS</a><a href="/tags/Objective-C/">Objective-C</a><a href="/tags/无线/">无线</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/700/" title="开源项目 地址 迁移">
+  <strong>上一篇：</strong><br/>
+  <span>
+  开源项目 地址 迁移</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/685/"  title="MBMvc开源啦~">
+ <strong>下一篇：</strong><br/> 
+ <span>MBMvc开源啦~
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="692" data-title="MBMvc 的 一些 tips" data-url="http://blog.zephyrleaves.net/?p=692"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#小提示"><span class="toc-number">1.</span> <span class="toc-text">小提示:</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#开始"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">开始</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#自动注册为Notification-Observer"><span class="toc-number">1.0.0.0.2.</span> <span class="toc-text">自动注册为Notification Observer</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ProxyObject"><span class="toc-number">1.0.0.0.3.</span> <span class="toc-text">ProxyObject</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#KVO的封装"><span class="toc-number">1.0.0.0.4.</span> <span class="toc-text">KVO的封装</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#拦截器"><span class="toc-number">1.0.0.0.5.</span> <span class="toc-text">拦截器</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

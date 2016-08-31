@@ -1,0 +1,1249 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta property="og:type" content="website">
+<meta property="og:title" content="装逼程序员">
+<meta property="og:url" content="http://blog.zephyrleaves.net/page/11/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="装逼程序员">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/20/" title="linux下java中文字体问题" itemprop="url">linux下java中文字体问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-10-16T01:23:30.000Z" itemprop="datePublished"> 发表于 2006-10-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p></p><p align="left">将Windows下的字体文件simsun.ttc拷贝到/usr/share/fonts/zh_CN，如果目录下本没有该目录，仅有/usr/share/fonts/zh_TW，创建该目录。<br>将JAVA_HOME/jre/lib/下fontconfig.*开头的文件全部删除或备份起来，改成如下的文件：</p>
+<p></p><p align="left"></p>
+<h1 id="linux-fontconfig-Sun-properties-1-5-03-11-14"><a href="#linux-fontconfig-Sun-properties-1-5-03-11-14" class="headerlink" title="@(#)linux.fontconfig.Sun.properties   1.5 03/11/14"></a>@(#)linux.fontconfig.Sun.properties   1.5 03/11/14</h1><p>#</p>
+<h1 id="Copyright-2003-Sun-Microsystems-Inc-All-rights-reserved"><a href="#Copyright-2003-Sun-Microsystems-Inc-All-rights-reserved" class="headerlink" title="Copyright 2003 Sun Microsystems, Inc. All rights reserved."></a>Copyright 2003 Sun Microsystems, Inc. All rights reserved.</h1><p>#</p>
+<h1 id="Version"><a href="#Version" class="headerlink" title="Version"></a>Version</h1><p>version=1</p>
+<h1 id="Component-Font-Mappings"><a href="#Component-Font-Mappings" class="headerlink" title="Component Font Mappings"></a>Component Font Mappings</h1><p>allfonts.chinese-gbk=-misc-simsun-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-gbk-0<br>allfonts.chinese-gb2312=-misc-simsun-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-gb2312.1980-0<br>allfonts.chinese-cn-iso10646=-misc-simsun-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso10646-1<br>allfonts.chinese-big5=-misc-fzmingti-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-big5-0<br>allfonts.chinese-tw-iso10646=-misc-fzmingti-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso10646-1<br>allfonts.chinese-big5hkscs=-misc-fzheiti-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-big5hkscs-0<br>allfonts.lucida=-b&amp;h-lucidasans-medium-r-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>serif.plain.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>serif.plain.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>serif.plain.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>serif.plain.latin-1=-b&amp;h-lucidabright-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>serif.plain.latin-1.motif=-b&amp;h-luxi serif-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>serif.bold.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>serif.bold.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>serif.bold.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>serif.bold.latin-1=-b&amp;h-lucidabright-demibold-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>serif.bold.latin-1.motif=-b&amp;h-luxi serif-bold-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>serif.italic.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>serif.italic.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>serif.italic.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>serif.italic.latin-1=-b&amp;h-lucidabright-medium-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>serif.italic.latin-1.motif=-b&amp;h-luxi serif-medium-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>serif.bolditalic.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>serif.bolditalic.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>serif.bolditalic.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>serif.bolditalic.latin-1=-b&amp;h-lucidabright-demibold-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>serif.bolditalic.latin-1.motif=-b&amp;h-luxi serif-bold-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>sansserif.plain.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>sansserif.plain.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>sansserif.plain.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>sansserif.plain.latin-1=-b&amp;h-lucidasans-medium-r-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>sansserif.plain.latin-1.motif=-b&amp;h-luxi sans-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>sansserif.bold.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>sansserif.bold.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>sansserif.bold.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>sansserif.bold.latin-1=-b&amp;h-lucidasans-bold-r-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>sansserif.bold.latin-1.motif=-b&amp;h-luxi sans-bold-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>sansserif.italic.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>sansserif.italic.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>sansserif.italic.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>sansserif.italic.latin-1=-b&amp;h-lucidasans-medium-i-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>sansserif.italic.latin-1.motif=-b&amp;h-luxi sans-medium-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>sansserif.bolditalic.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>sansserif.bolditalic.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>sansserif.bolditalic.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>sansserif.bolditalic.latin-1=-b&amp;h-lucidasans-bold-i-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>sansserif.bolditalic.latin-1.motif=-b&amp;h-luxi sans-bold-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>monospaced.plain.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>monospaced.plain.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>monospaced.plain.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>monospaced.plain.latin-1=-b&amp;h-lucidatypewriter-medium-r-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>monospaced.plain.latin-1.motif=-b&amp;h-luxi mono-medium-r-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<p>monospaced.bold.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>monospaced.bold.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>monospaced.bold.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>monospaced.bold.latin-1=-b&amp;h-lucidatypewriter-bold-r-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>monospaced.bold.latin-1.motif=-b&amp;h-luxi mono-bold-r-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<p>monospaced.italic.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>monospaced.italic.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>monospaced.italic.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>monospaced.italic.latin-1=-b&amp;h-lucidatypewriter-medium-i-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>monospaced.italic.latin-1.motif=-b&amp;h-luxi mono-medium-i-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<p>monospaced.bolditalic.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>monospaced.bolditalic.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>monospaced.bolditalic.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>monospaced.bolditalic.latin-1=-b&amp;h-lucidatypewriter-bold-i-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>monospaced.bolditalic.latin-1.motif=-b&amp;h-luxi mono-bold-i-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<p>dialog.plain.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialog.plain.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialog.plain.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialog.plain.latin-1=-b&amp;h-lucidasans-medium-r-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>dialog.plain.latin-1.motif=-b&amp;h-luxi sans-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>dialog.bold.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialog.bold.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialog.bold.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialog.bold.latin-1=-b&amp;h-lucidasans-bold-r-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>dialog.bold.latin-1.motif=-b&amp;h-luxi sans-bold-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>dialog.italic.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialog.italic.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialog.italic.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialog.italic.latin-1=-b&amp;h-lucidasans-medium-i-normal-sans-<em>-%d-</em>-<em>-<br>p-</em>-iso8859-1<br>dialog.italic.latin-1.motif=-b&amp;h-luxi sans-medium-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>dialog.bolditalic.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialog.bolditalic.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialog.bolditalic.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialog.bolditalic.latin-1=-b&amp;h-lucidasans-bold-i-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>dialog.bolditalic.latin-1.motif=-b&amp;h-luxi sans-bold-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>dialoginput.plain.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialoginput.plain.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialoginput.plain.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialoginput.plain.latin-1=-b&amp;h-lucidatypewriter-medium-r-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>dialoginput.plain.latin-1.motif=-b&amp;h-luxi mono-medium-r-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<p>dialoginput.bold.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialoginput.bold.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialoginput.bold.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialoginput.bold.latin-1=-b&amp;h-lucidatypewriter-bold-r-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>dialoginput.bold.latin-1.motif=-b&amp;h-luxi mono-bold-r-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<p>dialoginput.italic.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialoginput.italic.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialoginput.italic.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialoginput.italic.latin-1=-b&amp;h-lucidatypewriter-medium-i-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>dialoginput.italic.latin-1.motif=-b&amp;h-luxi mono-medium-i-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<p>dialoginput.bolditalic.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialoginput.bolditalic.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialoginput.bolditalic.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialoginput.bolditalic.latin-1=-b&amp;h-lucidatypewriter-bold-i-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>dialoginput.bolditalic.latin-1.motif=-b&amp;h-luxi mono-bold-i-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<h1 id="Search-Sequences"><a href="#Search-Sequences" class="headerlink" title="Search Sequences"></a>Search Sequences</h1><p>sequence.allfonts=latin-1<br>sequence.allfonts.Big5=latin-1,chinese-big5<br>sequence.allfonts.Big5-HKSCS=latin-1,chinese-big5hkscs<br>sequence.allfonts.GB18030=latin-1,chinese-gbk,chinese-cn-iso10646<br>sequence.allfonts.GBK=latin-1,chinese-gbk<br>sequence.allfonts.GB2312=latin-1,chinese-gb2312<br>sequence.allfonts.EUC-KR=latin-1,korean<br>sequence.allfonts.x-euc-jp-linux=latin-1,japanese-x0201,japanese-x0208<br>sequence.allfonts.UTF-8.ko.KR=latin-1,korean,japanese-x0208,japanese-x0201,chinese-gbk<br>sequence.allfonts.UTF-8.ja.JP=latin-1,japanese-x0208,japanese-x0201,chinese-gbk,korean<br>sequence.allfonts.UTF-8.zh.CN=latin-1,chinese-cn-iso10646,japanese-x0208,japanese-x0201,korean<br>sequence.allfonts.UTF-8.zh.TW=latin-1,chinese-tw-iso10646,japanese-x0208,japanese-x0201,korean<br>sequence.allfonts.UTF-8.zh.HK=latin-1,chinese-tw-iso10646,japanese-x0208,japanese-x0201,korean</p>
+<p>sequence.fallback=lucida,chinese-big5,chinese-gbk,japanese-x0208,korean</p>
+<h1 id="Exclusion-Ranges"><a href="#Exclusion-Ranges" class="headerlink" title="Exclusion Ranges"></a>Exclusion Ranges</h1><p>exclusion.japanese-x0201=0390-03d6,2200-22ef,2701-27be<br>exclusion.japanese-x0208=0390-03d6,2200-22ef,2701-27be</p>
+<h1 id="Font-File-Names"><a href="#Font-File-Names" class="headerlink" title="Font File Names"></a>Font File Names</h1><p>filename.-misc-fzmingti-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-big5-0=/usr/share/fonts/zh_CN/ming_big5.ttf<br>filename.-misc-fzheiti-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-big5hkscs-0=/usr/share/fonts/zh_CN/ming_big5.ttf<br>filename.-misc-fzmingti-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso10646-1=/usr/share/fonts/zh_CN/ming_big5.ttf<br>filename.-misc-simsun-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-gbk-0=/usr/share/fonts/zh_CN/simsun.ttc<br>filename.-misc-simsun-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-gb2312.1980-0=/usr/share/fonts/zh_CN/simsun.ttc<br>filename.-misc-simsun-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso10646-1=/usr/share/fonts/zh_CN/simsun.ttc<br>filename.-hwan-baekmuk_batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0=/usr/share/fonts/zh_CN/batang.ttf<br>filename.-hwan-baekmuk_gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0=/usr/share/fonts/zh_CN/gulim.ttf<br>filename.-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0=/usr/share/fonts/zh_CN/kochi-gothic.ttf<br>filename.-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0=/usr/share/fonts/zh_CN/kochi-gothic.ttf<br>filename.-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0=/usr/share/fonts/zh_CN/kochi-mincho.ttf<br>filename.-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0=/usr/share/fonts/zh_CN/kochi-mincho.ttf</p>
+<h1 id="AWT-X11-font-paths"><a href="#AWT-X11-font-paths" class="headerlink" title="AWT X11 font paths"></a>AWT X11 font paths</h1><p>awtfontpath.chinese-big5=/usr/share/fonts/zh_CN<br>awtfontpath.chinese-big5hkscs=/usr/share/fonts/zh_CN<br>awtfontpath.chinese-gb2312=/usr/share/fonts/zh_CN<br>awtfontpath.chinese-gbk=/usr/share/fonts/zh_CN<br>awtfontpath.chinese-chinese-cn-iso10646=/usr/share/fonts/zh_CN<br>awtfontpath.chinese-chinese-tw-iso10646=/usr/share/fonts/zh_CN<br>awtfontpath.japanese-x0201=/usr/share/fonts/zh_CN<br>awtfontpath.japanese-x0208=/usr/share/fonts/zh_CN<br>awtfontpath.korean=/usr/share/fonts/zh_CN</p>
+<p align="left">
+
+</p><p></p><p align="left">参考：<a href="http://www-128.ibm.com/developerworks/cn/websphere/library/techarticles/yangyaping0307/waslinux.html" target="_blank" rel="external">http://www-128.ibm.com/developerworks/cn/websphere/library/techarticles/yangyaping0307/waslinux.html</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/20/#comments" class="ds-thread-count comments-count-link" data-thread-key="20/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/19/" title="Domino 如何外载 Tomcat" itemprop="url">Domino 如何外载 Tomcat</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-10-16T00:54:07.000Z" itemprop="datePublished"> 发表于 2006-10-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Domino 自带的Http加Servlet容器都不是很好,不支持的东西太多,当需要Domino进行WEB开发的时候就需要外带一个Servlet容器,幸好Domino是支持外带Servlet的,这里就以Tomcat为例来介绍一下如何在Domino下外载一个Servlet容器</p>
+<p></p><p class="MsoNormal"><span lang="EN-US">Windows</span><span>篇</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>1.<span>         </span></span></span><span>需要</span><span lang="EN-US">Tomcat</span><span>的</span><span lang="EN-US">JK for Windows</span><span>版</span><span lang="EN-US">dsapi_redirector2</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><a href="http://tomcat.apache.org/connectors-doc/" target="_blank" rel="external">http://tomcat.apache.org/connectors-doc/</a></span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"></span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>2.<span>         </span></span></span><span>解压</span><span lang="EN-US">dsapi_redirector2</span><span>到制定目录</span><span lang="EN-US">,</span><span>复制</span><span lang="EN-US">dsapi_redirector2.dll</span><span>到</span><span lang="EN-US">domino</span><span>程序目录下</span><span lang="EN-US">.</span></p>
+<p></p><p class="MsoNormal"><span>修改</span><span lang="EN-US">workers2.properties,</span><span>在其中添加</span><span lang="EN-US">[uri]</span><span>路径</span><span lang="EN-US">,</span><span>以便</span><span lang="EN-US">JK</span><span>能够读取</span><span lang="EN-US">,</span><span>并可修改其中的一些配置</span><span lang="EN-US">,</span><span>不过基本可以使用默认配置</span><span lang="EN-US">,</span><span>并复制</span><span lang="EN-US">workers2.properties</span><span>到</span><span lang="EN-US">Tomcat</span><span>的配置目录</span><span lang="EN-US">(</span><span>一般为</span><span lang="EN-US">conf)</span><span>修改</span><span lang="EN-US">dsapi_redirector2.reg,: </span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US">serverRoot</span><span>对应</span><span lang="EN-US">Tomcat</span><span>的程序目录</span><span lang="EN-US">, </span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US">workersFile</span><span>对应</span><span lang="EN-US">workers2.properties</span><span>的存放位置</span><span lang="EN-US">,</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US">tomcatStart</span><span>对应</span><span lang="EN-US">tomcat</span><span>的启动程序</span><span lang="EN-US">, </span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US">tomcatStop</span><span>对应</span><span lang="EN-US">tomcat</span><span>的关闭程序</span><span lang="EN-US">,</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span> </span>tomcatTimeout</span><span>对应</span><span lang="EN-US">tomcat</span><span>的异常关闭延迟时间</span></p>
+<p></p><p class="MsoNormal"><span>例</span><span lang="EN-US">:</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span> </span>Windows Registry Editor Version 5.00</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>    </span>[HKEY_LOCAL_MACHINE\SOFTWARE\Apache Software Foundation\Jakarta Dsapi Redirector\2.0]</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>    </span>&quot;serverRoot&quot;=&quot;D:\Works\Tomcat\jakarta-tomcat-4.1.27&quot;</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>    </span>&quot;workersFile&quot;=&quot;conf\workers2.properties&quot;</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>    </span>&quot;tomcatStart&quot;=&quot;bin\startup.bat&quot;</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>    </span>&quot;tomcatStop&quot;=&quot;bin\shutdown.bat&quot;</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>    </span>&quot;tomcatTimeout&quot;=&amp;<br>quot;30000&quot;</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"></span></p>
+<p>
+
+</p><p></p><p class="MsoNormal"><span>最后将</span><span lang="EN-US">dsapi_redirector2.reg</span><span>注入注册表</span><span lang="EN-US">.</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>3.<span>         </span></span></span><span>复制</span><span lang="EN-US">Domino</span><span>下的</span><span lang="EN-US">notes.jar,XML4J.jar</span><span>和</span><span lang="EN-US">\DATA\domino\java\NCSO.jar</span><span>到</span><span lang="EN-US">Tomcat</span><span>的</span><span lang="EN-US">common\lib</span><span>下</span><span lang="EN-US">.</span><span>复制</span><span lang="EN-US">log4j</span><span>和</span><span lang="EN-US">commons pool</span><span>的包到</span><span lang="EN-US">Tomcat</span><span>的</span><span lang="EN-US">common\lib</span><span>下</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>4.<span>         </span></span></span><span>启动</span><span lang="EN-US">Domino</span><span>后</span><span lang="EN-US">,</span><span>修改服务器属性</span><span lang="EN-US">(names.nsf), </span><span>在</span><span lang="EN-US">internet</span><span>协议</span><span lang="EN-US">-Http-DSAPI</span><span>域中填入</span><span lang="EN-US">dsapi_redirector2.dll,</span><span>并在</span><span lang="EN-US">Domino Web Engine</span><span>选项中选择</span><span lang="EN-US">”</span><span>使用第三方</span><span lang="EN-US">Servlet”</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>5.<span>         </span></span></span><span>重新启动</span><span lang="EN-US">Domino,Tomcat</span><span>就会随即一起启动了</span><span lang="EN-US">.</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"></span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"></span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"></span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"></span></p>
+<p class="MsoNormal">
+
+</p><p><span lang="EN-US">Linux</span><span>篇</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>1.<span>         </span></span></span><span>需要</span><span lang="EN-US">Tomcat</span><span>的</span><span lang="EN-US">JK for Lunix</span><span>版</span><span lang="EN-US">20040506-domino-redirector-2.0.6-bin-linux-i386</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span lang="EN-US"><a href="http://tomcat.apache.org/connectors-doc/" target="_blank" rel="external">http://tomcat.apache.org/connectors-doc/</a></span></span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"></span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>2.<span>         </span></span></span><span>解压</span><span lang="EN-US">dsapi_redirector2</span><span>到制定目录</span><span lang="EN-US">,</span><span>复制</span><span lang="EN-US">libtomcat2.so</span><span>到</span><span lang="EN-US">domino</span><span>程序目录下</span><span lang="EN-US">(</span><span>与</span><span lang="EN-US">libnotes.so</span><span>文件同目录</span><span lang="EN-US">)</span><span>由于</span><span lang="EN-US"><span lang="EN-US">Linux</span></span><span>的安全性</span><span lang="EN-US">,</span><span>需要对</span><span lang="EN-US">libnotes.so</span><span>进行权限配置</span><span lang="EN-US">,</span><span>应与</span><span lang="EN-US">libnotes.so</span><span>文件权限一样</span><span lang="EN-US">. </span></p>
+<p></p><p class="MsoNormal"><span>修改</span><span lang="EN-US">workers2.properties,</span><span>在其中添加</span><span lang="EN-US">[uri]</span><span>路径</span><span lang="EN-US">,</span><span>以便</span><span lang="EN-US">JK</span><span>能够读取</span><span lang="EN-US">,</span><span>并可修改其中的一些配置</span><span lang="EN-US">,</span><span>不过基本可以使用默认配置</span><span lang="EN-US">,</span><span>并复制</span><span lang="EN-US">workers2.properties</span><span>到</span><span lang="EN-US">Tomcat</span><span>的配置目录</span><span lang="EN-US">(</span><span>一般为</span><span lang="EN-US">conf)</span></p>
+<p></p><p class="MsoNormal"><span>修改</span><span lang="EN-US">libtomcat2.properies:</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US">serverRoot</span><span>对应</span><span lang="EN-US">Tomcat</span><span>的程序目录</span><span lang="EN-US">, </span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US">workersFile</span><span>对应</span><span lang="EN-US">workers2.properties</span><span>的存放位置</span><span lang="EN-US">,</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US">tomcatStart</span><span>对应</span><span lang="EN-US">tomcat</span><span>的启动程序</span><span lang="EN-US">, </span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US">tomcatStop</span><span>对应</span><span lang="EN-US">tomcat</span><span>的关闭程序</span><span lang="EN-US">,</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span> </span>tomcatTimeout</span><span>对应</span><span lang="EN-US">tomcat</span><span>的异常关闭延迟时间</span></p>
+<p></p><p class="MsoNormal"><span>例</span><span lang="EN-US">:</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US">serverRoot=/usr/local/apache/tomcat</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>  </span>workersFile=conf/workers2.properties</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>  </span>tomcatStart=bin/startup.sh</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>  </span>tomcatStop=bin/shutdown.sh</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>  </span>tomcatTimeout=30000</span></p>
+<p></p><p class="MsoNormal"><span>最后将</span><span lang="EN-US">libtomcat2.properies</span><span>复制到</span><span lang="EN-US">Domino</span><span>的数据目录下</span><span lang="EN-US">(</span><span>如</span><span lang="EN-US">/opt/lotus/notesdata),</span><span>同样需要文件权限配置</span><span lang="EN-US">.</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>3.<span>         </span></span></span><span>复制</span><span lang="EN-US">Domino</span><span>下的</span><span lang="EN-US">notes.jar,XML4J.jar</span><span>和</span><span lang="EN-US">\DATA\domino\java\NCSO.jar</span><span>到</span><span lang="EN-US">Tomcat</span><span>的</span><span lang="EN-US">common\lib</span><span>下</span><span lang="EN-US">.</span><span>复制</span><span lang="EN-US">log4j</span><span>和</span><span lang="EN-US">commons pool</span><span>的包到</span><span lang="EN-US">Tomcat</span><span>的</span><span lang="EN-US">common\lib</span><span>下</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>4.<span>         </span></span></span><span>启动</span><span lang="EN-US">Domino</span><span>后</span><span lang="EN-US">,</span><span>修改服务器属性</span><span lang="EN-US">(names.nsf), </span><span>在</span><span lang="EN-US">internet</span><span>协议</span><span lang="EN-US">-Http-DSAPI</span><span>域中填入</span><span lang="EN-US">tomcat2,</span><span>并在</span><span lang="EN-US">Domino Web Engine</span><span>选项中选择</span><span lang="EN-US">”</span><span>使用第三方</span><span lang="EN-US">Servlet”</span></p>
+<p></p><p class="MsoNormal"><span lang="EN-US"><span>5.<span>         </span></span></span><span>重新启动</span><span lang="EN-US">Domino,Tomcat</span><span>就会随即一起启动了</span><span lang="EN-US">.</span></p>
+<p>
+
+</p>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Domino/">Domino</a><a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/19/#comments" class="ds-thread-count comments-count-link" data-thread-key="19/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/18/" title="怀念的游戏" itemprop="url">怀念的游戏</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-10-15T14:47:37.000Z" itemprop="datePublished"> 发表于 2006-10-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p></p><p align="left">工作了，不能用心的游戏了，就写点东西，也好怀念怀念。</p>
+<p></p><p align="left"><font size="2">自从买了PS2后，真真正正用心玩的就是Metal Gear Solid 3了，一开始只是抱着玩玩的态度，因为对Metal Gear Solid 2的印象不是太好。。Metal Gear Solid 2游戏性不是太好。。太过电影化了，而Metal Gear Solid 3 则做到了很好的平衡，玩上之后便欲罢不能，紧凑的剧情，鲜明的人物性格，一步步的将我带入冷战那个残酷的时代。</font></p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161133693.jpg" alt="http://canyousee.blogbus.com/files/1161133693.jpg"></p>
+<p></p><p align="left"><font size="2">big boss在Metal Gear Solid 3中与boss的初次相会</font></p>
+<p></p><p align="left"><font size="2"><img src="http://canyousee.blogbus.com/files/1161133844.jpg" alt="http://lh5.google.com/pigdogyourmother/RTQ81b4TABI/AAAAAAAAADM/lTH67AojUeY/2562829662950549874.jpg?imgmax=912"></font></p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161133910.jpg" alt="http://lh3.google.com/pigdogyourmother/RTRygFOWABI/AAAAAAAAADU/GosFgGWm4E0/0.jpg"><font size="2">Snake 就是后来的Big Boss</font></p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161133924.jpg" alt="http://lh5.google.com/pigdogyourmother/RTRy4_iRABI/AAAAAAAAADc/iEkaaSTefiE/u%3D3877967581%2C413250985%26gp%3D1.jpg"><font size="2">Boss 真正的爱国者，却被自己所爱的国家给放弃</font></p>
+<p></p><p align="left"><font size="2"><img src="http://canyousee.blogbus.com/files/1161133946.jpg" alt="http://lh5.google.com/pigdogyourmother/RTRzfaPHABI/AAAAAAAAADk/l_LakOYoZAg/2005010300012282.jpg">EVA 据说是中国的间谍</font></p>
+<p></p><p align="left"><font size="2"><font size="3">西风狂诗曲。。或许西风狂诗曲并不是一个很好的游戏，而我在这里将它写出来说明它还是有它的优点的。那就是它的剧情，1代的基督山复仇记 2代的王子复仇记 以及正传《创世纪战》的悲哀的剧情，都让人影响深刻。。。尤其是创世纪战1中的当深爱哥哥的弟弟，错杀了哥哥深爱的人之后，哥哥的那种痛苦与矛盾。呵呵，可能它的系统做的不是很好，BUG也很多，但是还是值得玩玩的</font></font></p>
+<p></p><p align="left"><font size="2"><font size="3"><img src="http://canyousee.blogbus.com/files/1161133962.jpg" alt="http://lh4.google.com/pigdogyourmother/RTQ8zV4uABI/AAAAAAAAAC8/qYekDfDYVBc/37154696929280891.jpg"></font></font></p>
+<p></p><p align="left"><font size="2"><font size="3"><img src="http://canyousee.blogbus.com/files/1161133982.jpg" alt="http://lh4.google.com/pigdogyourmother/RTQ8ysYJABI/AAAAAAAAAC0/410XjnBOOjI/54043195532109694.jpg"></font></font></p>
+<p></p><p align="left">战神。。什么都不用说了</p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161133998.jpg" alt="http://lh4.google.com/pigdogyourmother/RTQ8yHxDABI/AAAAAAAAACs/6sHpK4qCdc4/2861193138263870545.jpg"></p>
+<p></p><p align="left">BurnOut 极其爽快的Race</p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161134012.jpg" alt="http://lh3.google.com/pigdogyourmother/RTQ8xp2IABI/AAAAAAAAACk/z1_FbPwJ5Oc/3399654768711356069.jpg"></p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161134026.jpg" alt="http://lh6.google.com/pigdogyourmother/RTQ8xapcABI/AAAAAAAAACc/OykQ7KHsfIo/3708151343186236442.jpg"></p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161134038.jpg" alt="http://lh5.google.com/pigdogyourmother/RTQ8xEQgABI/AAAAAAAAACU/n3njWro2tWo/53761720555393775.jpg"></p>
+<p></p><p align="left">PS2的RPG很多，给我深刻影响的却不多，影之心作为一款另类而优秀的RPG，的确值得推荐。。</p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161134050.jpg" alt="http://lh3.google.com/pigdogyourmother/RTQ8wd6RABI/AAAAAAAAACM/1Wqgqu4ssfc/5691705504066230751.jpg"></p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161134063.jpg" alt="http://lh5.google.com/pigdogyourmother/RTQ8u9BlABI/AAAAAAAAAB0/MnIILqDy6Ik/307089199591353689.jpg"></p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161134078.jpg" alt="http://lh3.google.com/pigdogyourmother/RTQ8umM4ABI/AAAAAAAAABs/v7oxlQSTcNg/3431179966102949509.jpg"></p>
+<p></p><p align="left"><br>PS上的经典游戏</p>
+<p></p><p align="left">FFT</p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161134093.jpg" alt="http://lh5.google.com/pigdogyourmother/RTQ8uPIQABI/AAAAAAAAABk/_vWdXqlgoSw/36591746976095903.jpg"></p>
+<p align="left">
+
+</p><p></p><p align="left">放浪冒险坛</p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161134106.jpg" alt="http://lh6.google.com/pigdogyourmother/RTQ8t3OSABI/AAAAAAAAABc/MbZsKujcM4g/36591746976098981.jpg"></p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161134120.jpg" alt="http://lh3.google.com/pigdogyourmother/RTQ8thpQABI/AAAAAAAAABU/Jv2BSVoTocA/1727974882026771765.jpg"></p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161134138.jpg" alt="http://lh6.google.com/pigdogyourmother/RTQ8tQwsABI/AAAAAAAAABM/LsmFMbg1JOM/1188387351672444004.jpg"></p>
+<p></p><p align="left">北欧女神</p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161134154.jpg" alt="http://lh3.google.com/pigdogyourmother/RTQ8tDsyABI/AAAAAAAAABE/AV56lCFOBF8/2599702884899645686.jpg"></p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161134163.jpg" alt="http://lh5.google.com/pigdogyourmother/RTQ8sodmABI/AAAAAAAAAAs/HYGRGJTIaQw/53480245578430204.jpg"></p>
+<p></p><p align="left">恶魔城－月下夜想曲</p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161134179.jpg" alt="http://lh3.google.com/pigdogyourmother/RTQ8tIGuABI/AAAAAAAAAA8/fwN5zwxKxPY/2328642482327310863.jpg"></p>
+<p></p><p align="left"><img src="http://canyousee.blogbus.com/files/1161134194.jpg" alt="http://lh3.google.com/pigdogyourmother/RTQ8s6IbABI/AAAAAAAAAA0/oB5qmnva544/2328642482327311779.jpg"></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/游戏人生/">游戏人生</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/游戏/">游戏</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/18/#comments" class="ds-thread-count comments-count-link" data-thread-key="18/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/17/" title="Way to fall" itemprop="url">Way to fall</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-10-15T12:50:15.000Z" itemprop="datePublished"> 发表于 2006-10-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Metal Gear Solid - Way to fall</p>
+<p>Son, you’ve got a way to fall<br>They’ll tell you where to go, but they won’t know<br>Son, you’d better take it all<br>They’ll tell you what they know, but they won’t show<br>Oh, I’ve got something in my throat<br>I need to be alone, while I suffer<br>Son, you’ve got a way to kill<br>They’re picking on you still, but they don’t know<br>Son, you’d better wait to shine<br>They’ll tell you what is yours, but they’ll take mine<br>Oh, I’ve got something in my throat<br>I need to be alone, while I suffer<br>Oh, there’s a hole inside my boat<br>I need to stay afloat, for the summer<br>Lord…<br>Oh, I’ve got something in my throat<br>I need to be alone, while I suffer<br>Oh, there’s a hole inside my boat<br>I need to stay afloat, for the summer<br>Son, you’d better wait to fall<br>They’ll tell you where to go, but they won’t know</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/谈音赏乐/">谈音赏乐</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Music/">Music</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/17/#comments" class="ds-thread-count comments-count-link" data-thread-key="17/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/16/" title="Snake Eater" itemprop="url">Snake Eater</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-10-15T12:27:12.000Z" itemprop="datePublished"> 发表于 2006-10-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>《Snake Eater》</p>
+<p>what a thrill<br>with darkness and silence through the night<br>what a thrill<br>I’m searching and I’ll melt into you<br>what a fear in my heart<br>but you’re so supreme<br>I give my life<br>not for honor,but for you (snake eater)<br>in my time<br>there’ll be no one else<br>crime,it’s the way I fly to you (snake eater)<br>I’m still in a dream of the snake eater<br>someday you go through the rain<br>someday you feed on a tree frog<br>it’s ordeal,the trail to survive<br>for the day we see new light<br>I give my life<br>not for honor,but for you (snake eater)<br>in my time there’ll be no one else<br>crime,it’s the way I fly to you (snake eater)<br>I’m still in a dream of the snake eater<br>I’m still in a dream of the snake eater<br>S-N-A-K-E   E-A-T-E-R</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/谈音赏乐/">谈音赏乐</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Music/">Music</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/16/#comments" class="ds-thread-count comments-count-link" data-thread-key="16/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/15/" title="I AM THE WIND" itemprop="url">I AM THE WIND</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-10-15T12:13:51.000Z" itemprop="datePublished"> 发表于 2006-10-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>I am the wind</p>
+<p>Cynthia Harrel</p>
+<p>just like the wind<br>i’ve always been<br>drifting high up in a sky that never ends<br>through thick and thin<br>i always win<br>‘cause i will fight both life and death to save a friend<br>i face my destiny everyday i live<br>and the best of me is all i have to give<br>just like the sun (just like the sun)<br>when my day’s done<br>sometimes i don’t like<br>the person i’ve become<br>is the enemy within or a thousand men<br>should i walk the path of my worst or better half?<br>there’s someone testing me everyday i live<br>well, the best of me is all i have to give<br>i can’t pretend (i can’t pretend)<br>i am the wind (i am the wind)<br>and i don’t know if i will pass this way again<br>all things must end<br>good-bye my friend<br>think of me when you see the sun or feel the wind<br>i am the wind<br>i am the sun<br>and one day we’ll all be one<br>i am the wind<br>i am the sun<br>and one day we’ll all be one</p>
+<p>i am the wind<br>i am the sun<br>and one day we’ll all be one<br>i am the wind<br>i am the sun<br>one day we’ll all be one<br>i am the wind<br>i am the sun<br>one day we’ll all be one<br>i am the wind<br>i am the sun<br>one day we’ll all be one<br>i am the wind<br>i am the sun<br>one day we’ll all be one<br>i am the wind<br>i am the sun<br>one day we’ll all be one</p>
+<p></p>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/谈音赏乐/">谈音赏乐</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Music/">Music</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/15/#comments" class="ds-thread-count comments-count-link" data-thread-key="15/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/14/" title="Broken Wings" itemprop="url">Broken Wings</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-10-15T12:05:43.000Z" itemprop="datePublished"> 发表于 2006-10-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>
+
+</p><p>Broken Wings</p>
+<p>種ともこ</p>
+<p>I know this will not remain forever<br>However it’s beautiful<br>Your eyes, hands and your warm smile<br>They’re my treasure<br>It’s hard to forget<br>I wish there was a solution<br>Don’t spend your time in confusion<br>I’ll turn back now and spread<br>My broken wings still strong enough to cross the ocean with<br>My broken wings how far should I go drifting in the wind<br>Higher and higher in the light<br>My broken wings still strong enough to cross the ocean with<br>My broken wings how far should I go drifting in the wind<br>Across the sky, just keep on flying</p>
+<p>计测のできない痛みと计测のできない时间の流れが<br>すべてを埋めてしまおうとしても<br>それでも私には感じられる<br>空から落ちてくるのは雨ではなくて<br>Did I ever chain you down to my heart<br>‘Cause I was afraid of you?<br>No, I couldn’t hold any longer<br>Love is not a toy<br>Let go of me now<br>The time we spent is perpetual<br>Our future is not real<br>So I ‘ll leap into the air<br>My broken wings still strong enough to cross the ocean with<br>My broken wings how far should I go drifting in the wind<br>Higher and higher in the light<br>My broken wings still strong enough to cross the ocean with<br>My broken wings how far should I go drifting in the wind<br>Across the sky, just keep on flying</p>
+<p>空から落ちてくるのは　あれは雨ではなくて…<br>終り </p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/谈音赏乐/">谈音赏乐</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Music/">Music</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/14/#comments" class="ds-thread-count comments-count-link" data-thread-key="14/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/13/" title="The Sore Feet Song" itemprop="url">The Sore Feet Song</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-10-15T11:56:18.000Z" itemprop="datePublished"> 发表于 2006-10-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>The Sore Feet Song&lt;苦旅之歌&gt;</p>
+<p>苏格兰歌手Ally演唱</p>
+<p>I walked ten thousand miles,ten thousands miles to reach you&lt;我走遍千山万水只为了见你&gt;<br>And every gasp to breath,I grabbed it just to find you&lt;每一次喘息 不愿错过发现你的契机&gt;<br>I climbed up every hill to get to you&lt;我攀爬了每一座山峰为了呼唤你&gt;<br>I wandered ancient lands to hold just you&lt;徘徊于远古大地 只为了将你拥入怀里&gt;</p>
+<p>And every single step of the way,I paid&lt;在旅途中留下了无数的孤单足迹&gt;<br>Every single night and day I searched for you&lt;在每个寂寞的昼夜搜索你的身影&gt;<br>Through sand storms and hazy dawns I reached for you&lt;穿越沙暴与拂晓 我们终将相遇&gt;</p>
+<p>I stole ten thousands pounds,ten thousand pounds to see you&lt;我偷走了千万英镑只为了见你&gt;<br>I robbed convenience stores coz I thought they’d make it easier&lt;说不定从便利店劫取会比较容易&gt;<br>I lived off rats and toads and I starved for you&lt;我曾在漂泊中以老鼠和蟾蜍果腹&gt;<br>I fought off giant bears and I killed them too&lt;我也在与巨熊的搏斗中赢得胜利&gt;</p>
+<p>And every single step of the way,I paid&lt;在旅途中留下了无数的孤单足迹&gt;<br>Every single night and day I searched for you&lt;在每个寂寞的昼夜搜索你的身影&gt;<br>Through sand storms and hazy dawns I reached for you&lt;穿越沙暴与拂晓 我们终将相遇&gt;<br>I’m tired and I’m weak but I’m strong for you&lt;虽然疲倦憔悴 但我会为你坚强&gt;<br>I want to go home but my love gets me through&lt;渴望踏上归程 爱让我永不放弃&gt;</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/谈音赏乐/">谈音赏乐</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Music/">Music</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/13/#comments" class="ds-thread-count comments-count-link" data-thread-key="13/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/12/" title="Java编程规则" itemprop="url">Java编程规则</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-10-15T03:53:28.000Z" itemprop="datePublished"> 发表于 2006-10-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>&lt;![CDATA[ (来源：java编程思想) </p>
+<p>本附录包含了大量有用的建议，帮助大家进行低级程序设计，并提供了代码编写的一般性指导： </p>
+<p>(1) 类名首字母应该大写。字段、方法以及对象（句柄）的首字母应小写。对于所有标识符，其中包含的所有单词都应紧靠在一起，而且大写中间单词的首字母。例如：<br>ThisIsAClassName<br>thisIsMethodOrFieldName<br>若在定义中出现了常数初始化字符，则大写static final基本类型标识符中的所有字母。这样便可标志出它们属于编译期的常数。<br>Java包（Package）属于一种特殊情况：它们全都是小写字母，即便中间的单词亦是如此。对于域名扩展名称，如com，org，net或者edu等，全部都应小写（这也是Java 1.1和Java 1.2的区别之一）。</p>
+<p>
+
+</p><p>(2) 为了常规用途而创建一个类时，请采取“经典形式”，并包含对下述元素的定义：</p>
+<p>equals()<br>hashCode()<br>toString()<br>clone()（implement Cloneable）<br>implement Serializable</p>
+<p>(3) 对于自己创建的每一个类，都考虑置入一个main()，其中包含了用于测试那个类的代码。为使用一个项目中的类，我们没必要删除测试代码。若进行了任何形式的改动，可方便地返回测试。这些代码也可作为如何使用类的一个示例使用。</p>
+<p>(4) 应将方法设计成简要的、功能性单元，用它描述和实现一个不连续的类接口部分。理想情况下，方法应简明扼要。若长度很大，可考虑通过某种方式将其分割成较短的几个方法。这样做也便于类内代码的重复使用（有些时候，方法必须非常大，但它们仍应只做同样的一件事情）。</p>
+<p>(5) 设计一个类时，请设身处地为客户程序员考虑一下（类的使用方法应该是非常明确的）。然后，再设身处地为管理代码的人考虑一下（预计有可能进行哪些形式的修改，想想用什么方法可把它们变得更简单）。<br>(6) 使类尽可能短小精悍，而且只解决一个特定的问题。下面是对类设计的一些建议：<br>■一个复杂的开关语句：考虑采用“多形”机制<br>■数量众多的方法涉及到类型差别极大的操作：考虑用几个类来分别实现<br>■许多成员变量在特征上有很大的差别：考虑使用几个类</p>
+<p>(7) 让一切东西都尽可能地“私有”——private。可使库的某一部分“公共化”（一个方法、类或者一个字段等等），就永远不能把它拿出。若强行拿出，就可能破坏其他人现有的代码，使他们不得不重新编写和设计。若只公布自己必须公布的，就可放心大胆地改变其他任何东西。在多线程环境中，隐私是特别重要的一个因素——只有private字段才能在非同步使用的情况下受到保护。</p>
+<p>(8) 谨惕“巨大对象综合症”。对一些习惯于顺序编程思维、且初涉OOP领域的新手，往往喜欢先写一个顺序执行的程序，再把它嵌入一个或两个巨大的对象里。根据编程原理，对象表达的应该是应用程序的概念，而非应用程序本身。</p>
+<p>(9) 若不得已进行一些不太雅观的编程，至少应该把那些代码置于一个类的内部。</p>
+<p>(10) 任何时候只要发现类与类之间结合得非常紧密，就需要考虑是否采用内部类，从而改善编码及维护工作（参见第14章14.1.2小节的“用内部类改进代码”）。</p>
+<p>(11) 尽可能细致地加上注释，并用javadoc注释文档语法生成自己的程序文档。</p>
+<p>(12) 避免使用“魔术数字”，这些数字很难与代码很好地配合。如以后需要修改它，无疑会成为一场噩梦，因为根本不知道“100”到底是指“数组大小”还是“其他全然不同的东西”。所以，我们应创建一个常数，并为其使用具有说服力的描述性名称，并在整个程序中都采用常数标识符。这样可使程序更易理解以及更易维护。</p>
+<p>(13) 涉及构建器和异常的时候，通常希望重新丢弃在构建器中捕获的任何异常——如果它造成了那个对象的创建失败。这样一来，调用者就不会以为那个对象已正确地创建，从而盲目地继续。</p>
+<p>(14) 当客户程序员用完对象以后，若你的类要求进行任何清除工作，可考虑将清除代码置于一个良好定义的方法里，采用类似于cleanup()这样的名字，明确表明自己的用途。除此以外，可在类内放置一个boolean（布尔）标记，指出对象是否已被清除。在类的finalize()方法里，请确定对象已被清除，并已丢弃了从RuntimeException继承的一个类（如果还没有的话），从而指出一个编程错误。在采取象这样的方案之前，请确定finalize ()能够在自己的系统中工作（可能需要调用System.runFinalizersOnExit(true)，从而确保这一行为）。</p>
+<p>(15) 在一个特定的作用域内，若一个对象必须清除（非由垃圾收集机制处理），请采用下述方法：初始化对象；若成功，则立即进入一个含有finally从句的try块，开始清除工作。</p>
+<p>(16) 若在初始化过程中需要覆盖（取消）finalize()，请记住调用super.finalize()（若Object属于我们的直接超类，则无此必要）。在对finalize()进行覆盖的过程中，对super.finalize()的调用应属于最后一个行动，而不应是第一个行动，这样可确保在需要基础类组件的时候它们依然有效。</p>
+<p>(17) 创建大小固定的对象集合时，请将它们传输至一个数组（若准备从一个方法里返回这个集合，更应如此操作）。这样一来，我们就可享受到数组在编译期进行类型检查的好处。此外，为使用它们，数组的接收者也许并不需要将对象“造型”到数组里。</p>
+<p>(18) 尽量使用interfaces，不要使用abstract类。若已知某样东西准备成为一个基础类，那么第一个选择应是将其变成一个interface（接口）。只有在不得不使用方法定义或者成员变量的时候，才需要将其变成一个abstract（抽象）类。接口主要描述了客户希望做什么事情，而一个类则致力于（或允许）具体的实施细节。</p>
+<p>(19) 在构建器内部，只进行那些将对象设为正确状态所需的工作。尽可能地避免调用其他方法，因为那些方法可能被其他人覆盖或取消，从而在构建过程中产生不可预知的结果（参见第7章的详细说明）。</p>
+<p>(20) 对象不应只是简单地容纳一些数据；它们的行为也应得到良好的定义。</p>
+<p>(21) 在现成类的基础上创建新类时，请首先选择“新建”或“创作”。只有自己的设计要求必须继承时，才应考虑这方面的问题。若在本来允许新建的场合使用了继承，则整个设计会变得没有必要地复杂。</p>
+<p>(22) 用继承及方法覆盖来表示行为间的差异，而用字段表示状态间的区别。一个非常极端的例子是通过对不同类的继承来表示颜色，这是绝对应该避免的：应直接使用一个“颜色”字段。</p>
+<p>(23) 为避免编程时遇到麻烦，请保证在自己类路径指到的任何地方，每个名字都仅对应一个类。否则，编译器可能先找到同名的另一个类，并报告出错消息。若怀疑自己碰到了类路径问题，请试试在类路径的每一个起点，搜索一下同名的.class文件。</p>
+<p>(24) 在Java 1.1 AWT中使用事件“适配器”时，特别容易碰到一个陷阱。若覆盖了某个适配器方法，同时拼写方法没有特别讲究，最后的结果就是新添加一个方法，而不是覆盖现成方法。然而，由于这样做是完全合法的，所以不会从编译器或运行期系统获得任何出错提示——只不过代码的工作就变得不正常了。</p>
+<p>&lt;</p>
+<p>p&gt;(25) 用合理的设计方案消</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/12/#comments" class="ds-thread-count comments-count-link" data-thread-key="12/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/11/" title="Java 代码优化（转贴）" itemprop="url">Java 代码优化（转贴）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-10-15T03:47:31.000Z" itemprop="datePublished"> 发表于 2006-10-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>&lt;![CDATA[</p>
+<p>一、避免在循环条件中使用复杂表达式 在不做编译优化的情况下，在循环中，循环条件会被反复计算，如果不使用复杂表达式，而使循环条件值不变的话，程序将会运行的更快。 例子： 代码 import java.util.Vector; class CEL { void method (Vector vector) { for (int i = 0; i &lt; vector.size (); i++) // Violation ; // … } } 更正： class CEL_fixed { void method (Vector vector) { int size = vector.size () for (int i = 0; i &lt; size; i++) ; // … } }</p>
+<p> 二、为’Vectors’ 和 ‘Hashtables’定义初始大小 JVM为Vector扩充大小的时候需要重新创建一个更大的数组，将原原先数组中的内容复制过来，最后，原先的数组再被回收。可见Vector容量的扩大是一个颇费时间的事。通常，默认的10个元素大小是不够的。你最好能准确的估计你所需要的最佳大小。 例子： 代码 import java.util.Vector; public class DIC { public void addObjects (Object[] o) { // if length &gt; 10, Vector needs to expand for (int i = 0; i&lt; o.length;i++) { v.add(o); // capacity before it can add more elements. } } public Vector v = new Vector(); // no initialCapacity. } 更正：自己设定初始大小。 public Vector v = new Vector(20); public Hashtable hash = new Hashtable(10); </p>
+<p>三、在finally块中关闭Stream 程序中使用到的资源应当被释放，以避免资源泄漏。这最好在finally块中去做。不管程序执行的结果如何，finally块总是会执行的，以确保资源的正确关闭。 例子： 代码 import java.io.*; public class CS { public static void main (String args[]) { CS cs = new CS (); cs.method (); } public void method () { try { FileInputStream fis = new FileInputStream (&quot;CS.java&quot;); int count = 0; while (fis.read () != -1) count++; System.out.println (count); fis.close (); } catch (FileNotFoundException e1) { } catch (IOException e2) { } } } 更正：在最后一个catch后添加一个finally块 </p>
+<p>四、使用’System.arraycopy ()’代替通过来循环复制数组 ‘System.arraycopy ()’ 要比通过循环来复制数组快的多。 例子： 代码 public class IRB { void method () { int[] array1 = new int [100]; for (int i = 0; i &lt; array1.length; i++) { array1 [i] = i; } int[] array2 = new int [100]; for (int i = 0; i &lt; array2.length; i++) { array2 [i] = array1 [i]; // Violation } } } 更正： 代码 public class IRB { void method () { int[] array1 = new int [100]; for (int i = 0; i &lt; array1.length; i++) { array1 [i] = i; } int[] array2 = new int [100]; System.arraycopy(array1, 0, array2, 0, 100); } } </p>
+<p>五、让访问实例内变量的getter/setter方法变成”final” 简单的getter/setter方法应该被置成final，这会告诉编译器，这个方法不会被重载，所以，可以变成”inlined” 例子： 代码 class MAF { public void setSize (int size) { _size = size; } private int _size; } 更正： 代码 class DAF_fixed { final public void setSize (int size) { _size = size; } private int _size; } </p>
+<p>六、避免不需要的instanceof操作 如果左边的对象的静态类型等于右边的，instanceof表达式返回永远为true。 例子： 代码 public class UISO { public UISO () {} } class Dog extends UISO { void method (Dog dog, UISO u) { Dog d = dog; if (d instanceof UISO) // always true. System.out.println(&quot;Dog is a UISO&quot;); UISO uiso = u; if (uiso instanceof Object) // always true. System.out.println(&quot;uiso is an Object&quot;); } } 更正： 删掉不需要的instanceof操作。 </p>
+<p>七、避免不需要的造型操作 所有的类都是直接或者间接继承自Object。同样，所有的子类也都隐含的“等于”其父类。那么，由子类造型至父类的操作就是不必要的了。例子： 代码 class UNC { String _id = &quot;UNC&quot;; } class Dog extends UNC { void method () { Dog dog = new Dog (); UNC animal = (UNC)dog; // not necessary. Object o = (Object)dog; // not necessary. } } 更正： 代码 class Dog extends UNC { void method () { Dog dog = new Dog(); UNC animal = dog; Object o = dog; } } </p>
+<p>八、如果只是查找单个字符的话，用charAt()代替startsWith() 用一个字符作为参数调用startsWith()也会工作的很好，但从性能角度上来看，调用用String API无疑是错误的! 例子： 代码 public class PCTS { private void method(String s) { if (s.startsWith(&quot;a&quot;)) { // violation // … } } } 更正 将’startsWith()’ 替换成’charAt()’. 代码 public class PCTS { private void method(String s) { if (‘a’ == s.charAt(0)) { // … } } } </p>
+<p>九、使用移位操作来代替’a / b’操作 &quot;/&quot;是一个很“昂贵”的操作，使用移位操作将会更快更有效。 例子： 代码 public class SDIV { public static final int NUM = 16; public void calculate(int a) { int div = a / 4; // should be replaced with &quot;a &gt;&gt; 2&quot;. int div2 = a / 8; // should be replaced with &quot;a &gt;&gt; 3&quot;. int temp = a / 3; } } 更正： 代码 public class SDIV { public static final int NUM = 16; public void calculate(int a) { int div = a &gt;&gt; 2; int div2 = a &gt;&gt; 3; int temp = a / 3; // 不能转换成位移操作 } } </p>
+<p>十、使用移位操作代替’a <em> b’ 同上。 [i]但我个人认为，除非是在一个非常大的循环内，性能非常重要，而且你很清楚你自己在做什么，方可使用这种方法。否则提高性能所带来的程序晚读性的降低将是不合算的。 例子： 代码 public class SMUL { public void calculate(int a) { int mul = a </em> 4; // should be replaced with &quot;a &lt;&lt; 2&quot;. int mul2 = 8 <em> a; // should be replaced with &quot;a &lt;&lt; 3&quot;. int temp = a </em> 3; } } 更正： 代码 package OPT; public class SMUL { public void calculate(int a) { int mul = a &lt;&lt; 2; int mul2 = a &lt;&lt; 3; int temp = a * 3; // 不能转换 } } </p>
+<p>十一、在字符串相加的时候，使用 ‘ ‘ 代替 &quot; &quot;，如果该字符串只有一个字符的话 例子： 代码 public class STR { public void method(String s) { String string = s + &quot;d&quot; // violation. string = &quot;abc&quot; + &quot;d&quot; // violation. } } 更正：将一个字符的字符串替换成’ ‘ 代码 public class STR { public void method(String s) { String string = s + ‘d’ string = &quot;abc&quot; + ‘d’ } } </p>
+<p>十二、不要在循环中调用synchronized(同步)方法 方法的同步需要消耗相当大的资料，在一个循环中调用它绝对不是一个好主意。 例子： 代码 import java.util.Vector; public class SYN { public synchronized void method (Object o) { } private void test () { for (int i = 0; i &lt; vector.size(); i++) { method (vector.elementAt(i)); // violation } } private Vector vector = new Vector (5, 5); } 更正：不要在循环体中调用同步方法，如果必须同步的话，推荐以下方式： 代码 import java.util.Vector; public class SYN { public void method (Object o) { } private void test () { synchronized{//在一个同步块中执行非同步方法 for (int i = 0; i &lt; vector.size(); i++) { method (vector.elementAt(i)); } } } private Vector vector = new Vector (5, 5); } </p>
+<p>十三、将try/catch块移出循环 把try/catch块放入循环体内，会极大的影响性能，如果编译JIT被关闭或者你所使用的是一个不带JIT的JVM，性能会将下降21%之多! 例子： 代码 import java.io.FileInputStream; public class TRY { void method (FileInputStream fis) { for (int i = 0; i &lt; size; i++) { try { // violation _sum += fis.read(); } catch (Exception e) {} } } private int _sum; } 更正： 将try/catch块移出循环 代码 void method (FileInputStream fis) { try { for (int i = 0; i &lt; size; i++) { _sum += fis.read(); } } catch (Exception e) {} } </p>
+<p>&lt;</p>
+<p>p&gt;十四、对于boolean值，避免不必要的等式判断 将一个boolean值与一个true比较是一个恒等操作(直接返回该boolean变量的值). 移走对于boolean的不必要操作至少会带来2个好处： 1)代码执行的更快 (生成的字节码少了5个字节)； 2)代码也会更<br>加干净 ]]<br>&gt;</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/11/#comments" class="ds-thread-count comments-count-link" data-thread-key="11/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/10/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/12/">Next<span></span></a>
+  </nav>
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>

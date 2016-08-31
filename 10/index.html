@@ -1,0 +1,597 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java 性能优化 （转贴） | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="&amp;lt;![CDATA[
+ Java 使得复杂应用的开发变得相对简单，毫无疑问，它的这种易用性对Java的大范围流行功不可没。然而，这种易用性实际上是一把双刃剑。一个设计良好的 Java程序，性能表现往往不如一个同样设计良好的C++程序。在Java程序中，性能问题的大部分原因并不在于Java语言，而是在于程序本身。养成好的代码编写习惯非常重要，比如正确地、巧妙地运用java.lang.String">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 性能优化 （转贴）">
+<meta property="og:url" content="http://blog.zephyrleaves.net/10/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="&amp;lt;![CDATA[
+ Java 使得复杂应用的开发变得相对简单，毫无疑问，它的这种易用性对Java的大范围流行功不可没。然而，这种易用性实际上是一把双刃剑。一个设计良好的 Java程序，性能表现往往不如一个同样设计良好的C++程序。在Java程序中，性能问题的大部分原因并不在于Java语言，而是在于程序本身。养成好的代码编写习惯非常重要，比如正确地、巧妙地运用java.lang.String">
+<meta property="og:updated_time" content="2015-08-15T04:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 性能优化 （转贴）">
+<meta name="twitter:description" content="&amp;lt;![CDATA[
+ Java 使得复杂应用的开发变得相对简单，毫无疑问，它的这种易用性对Java的大范围流行功不可没。然而，这种易用性实际上是一把双刃剑。一个设计良好的 Java程序，性能表现往往不如一个同样设计良好的C++程序。在Java程序中，性能问题的大部分原因并不在于Java语言，而是在于程序本身。养成好的代码编写习惯非常重要，比如正确地、巧妙地运用java.lang.String">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/10/" title="Java 性能优化 （转贴）" itemprop="url">Java 性能优化 （转贴）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-10-15T03:23:41.000Z" itemprop="datePublished"> 发表于 2006-10-15</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>&lt;![CDATA[</p>
+ <td></td><a name="part">Java 使得复杂应用的开发变得相对简单，毫无疑问，它的这种易用性对Java的大范围流行功不可没。然而，这种易用性实际上是一把双刃剑。一个设计良好的 Java程序，性能表现往往不如一个同样设计良好的C++程序。在Java程序中，性能问题的大部分原因并不在于Java语言，而是在于程序本身。养成好的代码编写习惯非常重要，比如正确地、巧妙地运用java.lang.String类和java.util.Vector类，它能够显著地提高程序的性能。下面我们就来具体地分析一下这方面的问题。<br><br>　　在java中，使用最频繁、同时也是滥用最多的一个类或许就是java.lang.String，它也是导致代码性能低下最主要的原因之一。请考虑下面这个例子：<br><br>String s1 = &quot;Testing String&quot;;<br>String s2 = &quot;Concatenation Performance&quot;;<br>String s3 = s1 + &quot; &quot; + s2;<br><br>　　几乎所有的Java程序员都知道上面的代码效率不高。那么，我们应该怎么办呢？也许可以试试下面这种代码：<br><br>StringBuffer s = new StringBuffer();<br>s.append(&quot;Testing String&quot;);<br>s.append(&quot; &quot;);<br>s.append(&quot;Concatenation Performance&quot;);<br>String s3 = s.toString();<br><br>　　这些代码会比第一个代码片段效率更高吗？答案是否定的。这里的代码实际上正是编译器编译第一个代码片段之后的结果。既然与使用多个独立的String对象相比，StringBuffer并没有使代码有任何效率上的提高，那为什么有那么多的Java书籍批评第一种方法、推荐使用第二种方法？<br><br>　　第二个代码片段用到了StringBuffer类（编译器在第一个片段中也将使用StringBuffer类），我们来分析一下StringBuffer类的默认构造函数，下面是它的代码：<br><br>public StringBuffer() { this(16); }<br><br>　　默认构造函数预设了16个字符的缓存容量。现在我们再来看看StringBuffer类的append()方法：<br><br>public synchronized StringBuffer append(String str) {<br>if (str == null) {<br>str = String.valueOf(str);<br>}<br>int len = str.length();<br>int newcount = count + len;<br>if (newcount &gt; value.length) expandCapacity(newcount);<br>str.getChars(0, len, value, count);<br>count = newcount; return this;<br>}<br><br>　　append()方法首先计算字符串追加完成后的总长度，如果这个总长度大于StringBuffer的存储能力，append()方法调用私有的 expandCapacity()方法。expandCapacity()方法在每次被调用时使StringBuffer存储能力加倍，并把现有的字符数组内容复制到新的存储空间。<br><br>　　在第二个代码片段中（以及在第一个代码片段的编译结果中），由于字符串追加操作的最后结果是 “Testing String Concatenation Performance”，它有40个字符，StringBuffer的存储能力必须扩展两次，从而导致了两次代价昂贵的复制操作。因此，我们至少有一点可以做得比编译器更好，这就是分配一个初始存储容量大于或者等于40个字符的StringBuffer，如下所示：<br><br>StringBuffer s = new StringBuffer(45);<br>s.append(&quot;Testing String&quot;);<br>s.append(&quot; &quot;);<br>s.append(&quot;Concatenation Performance&quot;);<br>String s3 = s.toString();<br><br>　　再考虑下面这个例子：<br><br>String s = &quot;&quot;;<br>int sum = 0;<br>for(int I=1; I&lt;10; I++) {<br>sum += I;<br>s = s + &quot;+&quot; +I ;<br>}<br>s = s + &quot;=&quot; + sum;<br></a><br><br><p><br><br> <td></td><a name="part">分析一下为何前面的代码比下面的代码效率低：<br><br>StringBuffer sb = new StringBuffer();<br>int sum = 0;<br>for(int I=1;<br>I&lt;10; I++){<br>sum + = I;<br>sb.append(I).append(&quot;+&quot;);<br>}<br>String s = sb.append(&quot;=&quot;).append(sum).toString();<br><br>　　原因就在于每个s = s + &quot;+&quot; + I操作都要创建并拆除一个StringBuffer对象以及一个String对象。这完全是一种浪费，而在第二个例子中我们避免了这种情况。<br><br>　　我们再来看看另外一个常用的Java类??java.util.Vector。简单地说，一个Vector就是一个java.lang.Object实例的数组。Vector与数组相似，它的元素可以通过整数形式的索引访问。但是，Vector类型的对象在创建之后，对象的大小能够根据元素的增加或者删除而扩展、缩小。请考虑下面这个向Vector加入元素的例子：<br><br>Object obj = new Object();<br>Vector v = new Vector(100000);<br>for(int I=0;<br>I&lt;100000; I++) { v.add(0,obj); }<br><br>　　除非有绝对充足的理由要求每次都把新元素插入到Vector的前面，否则上面的代码对性能不利。在默认构造函数中，Vector的初始存储能力是10个元素，如果新元素加入时存储能力不足，则以后存储能力每次加倍。Vector类就象StringBuffer类一样，每次扩展存储能力时，所有现有的元素都要复制到新的存储空间之中。下面的代码片段要比前面的例子快几个数量级：<br><br>Object obj = new Object();<br>Vector v = new Vector(100000);<br>for(int I=0; I&lt;100000; I++) { v.add(obj); }<br><br>　　同样的规则也适用于Vector类的remove()方法。由于Vector中各个元素之间不能含有“空隙”，删除除最后一个元素之外的任意其他元素都导致被删除元素之后的元素向前移动。也就是说，从Vector删除最后一个元素要比删除第一个元素“开销”低好几倍。<br><br>　　假设要从前面的Vector删除所有元素，我们可以使用这种代码：<br><br>for(int I=0; I&lt;100000; I++)<br>{<br>　v.remove(0);<br>}<br><br>　　但是，与下面的代码相比，前面的代码要慢几个数量级：<br><br>for(int I=0; I&lt;100000; I++)<br>{<br>　v.remove(v.size()-1);<br>}<br><br>　　从Vector类型的对象v删除所有元素的最好方法是：<br><br>v.removeAllElements();<br><br>　　假设Vector类型的对象v包含字符串“Hello”。考虑下面的代码，它要从这个Vector中删除“Hello”字符串：<br><br>String s = &quot;Hello&quot;;<br>int i = v.indexOf(s);<br>if(I != -1) v.remove(s);<br><br>　　这些代码看起来没什么错误，但它同样对性能不利。在这段代码中，indexOf()方法对v进行顺序搜索寻找字符串“Hello”，remove(s)方法也要进行同样的顺序搜索。改进之后的版本是：<br><br>String s = &quot;Hello&quot;;<br>int i = v.indexOf(s);<br>if(I != -1) v.remove(i);<br><br>　　这个版本中我们直接在remove()方法中给出待删除元素的精确索引位置，从而避免了第二次搜索。一个更好的版本是：<br><br>String s = &quot;Hello&quot;; v.remove(s);<br><br>　　最后，我们再来看一个有关Vector类的代码片段：<br><br>for(int I=0; I++;I<br><br>　　如果v包含100,000个元素，这个代码片段将调用v.size()方法100,000次。虽然size方法是一个简单的方法，但它仍旧需要一次方法调用的开销，至少JVM需要为它配置以及清除堆栈环境。在这里，for循环内部的代码不会以任何方式修改Vector类型对象v的大小，因此上面的代码最好改写成下面这种形式：<br><br>int size = v.size(); for(int I=0; I++;I<br><br>　　虽然这是一个简单的改动，但它仍旧赢得了性能。毕竟，每一个CPU周期都是宝贵的。<br><br>　　拙劣的代码编写方式导致代码性能下降。但是，正如本文例子所显示的，我们只要采取一些简单的措施就能够显著地改善代码性能。<br></a>
+
+</p><p>]<br>]&gt;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/11/" title="Java 代码优化（转贴）">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Java 代码优化（转贴）</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/9/"  title="tomcat 5.5 在Linux下配置 apr">
+ <strong>下一篇：</strong><br/> 
+ <span>tomcat 5.5 在Linux下配置 apr
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="10" data-title="Java 性能优化 （转贴）" data-url="http://blog.zephyrleaves.net/?p=10"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

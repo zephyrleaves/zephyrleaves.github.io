@@ -1,0 +1,609 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java 代码优化（转贴） | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="&amp;lt;![CDATA[
+一、避免在循环条件中使用复杂表达式 在不做编译优化的情况下，在循环中，循环条件会被反复计算，如果不使用复杂表达式，而使循环条件值不变的话，程序将会运行的更快。 例子： 代码 import java.util.Vector; class CEL { void method (Vector vector) { for (int i = 0; i &amp;lt; vector.siz">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 代码优化（转贴）">
+<meta property="og:url" content="http://blog.zephyrleaves.net/11/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="&amp;lt;![CDATA[
+一、避免在循环条件中使用复杂表达式 在不做编译优化的情况下，在循环中，循环条件会被反复计算，如果不使用复杂表达式，而使循环条件值不变的话，程序将会运行的更快。 例子： 代码 import java.util.Vector; class CEL { void method (Vector vector) { for (int i = 0; i &amp;lt; vector.siz">
+<meta property="og:updated_time" content="2015-08-15T04:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 代码优化（转贴）">
+<meta name="twitter:description" content="&amp;lt;![CDATA[
+一、避免在循环条件中使用复杂表达式 在不做编译优化的情况下，在循环中，循环条件会被反复计算，如果不使用复杂表达式，而使循环条件值不变的话，程序将会运行的更快。 例子： 代码 import java.util.Vector; class CEL { void method (Vector vector) { for (int i = 0; i &amp;lt; vector.siz">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/11/" title="Java 代码优化（转贴）" itemprop="url">Java 代码优化（转贴）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-10-15T03:47:31.000Z" itemprop="datePublished"> 发表于 2006-10-15</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>&lt;![CDATA[</p>
+<p>一、避免在循环条件中使用复杂表达式 在不做编译优化的情况下，在循环中，循环条件会被反复计算，如果不使用复杂表达式，而使循环条件值不变的话，程序将会运行的更快。 例子： 代码 import java.util.Vector; class CEL { void method (Vector vector) { for (int i = 0; i &lt; vector.size (); i++) // Violation ; // … } } 更正： class CEL_fixed { void method (Vector vector) { int size = vector.size () for (int i = 0; i &lt; size; i++) ; // … } }</p>
+<p> 二、为’Vectors’ 和 ‘Hashtables’定义初始大小 JVM为Vector扩充大小的时候需要重新创建一个更大的数组，将原原先数组中的内容复制过来，最后，原先的数组再被回收。可见Vector容量的扩大是一个颇费时间的事。通常，默认的10个元素大小是不够的。你最好能准确的估计你所需要的最佳大小。 例子： 代码 import java.util.Vector; public class DIC { public void addObjects (Object[] o) { // if length &gt; 10, Vector needs to expand for (int i = 0; i&lt; o.length;i++) { v.add(o); // capacity before it can add more elements. } } public Vector v = new Vector(); // no initialCapacity. } 更正：自己设定初始大小。 public Vector v = new Vector(20); public Hashtable hash = new Hashtable(10); </p>
+<p>三、在finally块中关闭Stream 程序中使用到的资源应当被释放，以避免资源泄漏。这最好在finally块中去做。不管程序执行的结果如何，finally块总是会执行的，以确保资源的正确关闭。 例子： 代码 import java.io.*; public class CS { public static void main (String args[]) { CS cs = new CS (); cs.method (); } public void method () { try { FileInputStream fis = new FileInputStream (&quot;CS.java&quot;); int count = 0; while (fis.read () != -1) count++; System.out.println (count); fis.close (); } catch (FileNotFoundException e1) { } catch (IOException e2) { } } } 更正：在最后一个catch后添加一个finally块 </p>
+<p>四、使用’System.arraycopy ()’代替通过来循环复制数组 ‘System.arraycopy ()’ 要比通过循环来复制数组快的多。 例子： 代码 public class IRB { void method () { int[] array1 = new int [100]; for (int i = 0; i &lt; array1.length; i++) { array1 [i] = i; } int[] array2 = new int [100]; for (int i = 0; i &lt; array2.length; i++) { array2 [i] = array1 [i]; // Violation } } } 更正： 代码 public class IRB { void method () { int[] array1 = new int [100]; for (int i = 0; i &lt; array1.length; i++) { array1 [i] = i; } int[] array2 = new int [100]; System.arraycopy(array1, 0, array2, 0, 100); } } </p>
+<p>五、让访问实例内变量的getter/setter方法变成”final” 简单的getter/setter方法应该被置成final，这会告诉编译器，这个方法不会被重载，所以，可以变成”inlined” 例子： 代码 class MAF { public void setSize (int size) { _size = size; } private int _size; } 更正： 代码 class DAF_fixed { final public void setSize (int size) { _size = size; } private int _size; } </p>
+<p>六、避免不需要的instanceof操作 如果左边的对象的静态类型等于右边的，instanceof表达式返回永远为true。 例子： 代码 public class UISO { public UISO () {} } class Dog extends UISO { void method (Dog dog, UISO u) { Dog d = dog; if (d instanceof UISO) // always true. System.out.println(&quot;Dog is a UISO&quot;); UISO uiso = u; if (uiso instanceof Object) // always true. System.out.println(&quot;uiso is an Object&quot;); } } 更正： 删掉不需要的instanceof操作。 </p>
+<p>七、避免不需要的造型操作 所有的类都是直接或者间接继承自Object。同样，所有的子类也都隐含的“等于”其父类。那么，由子类造型至父类的操作就是不必要的了。例子： 代码 class UNC { String _id = &quot;UNC&quot;; } class Dog extends UNC { void method () { Dog dog = new Dog (); UNC animal = (UNC)dog; // not necessary. Object o = (Object)dog; // not necessary. } } 更正： 代码 class Dog extends UNC { void method () { Dog dog = new Dog(); UNC animal = dog; Object o = dog; } } </p>
+<p>八、如果只是查找单个字符的话，用charAt()代替startsWith() 用一个字符作为参数调用startsWith()也会工作的很好，但从性能角度上来看，调用用String API无疑是错误的! 例子： 代码 public class PCTS { private void method(String s) { if (s.startsWith(&quot;a&quot;)) { // violation // … } } } 更正 将’startsWith()’ 替换成’charAt()’. 代码 public class PCTS { private void method(String s) { if (‘a’ == s.charAt(0)) { // … } } } </p>
+<p>九、使用移位操作来代替’a / b’操作 &quot;/&quot;是一个很“昂贵”的操作，使用移位操作将会更快更有效。 例子： 代码 public class SDIV { public static final int NUM = 16; public void calculate(int a) { int div = a / 4; // should be replaced with &quot;a &gt;&gt; 2&quot;. int div2 = a / 8; // should be replaced with &quot;a &gt;&gt; 3&quot;. int temp = a / 3; } } 更正： 代码 public class SDIV { public static final int NUM = 16; public void calculate(int a) { int div = a &gt;&gt; 2; int div2 = a &gt;&gt; 3; int temp = a / 3; // 不能转换成位移操作 } } </p>
+<p>十、使用移位操作代替’a <em> b’ 同上。 [i]但我个人认为，除非是在一个非常大的循环内，性能非常重要，而且你很清楚你自己在做什么，方可使用这种方法。否则提高性能所带来的程序晚读性的降低将是不合算的。 例子： 代码 public class SMUL { public void calculate(int a) { int mul = a </em> 4; // should be replaced with &quot;a &lt;&lt; 2&quot;. int mul2 = 8 <em> a; // should be replaced with &quot;a &lt;&lt; 3&quot;. int temp = a </em> 3; } } 更正： 代码 package OPT; public class SMUL { public void calculate(int a) { int mul = a &lt;&lt; 2; int mul2 = a &lt;&lt; 3; int temp = a * 3; // 不能转换 } } </p>
+<p>十一、在字符串相加的时候，使用 ‘ ‘ 代替 &quot; &quot;，如果该字符串只有一个字符的话 例子： 代码 public class STR { public void method(String s) { String string = s + &quot;d&quot; // violation. string = &quot;abc&quot; + &quot;d&quot; // violation. } } 更正：将一个字符的字符串替换成’ ‘ 代码 public class STR { public void method(String s) { String string = s + ‘d’ string = &quot;abc&quot; + ‘d’ } } </p>
+<p>十二、不要在循环中调用synchronized(同步)方法 方法的同步需要消耗相当大的资料，在一个循环中调用它绝对不是一个好主意。 例子： 代码 import java.util.Vector; public class SYN { public synchronized void method (Object o) { } private void test () { for (int i = 0; i &lt; vector.size(); i++) { method (vector.elementAt(i)); // violation } } private Vector vector = new Vector (5, 5); } 更正：不要在循环体中调用同步方法，如果必须同步的话，推荐以下方式： 代码 import java.util.Vector; public class SYN { public void method (Object o) { } private void test () { synchronized{//在一个同步块中执行非同步方法 for (int i = 0; i &lt; vector.size(); i++) { method (vector.elementAt(i)); } } } private Vector vector = new Vector (5, 5); } </p>
+<p>十三、将try/catch块移出循环 把try/catch块放入循环体内，会极大的影响性能，如果编译JIT被关闭或者你所使用的是一个不带JIT的JVM，性能会将下降21%之多! 例子： 代码 import java.io.FileInputStream; public class TRY { void method (FileInputStream fis) { for (int i = 0; i &lt; size; i++) { try { // violation _sum += fis.read(); } catch (Exception e) {} } } private int _sum; } 更正： 将try/catch块移出循环 代码 void method (FileInputStream fis) { try { for (int i = 0; i &lt; size; i++) { _sum += fis.read(); } } catch (Exception e) {} } </p>
+<p>&lt;</p>
+<p>p&gt;十四、对于boolean值，避免不必要的等式判断 将一个boolean值与一个true比较是一个恒等操作(直接返回该boolean变量的值). 移走对于boolean的不必要操作至少会带来2个好处： 1)代码执行的更快 (生成的字节码少了5个字节)； 2)代码也会更<br>加干净 ]]<br>&gt;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/12/" title="Java编程规则">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Java编程规则</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/10/"  title="Java 性能优化 （转贴）">
+ <strong>下一篇：</strong><br/> 
+ <span>Java 性能优化 （转贴）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="11" data-title="Java 代码优化（转贴）" data-url="http://blog.zephyrleaves.net/?p=11"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,619 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>MySQL存储过程资料收集 | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="表A声明描述CREATE PROCEDURE建立一个存放在MySQL数据库的表格的存储过程。CREATE FUNCTION建立一个用户自定义的函数，尤其是返回数据的存储过程。ALTER PROCEDURE更改用CREATE PROCEDURE 建立的预先指定的存储过程，其不会影响相关存储过程或存储功能。.ALTER FUNCTION更改用CREATE FUNCTION 建立的预先指定的存储过程，其">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL存储过程资料收集">
+<meta property="og:url" content="http://blog.zephyrleaves.net/44/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="表A声明描述CREATE PROCEDURE建立一个存放在MySQL数据库的表格的存储过程。CREATE FUNCTION建立一个用户自定义的函数，尤其是返回数据的存储过程。ALTER PROCEDURE更改用CREATE PROCEDURE 建立的预先指定的存储过程，其不会影响相关存储过程或存储功能。.ALTER FUNCTION更改用CREATE FUNCTION 建立的预先指定的存储过程，其">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta property="og:updated_time" content="2015-08-15T04:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL存储过程资料收集">
+<meta name="twitter:description" content="表A声明描述CREATE PROCEDURE建立一个存放在MySQL数据库的表格的存储过程。CREATE FUNCTION建立一个用户自定义的函数，尤其是返回数据的存储过程。ALTER PROCEDURE更改用CREATE PROCEDURE 建立的预先指定的存储过程，其不会影响相关存储过程或存储功能。.ALTER FUNCTION更改用CREATE FUNCTION 建立的预先指定的存储过程，其">
+<meta name="twitter:image" content="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/44/" title="MySQL存储过程资料收集" itemprop="url">MySQL存储过程资料收集</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-01-10T05:23:13.000Z" itemprop="datePublished"> 发表于 2007-01-10</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#表A"><span class="toc-number">1.</span> <span class="toc-text">表A</span></a></li></ol>
+		
+		</div>
+		
+		<h5 id="表A"><a href="#表A" class="headerlink" title="表A"></a>表A</h5><table width="542" cellspacing="1" cellpadding="0" border="0"><br><tbody><br><tr><br><td><br><table width="535" cellpadding="0" border="0"><br><tbody><br><tr><br><td width="172" valign="top"><br><p align="left"><strong>声明</strong><br><br></p></td><br><td width="349" valign="top"><br><p align="left"><strong>描述</strong><br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">CREATE PROCEDURE<br><br></p></td><br><td width="349" valign="top"><br><p align="left">建立一个存放在MySQL数据库的表格的存储过程。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">CREATE FUNCTION<br><br></p></td><br><td width="349" valign="top"><br><p align="left">建立一个用户自定义的函数，尤其是返回数据的存储过程。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">ALTER PROCEDURE<br><br></p></td><br><td width="349" valign="top"><br><p align="left">更改用CREATE PROCEDURE 建立的预先指定的存储过程，其不会影响相关存储过程或存储功能。.<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">ALTER FUNCTION<br><br></p></td><br><td width="349" valign="top"><br><p align="left">更改用CREATE FUNCTION 建立的预先指定的存储过程，其不会影响相关存储过程或存储功能。.<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">DROP PROCEDURE<br><br></p></td><br><td width="349" valign="top"><br><p align="left">从MySQL的表格中删除一个或多个存储过程。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">DROP FUNCTION<br><br></p></td><br><td width="349" valign="top"><br><p align="left">从MySQL的表格中删除一个或多个存储函数。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">SHOW CREATE PROCEDURE<br><br></p></td><br><td width="349" valign="top"><br><p align="left">返回使用CREATE PROCEDURE<br>建立的预先指定的存储过程的文本。这一声明是SQL:2003规范的一个MySQL扩展。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">SHOW CREATE FUNCTION<br><br></p></td><br><td width="349" valign="top"><br><p align="left">返回使用CREATE<br> FUNCTION建立的预先指定的存储过程的文本。这一声明是SQL:2003规范的一个MySQL扩展。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">SHOW PROCEDURE STATUS<br><br></p></td><br><td width="349" valign="top"><br><p align="left">返回一个预先指定的存储过程的特性，包括名称、类型、建立者、建立日期、以及更改日期。这一声明是SQL:2003规范的一个MySQL扩展。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">SHOW FUNCTION STATUS<br><br></p></td><br><td width="349" valign="top"><br><p align="left">返回一个预先指定的存储函数的特性，包括名称、类型、建立者、建立日期、以及更改日期。这一声明是SQL:2003规范的一个MySQL扩展。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">CALL<br><br></p></td><br><td width="349" valign="top"><br><p align="left">调用一个使用CREATE PROCEDURE建立的预先指定的存储过程。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">BEGIN … END<br><br></p></td><br><td width="349" valign="top"><br><p align="left">包含一组执行的多声明。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">DECLARE<br><br></p></td><br><td width="349" valign="top"><br><p align="left">用于指定当地变量、环境、处理器，以及指针。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">SET<br><br></p></td><br><td width="349" valign="top"><br><p align="left">用于更改当地和全局服务器变量的值。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">SELECT … INTO<br><br></p></td><br><td width="349" valign="top"><br><p align="left">用于存储显示变量的纵列。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">OPEN<br><br></p></td><br><td width="349" valign="top"><br><p align="left">用于打开一个指针。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">FETCH<br><br></p></td><br><td width="349" valign="top"><br><p align="left">使用特定指针来获得下一列。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">CLOSE<br><br></p></td><br><td width="349" valign="top"><br><p align="left">用于关闭和打开指针。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">IF<br><br></p></td><br><td width="349" valign="top"><br><p align="left">一个An if-then-else-end if 声明。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">CASE … WHEN<br><br></p></td><br><td width="349" valign="top"><br><p align="left">一个 case声明的结构<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">LOOP<br><br></p></td><br><td width="349" valign="top"><br><p align="left">一个简单的循环结构；可以使用LEAVE 语句来退出。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">LEAVE<br><br></p></td><br><td width="349" valign="top"><br><p align="left">用于退出IF，CASE，LOOP，REPEAT以及WHILE 语句。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">ITERATE<br><br></p></td><br><td width="349" valign="top"><br><p align="left">用于重新开始循环。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">REPEAT<br><br></p></td><br><td width="349" valign="top"><br><p align="left">在结束时测试的循环。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">WHILE<br><br></p></td><br><td width="349" valign="top"><br><p align="left">在开始时测试的循环。<br><br></p></td></tr><br><tr><br><td width="172" valign="top"><br><p align="left">RETURNS<br><br></p></td><br><td width="349" valign="top"><br><p align="left">返回一个存储过程的值。<br><br></p></td></tr></tbody></table><br></td></tr></tbody></table>
+
+<p>MySQL 5.0支持存储过程语句。</p>
+<table><br><tbody><br><tr><br><td><br><div class="cnt"><span style="font-weight: bold">一.创建存储过程</span><br><br><div style="margin-left: 40px">1.基本语法：<br><br><div style="margin-left: 40px">create procedure sp_name()<br>begin<br>………<br>end<br></div>2.参数传递<br></div><span style="font-weight: bold">二.调用存储过程</span><br><br><div style="margin-left: 40px">1.基本语法：call sp_name()<br>注意：存储过程名称后面必须加括号，哪怕该存储过程没有参数传递<br></div><span style="font-weight: bold">三.删除存储过程</span><br><br><div style="margin-left: 40px">1.基本语法：<br>drop procedure sp_name//<br>2.注意事项<br>(1)不能在一个存储过程中删除另一个存储过程，只能调用另一个存储过程<br></div><span style="font-weight: bold">四.区块，条件，循环<br></span><br><div style="margin-left: 40px">1.区块定义，常用<br>begin<br>……<br>end;<br>也可以给区块起别名，如：<br>lable:begin<br>………..<br>end lable;<br>可以用leave lable;跳出区块，执行区块以后的代码<br>2.条件语句<br><br><div><br><div><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""><span>if</span><span> 条件 </span><span>then</span><span><br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt="">statement<br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""></span><span>else</span><span><br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt="">statement<br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""></span><span>end</span><span>&nbsp;</span><span>if</span><span>;</span></div></div><br>3.循环语句<br>(1).while循环<br><br><div><br><div><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""><span>[</span><span>label:</span><span>]</span><span>&nbsp;</span><span>WHILE</span><span> expression DO<br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""><br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt="">statements<br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""><br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""></span><span>END</span><span>&nbsp;</span><span>WHILE</span><span>&nbsp;</span><span>[</span><span>label</span><span>]</span><span> ;<br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""></span></div></div><br></div><br><div style="margin-left: 40px">(2).loop循环<br><br><div><br><div><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""><span>[</span><span>label:</span><span>]</span><span> LOOP<br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""><br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt="">statements<br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""><br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""></span><span>END</span><span> LOOP </span><span>[</span><span>label</span><span>]</span><span>;</span></div></div><br></div><br><div style="margin-left: 40px">(3).repeat until循环<br><br><div><br><div><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""><span>[</span><span>label:</span><span>]</span><span> REPEAT<br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""><br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt="">statements<br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""><br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt="">UNTIL expression<br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""><br><img src="http://images.csdn.net/syntaxhighlighting/OutliningIndicators/None.gif" alt=""></span><span>END</span><span> REPEAT </span><span>[</span><span>label</span><span>]</span><span> ;</span></div></div><br></div><span style="font-weight: bold">五.其他常用命令</span><br><br><div style="margin-left: 40px">1.show procedure status<br>显示数据库中所有存储的存储过程基本信息，包括所属数据库，存储过程名称，创建时间等<br>2.show create procedure sp_name<br></div></div></td></tr></tbody></table>
+
+<div style="margin: 15px"><br><strong><u>存储过程创建语法:</u></strong><br><br><table align="center"><br><tbody><br><tr><br><td><br>CREATE PROCEDURE procedure_name ([parameter[,…])<br><br>[LANGUAGE SQL]<br><br>[ [NOT] DETERMINISTIC ]<br><br>[{CONTAINS SQL|MODIFIES SQL DATA|READS SQL DATA|NO SQL}]<br><br>[SQL SECURITY {DEFINER|INVOKER} ]<br><br>[COMMENT comment_string]<br><br>procedure_statements<br><br></td></tr></tbody></table><br><br>可用SHOW PROCEDURE STATUS 或 SHOW CREATE PROCEDURE<br>来查看存储过程信息<br>另，系统表INFORMATION_SCHEMA.ROUTINES也包含了存储过程的一些信息<br>同样地,函数也可以使用同样方式查看(SHOW<br>FUNCTION STATUS)<br><br><strong><u>函数的创建</u></strong><br><br><table align="center"><br><tbody><br><tr><br><td><br>CREATE FUNCTION function_name (parameter[,…])<br><br>RETURNS datatype<br><br>[LANGUAGE SQL]<br><br>[ [NOT] DETERMINISTIC ]<br><br>[ {CONTAINS SQL | NO SQL | MODIFIES SQL DATA | READS SQL DATA} ]<br><br>[ SQL SECURITY {DEFINER|INVOKER} ]<br><br>[ COMMENT comment_string ]<br><br>语句体<br><br></td></tr></tbody></table><br><br>函数与存储过程基本一样，其区别主要有:<br>1、  要使用RETURNS指定返回类型<br>2、<br>函数必须返回值,且在语句体中使用RETURN返回(注意:指定返回类型用RETURNS,返回值用RETURN)<br>3、<br>参数不区分IN，OUT，全部为IN类形<br><br>例:<br>CREATE FUNCTION cust_status(in_status CHAR(1))<br>    RETURNS<br>VARCHAR(20)<br>BEGIN<br>    DECLARE long_status VARCHAR(20);<br>    IF in_status<br>= ‘O’ THEN        SET long_status=’Overdue’;<br>    ELSEIF in_status = ‘U’<br>THEN    SET long_status=’Up to date’;<br>    ELSEIF in_status = ‘N’ THEN    SET<br>long_status=’New’;<br>    END IF;<br><br>RETURN(long_status);<br>END;<br><br>调用:<br>SELECT<br>cust_status(‘O’);<br><br><u><strong>触发器</strong></u><br><br><table align="center"><br><tbody><br><tr><br><td><br>CREATE [DEFINER={user|CURRENT_USER}] TRIGGER trigger_name<br><br>{BEFORE|AFTER} {UPDATE|INSERT|DELETE}<br><br>ON table_name<br><br>FOR EACH ROW<br><br>trigger_statements<br><br></td></tr></tbody></table><br><br>意义:当对表table_name执行update，insert,delete操作之前(before)或之后(after)时触发语句trigger_statements操作<br><br>例:<br>mysql&gt; CREATE TRIGGER account_balance_au<br> AFTER UPDATE ON<br>account_balance FOR EACH ROW<br>BEGIN<br>  DECLARE dummy INT;<br>  IF<br>NEW.balance&lt;0 THEN<br>     SET NEW.balance=NULL;<br>  END<br>IF;<br>END<br><br>上述触发器表示:当更新表account_balance之后，如果更新的值balance小于0,则将它改为NULL,<br>注:如果为OLD.balance则表示更新前的原值<br><br></div>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/数据库/">数据库</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/45/" title="Web OS eXo 帅">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Web OS eXo 帅</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/43/"  title="再写点游戏咯">
+ <strong>下一篇：</strong><br/> 
+ <span>再写点游戏咯
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="44" data-title="MySQL存储过程资料收集" data-url="http://blog.zephyrleaves.net/?p=44"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#表A"><span class="toc-number">1.</span> <span class="toc-text">表A</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

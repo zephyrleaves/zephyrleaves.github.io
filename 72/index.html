@@ -1,0 +1,687 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>AspectJ初体验 | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="最近在写自己的框架,由于框架不是很稳定,有较多的重构,用RDBMS的话,重构数据库就能把我搞死..所以选择OODBMS ,
+OODBMS用起来还是不错的,可惜没有如Spring等事务管理措施的辅助,处理起事务来还是比较吃力.
+既然Spring帮不了我,那就只有自己帮自己了,做事务处理现在流行用AOP来做..对于Spring AOP这种用动态代理机制来模拟AOP
+感觉不是很爽,所以一下子就选择Asp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AspectJ初体验">
+<meta property="og:url" content="http://blog.zephyrleaves.net/72/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="最近在写自己的框架,由于框架不是很稳定,有较多的重构,用RDBMS的话,重构数据库就能把我搞死..所以选择OODBMS ,
+OODBMS用起来还是不错的,可惜没有如Spring等事务管理措施的辅助,处理起事务来还是比较吃力.
+既然Spring帮不了我,那就只有自己帮自己了,做事务处理现在流行用AOP来做..对于Spring AOP这种用动态代理机制来模拟AOP
+感觉不是很爽,所以一下子就选择Asp">
+<meta property="og:updated_time" content="2015-08-15T04:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AspectJ初体验">
+<meta name="twitter:description" content="最近在写自己的框架,由于框架不是很稳定,有较多的重构,用RDBMS的话,重构数据库就能把我搞死..所以选择OODBMS ,
+OODBMS用起来还是不错的,可惜没有如Spring等事务管理措施的辅助,处理起事务来还是比较吃力.
+既然Spring帮不了我,那就只有自己帮自己了,做事务处理现在流行用AOP来做..对于Spring AOP这种用动态代理机制来模拟AOP
+感觉不是很爽,所以一下子就选择Asp">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/72/" title="AspectJ初体验" itemprop="url">AspectJ初体验</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-09-28T11:49:35.000Z" itemprop="datePublished"> 发表于 2007-09-28</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>最近在写自己的框架,由于框架不是很稳定,有较多的重构,用RDBMS的话,重构数据库就能把我搞死..所以选择OODBMS ,</p>
+<p>OODBMS用起来还是不错的,可惜没有如Spring等事务管理措施的辅助,处理起事务来还是比较吃力.</p>
+<p>既然Spring帮不了我,那就只有自己帮自己了,做事务处理现在流行用AOP来做..对于Spring AOP这种用动态代理机制来模拟AOP</p>
+<p>感觉不是很爽,所以一下子就选择AspectJ作为自己的AOP框架,</p>
+<p>从<a href="http://www.eclipse.org/adjt" target="_blank" rel="external">www.eclipse.org/adjt</a>下载了AspectJ的IDE之后,AspectJ之旅就开始了.</p>
+<p>学着例子,自己摆弄了一个aj先:</p>
+<p>被AOP的代码:</p>
+<blockquote>
+<blockquote>
+<p>/<em>*<br>&nbsp;</em> @author Kevin.Huang<br>&nbsp;<em> @date 2007-9-27<br>&nbsp;</em>/<br>public class Test {</p>
+<blockquote>
+<blockquote>
+<p>&nbsp;/<em>*<br>&nbsp; </em> @param args<br>&nbsp; */<br>&nbsp;public static void main(String[] args) {<br>&nbsp;&nbsp;sayHello();</p>
+<p>&nbsp;}</p>
+<p>&nbsp;public static void sayHello() {<br>&nbsp;&nbsp;System.out.println(&quot;Hello&quot;);<br>&nbsp;}}</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p></p><p dir="ltr"><br>AspectJ的代码</p>
+<blockquote>
+<p></p><p dir="ltr">/<em>*<br>&nbsp;</em> @author Kevin.Huang<br>&nbsp;<em> @date 2007-9-27<br>&nbsp;</em>/<br>public aspect World {</p>
+<blockquote>
+<p></p><p dir="ltr">&nbsp;pointcut greeting():execution(* Test.sayHello(..));</p>
+<p></p><p dir="ltr">&nbsp;after() returning() : greeting() {<br>&nbsp;&nbsp;System.out.println(&quot; World!&quot;);<br>&nbsp;}</p><p dir="ltr">}</p>
+</blockquote>
+</blockquote>
+<p></p><p dir="ltr">这是Eclipse的AspectJ插件上展示的例子,很简单.这个时候运行Test,就会打出Hello World!..World!就是通过AOP加上去的,反编译源代码发现实际上AspectJ就是在Test.class上再加上自己的字节码来实现AOP.所以一定程度上也破坏了封装性,但能跑起来,管他呢.</p>
+<p>现在来看看AspectJ特有的一下语法:</p>
+<p>pointcut&nbsp; :定义了从joinPoint运行的函数,</p>
+<p>execution:定义了AOP运用的范围,有* .. 等通配符可以使用,所以一个aj文件可以为多个同类的方法提供AOP服务</p>
+<p>after,before,around,这些就是指定pointcut&nbsp; 从那里开始运行了..</p>
+<p>after 后面还可以跟return,throw来判断返回的类型,这个可是写事务管理很重要的特性了..</p>
+<p>我这里就简单说说,说太多还怕误人子弟..hoho,自己才刚开始用..</p>
+<p>下面就给大家看看我用AspectJ怎么做了一个事务管理的:</p>
+<p>被管理的DAO(我用的是db4o作为数据库..hoho):</p>
+<blockquote>
+<p>public class DB4ODAO implements IGenericDAO {</p>
+<blockquote>
+<p>&nbsp;/<em>*<br>&nbsp; </em><br>&nbsp; */<br>&nbsp;protected Class&lt; ? extends Base &gt; persistentClass;</p>
+<p>&nbsp;/<em>*<br>&nbsp; </em> @return the persistentClass<br>&nbsp; */<br>&nbsp;public Class&lt; ? extends Base &gt; getPersistentClass() {<br>&nbsp;&nbsp;return persistentClass;<br>&nbsp;}</p>
+<p>&nbsp;/<em>*<br>&nbsp; </em> @param persistentClass<br>&nbsp; <em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the persistentClass to set<br>&nbsp; </em>/<br>&nbsp;public void setPersistentClass(Class&lt; ? extends Base &gt; persistentClass) {<br>&nbsp;&nbsp;this.persistentClass = persistentClass;<br>&nbsp;}</p>
+<p>&nbsp;/<em>*<br>&nbsp; </em> db4o的session<br>&nbsp; */<br>&nbsp;protected ObjectContainer db;</p>
+<p>&nbsp;public void delete(Base entity) {<br>&nbsp;&nbsp;db.delete(entity);<br>&nbsp;}</p>
+<p>&nbsp;public List&lt; ? extends Base &gt; findAll() {<br>&nbsp;&nbsp;return db.query(getPersistentClass());<br>&nbsp;}</p>
+<p>&nbsp;public &lt; K extends Base&gt; List&lt; K &gt; findByExample(K exampleInstance) {<br>&nbsp;&nbsp;return db.get(exampleInstance);<br>&nbsp;}</p>
+<p>&nbsp;public &lt; K extends Base&gt; List&lt; K &gt; findByFilter(Filter filter) {<br>&nbsp;&nbsp;// TODO Auto-generated method stub<br>&nbsp;&nbsp;return null;<br>&nbsp;}</p>
+<p>&nbsp;public &lt; K extends Base&gt; K findById(Serializable id) {<br>&nbsp;&nbsp;Base obj = null;<br>&nbsp;&nbsp;try {<br>&nbsp;&nbsp;&nbsp;obj = getPersistentClass().newInstance();<br>&nbsp;&nbsp;} catch (InstantiationException e) {<br>&nbsp;&nbsp;&nbsp;// XXX 记录异常<br>&nbsp;&nbsp;&nbsp;throw new RuntimeException(&quot;Domain Model is ERROR!&quot;, e);<br>&nbsp;&nbsp;} catch (IllegalAccessException e) {<br>&nbsp;&nbsp;&nbsp;// XXX 记录异常<br>&nbsp;&nbsp;&nbsp;throw new RuntimeException(&quot;Domain Model is ERROR!&quot;, e);<br>&nbsp;&nbsp;}<br>&nbsp;&nbsp;obj.setUuid((String) id);<br>&nbsp;&nbsp;ObjectSet&lt; K &gt; result = db.get(obj);<br>&nbsp;&nbsp;if (result.hasNext()) {<br>&nbsp;&nbsp;&nbsp;return result.next();<br>&nbsp;&nbsp;} else {<br>&nbsp;&nbsp;&nbsp;return null;<br>&nbsp;&nbsp;}<br>&nbsp;}</p>
+<p>&nbsp;public Integer findCountByFilter(Filter filter) {<br>&nbsp;&nbsp;// TODO Auto-generated method stub<br>&nbsp;&nbsp;return null;<br>&nbsp;}</p>
+<p>&nbsp;public &lt; K extends Base&gt; K saveAndUpdate(K entity) {<br>&nbsp;&nbsp;Base obj = findById(entity.getUuid());<br>&nbsp;&nbsp;if (obj != null) {<br>&nbsp;&nbsp;&nbsp;db.ext().bind(entity, db.ext().getID(obj));<br>&nbsp;&nbsp;}<br>&nbsp;&nbsp;db.set(entity);<br>&nbsp;&nbsp;return entity;<br>&nbsp;}</p>
+<p>&nbsp;public ObjectContainer getDb() {<br>&nbsp;&nbsp;return db;<br>&nbsp;}</p>
+<p>&nbsp;public void setDb(ObjectContainer db) {<br>&nbsp;&nbsp;this.db = db;<br>&nbsp;}}</p>
+</blockquote>
+</blockquote>
+<p></p><p dir="ltr">里面的find<em>,save</em>,delete等都需要做事务管理</p>
+<p></p><p dir="ltr">下面就是针对这个DAO的一个aj:</p>
+<blockquote>
+<blockquote>
+<p></p><p dir="ltr">public aspect TransactionDAOAOP {<br>&nbsp;private static final Logger LOGGER = Logger.getLogger(TransactionDAOAOP.class);</p>
+<p></p><p dir="ltr">&nbsp;private ObjectContainer db;</p>
+<p></p><p dir="ltr">&nbsp;private Object joinPoint;</p>
+<p></p><p dir="ltr">&nbsp;pointcut readOnly(DB4ODAO dao):execution(<em> </em>DB4ODAO.find*(..))&amp;&amp;this(dao);</p>
+<p></p><p dir="ltr">&nbsp;pointcut update(DB4ODAO dao):execution(<em> </em>DB4ODAO.save*(..))&amp;&amp;this(dao);</p>
+<p></p><p dir="ltr">&nbsp;pointcut delete(DB4ODAO dao):execution(<em> </em>DB4ODAO.delete(..))&amp;&amp;this(dao);</p>
+<p></p><p dir="ltr">&nbsp;before(DB4ODAO dao) :&nbsp; readOnly(dao) {<br>&nbsp;&nbsp;start(dao, thisJoinPoint);<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;after(DB4ODAO dao) returning()&nbsp; :&nbsp; readOnly(dao) {<br>&nbsp;&nbsp;if (joinPoint.equals(thisJoinPoint)) {<br>&nbsp;&nbsp;&nbsp;close();<br>&nbsp;&nbsp;}<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;after(DB4ODAO dao) throwing():&nbsp; readOnly(dao) {<br>&nbsp;&nbsp;close();<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;before(DB4ODAO dao) :&nbsp; update(dao) {<br>&nbsp;&nbsp;if (LOGGER.isDebugEnabled()) {<br>&nbsp;&nbsp;&nbsp;LOGGER.debug(&quot;before updata @&quot; + dao.toString());<br>&nbsp;&nbsp;}<br>&nbsp;&nbsp;start(dao, thisJoinPoint);<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;after(DB4ODAO dao) returning()&nbsp; :&nbsp; update(dao) {<br>&nbsp;&nbsp;if (joinPoint.equals(thisJoinPoint)) {<br>&nbsp;&nbsp;&nbsp;commit();<br>&nbsp;&nbsp;&nbsp;close();<br>&nbsp;&nbsp;}<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;after(DB4ODAO dao) throwing():&nbsp; update(dao) {<br>&nbsp;&nbsp;rollback();<br>&nbsp;&nbsp;close();<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;before(DB4ODAO dao) :&nbsp; delete(dao) {<br>&nbsp;&nbsp;start(dao, thisJoinPoint);<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;after(DB4ODAO dao) returning()&nbsp; :&nbsp; delete(dao) {<br>&nbsp;&nbsp;if (joinPoint.equals(thisJoinPoint)) {<br>&nbsp;&nbsp;&nbsp;commit();<br>&nbsp;&nbsp;&nbsp;close();<br>&nbsp;&nbsp;}<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;after(DB4ODAO dao) throwin<br>g():&nbsp; delete(dao) {<br>&nbsp;&nbsp;rollback();<br>&nbsp;&nbsp;close();<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;private void start(DB4ODAO dao, Object thisPoint) {<br>&nbsp;&nbsp;if (LOGGER.isDebugEnabled()) {<br>&nbsp;&nbsp;&nbsp;LOGGER.debug(&quot;db is closed? @&quot; + isClose(dao));<br>&nbsp;&nbsp;}<br>&nbsp;&nbsp;if (isClose(dao)) {<br>&nbsp;&nbsp;&nbsp;db = Db4o.openFile(DB4OConfig.getDataPath());<br>&nbsp;&nbsp;&nbsp;dao.setDb(db);<br>&nbsp;&nbsp;&nbsp;joinPoint = thisPoint;<br>&nbsp;&nbsp;}<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;private void commit() {<br>&nbsp;&nbsp;db.commit();<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;private void rollback() {<br>&nbsp;&nbsp;db.rollback();<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;private void close() {<br>&nbsp;&nbsp;db.close();<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;private boolean isClose(DB4ODAO dao) {<br>&nbsp;&nbsp;if (dao.getDb() == null) {<br>&nbsp;&nbsp;&nbsp;return true;<br>&nbsp;&nbsp;} else {<br>&nbsp;&nbsp;&nbsp;return dao.getDb().ext().isClosed();<br>&nbsp;&nbsp;}<br>&nbsp;}</p>
+</blockquote>
+</blockquote>
+<p></p><p dir="ltr">}</p>
+<p>这样一来就为DAO做了AOP了</p>
+<p></p><p dir="ltr">基本的思想就是</p>
+<p></p><p dir="ltr">开始方法前.先判断Session是否开启,如果没有则开启,并作记录是这个方法开启的Session</p>
+<p></p><p dir="ltr">然后再运行中如果有其他的AOP的方法插入,这时Session已开启就不用在开启,最后运行到开始记录的方法结束之后就commit再close</p>
+<p></p><p dir="ltr">如果当中遇到异常则直接rollback并close</p>
+<p></p><p dir="ltr">记录方法的方法是&nbsp;joinPoint = thisJoinPoint;</p>
+<p></p><p dir="ltr">thisJoinPoint是关键字,就是记录了方法开始的点…</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/73/" title="DB4O 的 Filter">
+  <strong>上一篇：</strong><br/>
+  <span>
+  DB4O 的 Filter</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/71/"  title="我的RCP之旅(四)-- Extension">
+ <strong>下一篇：</strong><br/> 
+ <span>我的RCP之旅(四)-- Extension
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="72" data-title="AspectJ初体验" data-url="http://blog.zephyrleaves.net/?p=72"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

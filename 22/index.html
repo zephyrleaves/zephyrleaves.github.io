@@ -1,0 +1,619 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Jakata Poi HSSF：纯java的Excel解决方案 (转) | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="微软在桌面系统上的成功，令我们不得不大量使用它的办公产品，如：Word，Excel。时至今日，它的源代码仍然不公开已封锁了我们的进一步应用和开发。然而在要求更高的服务器领域，微软本身的产品移植性不好，性能不佳。在我们实际的开发中，表现层的解决方案虽然有多样，但是IE浏览器已成为最多人使用的浏览器，因为大家都用Windows。在企业办公系统中，常常有客户这样子要求：你要把我们的报表直接用Excel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jakata Poi HSSF：纯java的Excel解决方案 (转)">
+<meta property="og:url" content="http://blog.zephyrleaves.net/22/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="微软在桌面系统上的成功，令我们不得不大量使用它的办公产品，如：Word，Excel。时至今日，它的源代码仍然不公开已封锁了我们的进一步应用和开发。然而在要求更高的服务器领域，微软本身的产品移植性不好，性能不佳。在我们实际的开发中，表现层的解决方案虽然有多样，但是IE浏览器已成为最多人使用的浏览器，因为大家都用Windows。在企业办公系统中，常常有客户这样子要求：你要把我们的报表直接用Excel">
+<meta property="og:image" content="http://tech.ccidnet.com/pub/attachment/2005/7/470489.jpg">
+<meta property="og:image" content="http://tech.ccidnet.com/pub/attachment/2005/7/470491.jpg">
+<meta property="og:updated_time" content="2015-08-15T04:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jakata Poi HSSF：纯java的Excel解决方案 (转)">
+<meta name="twitter:description" content="微软在桌面系统上的成功，令我们不得不大量使用它的办公产品，如：Word，Excel。时至今日，它的源代码仍然不公开已封锁了我们的进一步应用和开发。然而在要求更高的服务器领域，微软本身的产品移植性不好，性能不佳。在我们实际的开发中，表现层的解决方案虽然有多样，但是IE浏览器已成为最多人使用的浏览器，因为大家都用Windows。在企业办公系统中，常常有客户这样子要求：你要把我们的报表直接用Excel">
+<meta name="twitter:image" content="http://tech.ccidnet.com/pub/attachment/2005/7/470489.jpg">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/22/" title="Jakata Poi HSSF：纯java的Excel解决方案 (转)" itemprop="url">Jakata Poi HSSF：纯java的Excel解决方案 (转)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-10-18T04:18:11.000Z" itemprop="datePublished"> 发表于 2006-10-18</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p><span></span></p>
+<div>微软在桌面系统上的成功，令我们不得不大量使用它的办公产品，如：Word，Excel。时至今日，它的源代码仍然不公开已封锁了我们的进一步应用和开发。然而在要求更高的服务器领域，微软本身的产品移植性不好，性能不佳。<br><br>在我们实际的开发中，表现层的解决方案虽然有多样，但是IE浏览器已成为最多人使用的浏览器，因为大家都用Windows。在企业办公系统中，常常有客户这样子要求：你要把我们的报表直接用Excel打开。<br><br>或者是：我们已经习惯用Excel打印。这样子如果用.net开发是没有问题的，但是有J2EE这个比.net更有前途的开放式的开发环境，难道我为了解决打印的要求去另写客户端的控件？或者在服务器端使用本地代码？第一种方案的问题是关键数据的处理有时候不能在客户端做，第2种方案的问题是牺牲了代码的可移植性和稳定性。如果让客户端只负责处理生成好的报表，那将是一种诱人的选择。<br><br>Apache的Jakata项目的POI子项目，目标是处理ole2对象。目前比较成熟的是HSSF接口，处理MS Excel（97-2002）对象。它不象我们仅仅是用csv生成的没有格式的可以由 Excel转换的东西，而是真正的Excel对象，你可以控制一些属性如sheet,cell等等。<br><br>这是一个年轻的项目，所以象HDF这样直接支持Word对象的好东西仍然在设计中。其它支持word格式的纯Java方案还有itext，不过也是仍在奋斗中。但是HSSF已经成熟到能够和足够我们使用了。<br><br>其实，从开发历史的角度讲，在80年代中期starOffice的原作者在德国成立了StarOffice suite公司，然后到1999年夏天 starOffice被sun收购，再到2000年6月starOffice5.2的发布；并且从starOffice6.0开始，starOffice 建立在OpenOffice的api的基础上，这个公开代码的office项目已经进行了很长的时间。虽然那是由C++写的，但是POI的代码部分也是由 openOffice改过来的。所以，应该对POI充满足够的信心。国内已经有部分公司在他们的办公自动化等Web项目中使用poi了，如日恒的 ioffice，海泰的HTOffice等。<br><br>Java当初把核心处理设成Unicode，带来的好处是另代码适应了多语言环境。然而由于老外的英语只有26个字母，有些情况下，一些程序员用8位的byte处理，一不小心就去掉了CJK的高位。或者是由于习惯在程序中采用硬编码，还有多种原因，使得许多Java应用在CJK的处理上很烦恼。还好在POI HSSF中考虑到这个问题，可以设置encoding为双字节。<br><br>POI可以到www.apache.org下载到。编译好的jar主要有这样4个：poi包,poi Browser包,poi hdf包,poi hssf例程包。实际运行时，需要有poi包就可以了。<br><br>如果用Jakarta ant编译和运行，下载apache Jakarta POI的release中的src包，它里面已经为你生成好了build文件了。只要运行ant就可以了(ant 的安装和使用在此不说了)。如果是用Jbuilder 运行，请在新建的项目中加入poi包。<br><br>以Jbuilder6 为例，选择Tools菜单项的config libraries…选项，新建一个lib。在弹出的菜单中选择poi包，如这个jakarta-poi -1.5.1-final-20020820.jar，把poi添加到jbuilder中。然后，右键点击你的项目，在project的 properties菜单中path的required Libraries中，点add，添加刚才加入到jbuilder中的poi到你现在的项目中。<br><br>如果你仅仅是为了熟悉POI hssf的使用，可以直接看POI的samples包中的源代码，并且运行它。hssf的各种对象都有例程的介绍。hssf提供的例程在org.apache.poi.hssf.usermodel.examples包中，共有14个，生成的目标xls都是 workbook.xls。如果你想看更多的例程，可以参考hssf的Junit test cases，在poi的包的源代码中有。hssf都有测试代码。<br>这里只对部分例程的实现做介绍。<br><br>HSSF提供给用户使用的对象在org.apache.poi.hssf.usermodel包中,主要部分包括Excell对象，样式和格式，还有辅助操作。有以下几种对象：<br><br>HSSFWorkbook excell的文档对象<br><br>HSSFSheet excell的表单<br><br>HSSFRow excell的行<br><br>HSSFCell excell的格子单元<br><br>HSSFFont excell字体<br><br>HSSFName 名称<br><br>HSSFDataFormat 日期格式<br><br>在poi1.7中才有以下2项：<br><br>HSSFHeader sheet头<br><br>HSSFFooter sheet尾<br><br>和这个样式<br><br>HSSFCellStyle cell样式<br><br>辅助操作包括<br><br>HSSFDateUtil 日期<br><br>HSSFPrintSetup 打印<br><br>HSSFErrorConstants 错误信息表<br><br>仔细看org.apache.poi.hssf包的结构，不难发现HSSF的内部实现遵循的是MVC模型。<br><br>这里我用Rose把org.apache.poi.hssf.usermodel包中的对象反向导入并根据相互关系作了整理，详见下面两图：<br><br></div>
+
+<div align="center"><img src="http://tech.ccidnet.com/pub/attachment/2005/7/470489.jpg" alt=""></div>
+
+<div><br><br></div>
+
+<div align="center">图1 基本对象</div>
+
+<div><br><br>从中不难可以发现每一个基本对象都关联了一个Record对象。Record对象是一个参考Office格式的相关记录。<br><br></div>
+
+<div align="center"><img src="http://tech.ccidnet.com/pub/attachment/2005/7/470491.jpg" alt=""></div>
+
+<div><br><br></div>
+
+<div align="center">图2 HSSFWorkbook</div>
+
+<div><br><br>HSSFWorkbook即是一个Excell对象。这幅类图体现的是HSSFWorkbook和基本对象的相互关系。可见，许多对象中也建立了Workbook的引用。还需要注意的是在HSSFWorkbook和HSSFSheet中建立了log机制 POILogger，而且POILogger也是使用apache Log4J实现的。<br><br>先看poi的examples包中提供的最简单的例子，建立一个空xls文件。<br><br>import org.apache.poi.hssf.usermodel.HSSFWorkbook;<br><br>import java.io.FileOutputStream;<br><br>import java.io.IOException;<br><br>public class NewWorkbook<br><br>{<br><br>public static void main(String[] args)<br><br>throws IOException<br><br>{<br><br>HSSFWorkbook wb = new HSSFWorkbook();<br>//建立新HSSFWorkbook对象<br><br>FileOutputStream fileOut =<br>new FileOutputStream(&quot;workbook.xls&quot;）;<br><br>wb.write(fileOut);<br>//把Workbook对象输出到文件workbook.xls中<br><br>fileOut.close();<br><br>}<br><br>}<br><br>通过这个例子，我们建立的是一个空白的xls文件（不是空文件）。在此基础上，我们可以进一步看其它的例子。<br><br>import org.apache.poi.hssf.usermodel.*;<br><br>import java.io.FileOutputStream;<br><br>import java.io.IOException;<br><br>public class CreateCells<br><br>{<br><br>public static void main(String[] args)<br><br>throws IOException<br><br>{<br><br>HSSFWorkbook wb = new HSSFWorkbook();<br>//建立新HSSFWorkbook对象<br><br>HSSFSheet sheet = wb.createSheet(&quot;new sheet&quot;）;<br>//建立新的sheet对象<br><br>// Create a row and put some cells in it.<br>Rows are 0 based.<br><br>HSSFRow row = sheet.createRow((short)0);<br>//建立新行<br><br>// Create a cell and put a value in it.<br><br>HSSFCell cell = row.createCell((short)0);<br>//建立新cell<br><br>cell.setCellvalue(1);//设置cell的整数类型的值<br><br>// Or do it on one line.<br><br>row.createCell((short)1).setCellvalue(1.2);<br>//设置cell浮点类型的值<br><br>row.createCell((short)2).setCellvalue(&quot;test&quot;）;<br>//设置cell字符类型的值<br><br>row.createCell((short)3).setCellvalue(true)<br>;<br>//设置cell布尔类型的值<br><br>HSSFCellStyle cellStyle = wb.createCellStyle();<br>//建立新的cell样式<br><br>cellStyle.setDataFormat<br>(HSSFDataFormat.getFormat(&quot;m/d/yy h:mm&quot;））;<br>//设置cell样式为定制的日期格式<br><br>HSSFCell dCell =row.createCell((short)4);<br><br>dCell.setCellvalue(new Date());<br>//设置cell为日期类型的值<br><br>dCell.setCellStyle(cellStyle);<br>//设置该cell日期的显示格式<br><br>HSSFCell csCell =row.createCell((short)5);<br><br>csCell.setEncoding(HSSFCell.ENCODING_UTF_16);<br>//设置cell编码解决中文高位字节截断<br><br>csCell.setCellvalue(&quot;中文测试_Chinese Words Test&quot;）;<br>//设置中西文结合字符串<br><br>row.createCell((short)6).setCellType<br>(HSSFCell.CELL_TYPE_ERROR);<br>//建立错误cell<br><br>// Write the output to a file<br><br>FileOutputStream fileOut =<br>new FileOutputStream(&quot;workbook.xls&quot;）;<br><br>wb.write(fileOut);<br><br>fileOut.close();<br><br>}<br><br>}<br><br>我稍微修改了原来的examples包中的CreateCells类写了上面的功能测试类。通过这个例子，我们可以清楚的看到xls文件从大到小包括了 HSSFWorkbook HSSFSheet HSSFRow HSSFCell这样几个对象。我们可以在cell中设置各种类型的值。<br><br>尤其要注意的是如果你想正确的显示非欧美的字符时，尤其象中日韩这样的语言，必须设置编码为16位的即是HSSFCell.ENCODING_UTF_16，才能保证字符的高8位不被截断而引起编码失真形成乱码。<br><br>其他测试可以通过参考examples包中的测试例子掌握poi的详细用法，包括字体的设置，cell大小和低纹的设置等。需要注意的是POI是一个仍然在完善中的公开代码的项目，所以有些功能正在不断的扩充。<br><br>如HSSFSheet 的getFooter() getHeader()和setFooter(HSSFFooter hsf) setHeader (HSSFHeader hsh)是在POI1.7中才有的，而POI1.5中就没有。运行测试熟悉代码或者使用它做项目时请注意POI的版本。<br><br>另外需要注意的是HSSF也有它的对xls基于事件的解析。可以参考例程中的EventExample.java。它通过实现HSSFListener完成从普通流认知Xls中包含的内容，在apache Cocoon中的 org.apache.cocoon.serialization.HSSFSerializer中用到了这个解析。因为Cocoon2是基于事件的，所以POI为了提供快速的解析也提供了相应的事件。当然我们自己也可以实现这个事件接口。<br><br>因为POI还不是一个足够成熟的项目，所以有必要做进一步的开发和测试。但是它已经为我们用纯Java操作ole2对象提供了可能，而且克服了ole对象调用的缺陷，提供了服务器端的Excel解决方案。 </div>
+
+<div> </div>
+
+<div><strong>在Java中读写Excel文件</strong></div>
+
+<div>Jakarta的POI项目提供了一组操纵Windows文档的Java API，如下几个类提供了操作Excel文件的方便的途径： HSSFWorkbook、HSSFSheet、HSSFRow、HSSFCell，分别代表了Excel电子表格中的Book、Sheet、行和单元格。<br>你可以在下面地址下载到最新的POI工具包：<br>    <a href="http://jakarta.apache.org/poi/index.html" target="_blank" rel="external"><u><font color="#0000ff">http://jakarta.apache.org/poi/index.html</font></u></a><br>下面的代码创建一个Excel文件test.xls，并在第一行的第一格中写入一条消息：<br><br><div><br><br>1.  <strong><font color="#0000ff">import</font></strong> org.apache.poi.hssf.usermodel.<em>;2.  <strong><font color="#0000ff">import</font></strong> java.io.<strong><a href="http://www.javaresearch.org/source/jdk142/java/io/FileOutputStream.java.html" target="_blank" rel="external"><font color="#0000ff"><u>FileOutputStream</u></font></a></strong>;3.  <li>_<font color="#339900">// code run against the jakarta-poi-1.5.0-FINAL-20020506.jar.</font>_4.  <strong><font color="#0000ff">public</font></strong> <strong><font color="#0000ff">class</font></strong> PoiTest {5.  </li><li>    <strong><font color="#0000ff">static</font></strong> <strong><font color="#0000ff">public</font></strong> <strong><font color="#0000ff">void</font></strong> main(<strong><a href="http://www.javaresearch.org/source/jdk142/java/lang/String.java.html" target="_blank" rel="external"><font color="#0000ff"><u>String</u></font></a></strong>[] args) <strong><font color="#0000ff">throws</font></strong> <strong><a href="http://www.javaresearch.org/source/jdk142/java/lang/Exception.java.html" target="_blank" rel="external"><font color="#0000ff"><u>Exception</u></font></a></strong> {6.  <strong><a href="http://www.javaresearch.org/source/jdk142/java/io/FileOutputStream.java.html" target="_blank" rel="external"><font color="#0000ff"><u>FileOutputStream</u></font></a></strong> fos = <strong><font color="#0000ff">new</font></strong> <strong><a href="http://www.javaresearch.org/source/jdk142/java/io/FileOutputStream.java.html" target="_blank" rel="external"><font color="#0000ff"><u>FileOutputStream</u></font></a></strong>(<font color="#ff33ff">&quot;d:\test.xls&quot;</font>);7.  HSSFWorkbook wb = <strong><font color="#0000ff">new</font></strong> HSSFWorkbook();8.  HSSFSheet s = wb.createSheet();9.  wb.setSheetName(0, <font color="#ff33ff">&quot;first sheet&quot;</font>);10.  HSSFRow row = s.createRow(0);11.  HSSFCell cell = row.createCell(0);12.  cell.setCellValue(<font color="#ff33ff">&quot;Hello! This message is generated from POI.&quot;</font>);13.  wb.write(fos);14.  fos.close();15.  }16.  </li><li>}</li></em></div><br>读取Excel文件时，首先生存一个POIFSFileSystem对象，由POIFSFileSystem对象构造一个HSSFWorkbook，该HSSFWorkbook对象就代表了Excel文档。下面代码读取上面生成的Excel文件写入的消息字串：<br><div><br><br>1.  POIFSFileSystem fs = <strong><font color="#0000ff">null</font></strong>;2.  HSSFWorkbook wb = <strong><font color="#0000ff">null</font></strong>;3.  <li>    <strong><font color="#0000ff">try</font></strong> {4.  fs = <strong><font color="#0000ff">new</font></strong> POIFSFileSystem(<strong><font color="#0000ff">new</font></strong> <font color="#ff0000">FileInputStream</font>(<font color="#ff33ff">&quot;d:\test.xls&quot;</font>));5.  wb = <strong><font color="#0000ff">new</font></strong> HSSFWorkbook(fs);6.  } <strong><font color="#0000ff">catch</font></strong> (<font color="#ff0000">IOException</font> e) {7.  e.printStackTrace();8.  }9.  HSSFSheet sheet = wb.getSheetAt(0);  ////获取第一张Sheet表10.  HSSFRow row = sheet.getRow(0);  // 第1行11.  HSSFCell cell = row.getCell((<strong><font color="#0000ff">short</font></strong>) 0); // 第1列的单元格12.  <em>*<a href="http://www.javaresearch.org/source/jdk142/java/lang/String.java.html" target="_blank" rel="external"><font color="#0000ff"><u>String</u></font></a></em> msg = cell.getStringCellValue();</li></div></div>
+
+<p></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/569/" title="可怜的本命年">
+  <strong>上一篇：</strong><br/>
+  <span>
+  可怜的本命年</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/21/"  title="Linux下安装WebSphere Application Server">
+ <strong>下一篇：</strong><br/> 
+ <span>Linux下安装WebSphere Application Server
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="22" data-title="Jakata Poi HSSF：纯java的Excel解决方案 (转)" data-url="http://blog.zephyrleaves.net/?p=22"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

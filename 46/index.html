@@ -1,0 +1,642 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>面向搜索引擎的URL设计 | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="版权声明：可以任意转载，转载时请务必以超链接形式标明文章原始出处和作者信息及本声明http://www.chedong.com/tech/google_url.html
+关键词：&amp;quot;url rewrite&amp;quot; mod_rewrite isapi rewrite path_info iis &amp;quot;search engine friendly&amp;quot;
+内容摘要：不得不承认，将">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面向搜索引擎的URL设计">
+<meta property="og:url" content="http://blog.zephyrleaves.net/46/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="版权声明：可以任意转载，转载时请务必以超链接形式标明文章原始出处和作者信息及本声明http://www.chedong.com/tech/google_url.html
+关键词：&amp;quot;url rewrite&amp;quot; mod_rewrite isapi rewrite path_info iis &amp;quot;search engine friendly&amp;quot;
+内容摘要：不得不承认，将">
+<meta property="og:updated_time" content="2015-08-15T04:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面向搜索引擎的URL设计">
+<meta name="twitter:description" content="版权声明：可以任意转载，转载时请务必以超链接形式标明文章原始出处和作者信息及本声明http://www.chedong.com/tech/google_url.html
+关键词：&amp;quot;url rewrite&amp;quot; mod_rewrite isapi rewrite path_info iis &amp;quot;search engine friendly&amp;quot;
+内容摘要：不得不承认，将">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/46/" title="面向搜索引擎的URL设计" itemprop="url">面向搜索引擎的URL设计</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-01-12T09:18:13.000Z" itemprop="datePublished"> 发表于 2007-01-12</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#把URI地址用作参数传递：URL-REWRITE"><span class="toc-number">1.</span> <span class="toc-text">把URI地址用作参数传递：URL REWRITE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于PATH-INFO的URL美化"><span class="toc-number">2.</span> <span class="toc-text">基于PATH_INFO的URL美化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附：如何在IIS上利用PHP支持PATH-INFO"><span class="toc-number">3.</span> <span class="toc-text">附：如何在IIS上利用PHP支持PATH_INFO</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解包目录"><span class="toc-number"></span> <span class="toc-text">解包目录</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP-INI初始化文件"><span class="toc-number"></span> <span class="toc-text">PHP.INI初始化文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置文件关联"><span class="toc-number"></span> <span class="toc-text">配置文件关联</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#运行库文件"><span class="toc-number"></span> <span class="toc-text">运行库文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装ariadne的PATCH"><span class="toc-number"></span> <span class="toc-text">安装ariadne的PATCH</span></a>
+		
+		</div>
+		
+		<p>版权声明：可以任意转载，转载时请务必以超链接形式标明文章原始出处和作者信息及本声明<br><a href="http://www.chedong.com/tech/google_url.html" target="_blank" rel="external">http://www.chedong.com/tech/google_url.html</a></p>
+<p>关键词：&quot;url rewrite&quot; mod_rewrite isapi rewrite path_info iis &quot;search engine friendly&quot;</p>
+<p>内容摘要：不得不承认，将动态网页链接rewriting成静态链接是最保险和稳定的面向搜索引擎优化方式</p>
+<p>此外随着互联网上的内容以惊人速度的增长也越来越突出了搜索引擎的重要性，如果网站想更好地被搜索引擎收录，网站设计除了面向用户友好（User Friendly）外，<a href="http://www.chedong.com/tech/google.html" target="_blank" rel="external">搜索引擎友好（Search Engine Friendly）的设计也是非常重要的</a>。进入搜索引擎的页面内容越多，则被用户用不同的关键词找到的几率越大。<a href="http://pr.efactory.de/e-number-of-pages.shtml" target="_blank" rel="external">在Google的算法调查</a>一文中提到一个站点被Google索引页面的数量其实对PageRank也是有一定影响的。由于Google 突出的是整个网络中相对静态的部分（动态网页索引量比较小）,链接地址相对固定的静态网页比较适合被Google索引（怪不得很多大网站的邮件列表归档和BLOG按日期归档的文档很容被搜的到），因此很多关于面向搜索引擎 URL设计优化(URI Pretty)的文章中提到了很多利用一定机制将动态网页参数变成像静态网页的形式：<br>比如可以将：<a href="http://phpunixman.sourceforge.net/index.php?mode=man&amp;parameter=ls" target="_blank" rel="external"><br>http://phpunixman.sourceforge.net/index.php?mode=man&amp;parameter=ls</a><br>变成：<br><a href="http://phpunixman.sourceforge.net/index.php/man/ls" target="_blank" rel="external">http://phpunixman.sourceforge.net/index.php/man/ls</a></p>
+<p>实现方式主要有2种：</p>
+<ul>
+<li><a href="http://www.chedong.com/tech/google_url.html#rewrite" target="_blank" rel="external">基于url rewrite</a><br><a href="http://www.helicontech.com/download/" target="_blank" rel="external">IIS的ISAPI REWRITE下载（免费）</a>*   <a href="http://www.chedong.com/tech/google_url.html#path_info" target="_blank" rel="external">基于path_info</a></li>
+</ul>
+<h2 id="把URI地址用作参数传递：URL-REWRITE"><a href="#把URI地址用作参数传递：URL-REWRITE" class="headerlink" title="把URI地址用作参数传递：URL REWRITE"></a><a name="rewrite"></a>把URI地址用作参数传递：URL REWRITE</h2><p>最简单的是基于各种WEB服务器中的URL重写转向（Rewrite）模块的URL转换：<br>这样几乎可以不修改程序的实现将 news.asp?id=234 这样的链接映射成 news/234.html，从外面看上去和静态链接一样。Apache服务器上有一个模块（非缺省）：mod_rewrite：URL REWRITE功能之强大足够写上一本书。</p>
+<p>当我需要将将news.asp?id=234的映射成news/234.html时，只需设置：<br>RewriteRule /news/(\d+).html /news.asp\?id=$1 [N,I]<br>这样就把 /news/234.html 这样的请求映射成了 /news.asp?id=234<br>当有对/news/234.html的请求时：web服务器会把实际请求转发给/news.asp?id=234</p>
+<p>而在IIS也有相应的REWRITE模块：比如<a href="http://www.helicontech.com/" target="_blank" rel="external">ISAPI REWRITE</a>和<a href="http://www.qwerksoft.com/products/iisrewrite/" target="_blank" rel="external">IIS REWRITE</a>，语法都是基于正则表达式，因此配置几乎和apache的mod_rewrite是相同的：</p>
+<p>比对于某一个简单应用可以是：<br>RewriteRule /news/(\d+).html /news/news.php\?id=$1 [N,I]<br>这样就把 <a href="http://www.chedong.com/news/234.html" target="_blank" rel="external">http://www.chedong.com/news/234.html</a> 映射到了 <a href="http://www.chedong.com/news/news.php?id=234" target="_blank" rel="external">http://www.chedong.com/news/news.php?id=234</a></p>
+<p>一个更通用的能够将所有的动态页面进行参数映射的表达式是：<br>把 <a href="http://www.myhost.com/foo.php?a=A&amp;b=B&amp;c=C" target="_blank" rel="external">http://www.myhost.com/foo.php?a=A&amp;b=B&amp;c=C</a><br>表现成 <a href="http://www.myhost.com/foo.php/a/A/b/B/c/C。" target="_blank" rel="external">http://www.myhost.com/foo.php/a/A/b/B/c/C。</a><br>RewriteRule (.<em>?.php)(\?[^/]</em>)?/([^/]<em>)/([^/]</em>)(.+?)?$1(?2$2&amp;:\?)$3=$4?5$5: [N,I] </p>
+<p>以下是针对phpBB的一个Apache mod_rewrite配置样例：</p>
+<pre>    RewriteEngine On
+    RewriteRule /forum/topic_(.+)\.html$  /forum/viewtopic.php?t=$1 [L]
+    RewriteRule /forum/forum_(.+)\.html$ /forum/viewforum.php?f=$1 [L]
+    RewriteRule /forum/user_(.+)\.html$  /forum/profile.php?mode=viewprofile&u=$1  [L]
+</pre>
+
+<p>这样设置后就可以通过topic_1234.html forum_2.html user_34.html这样的链接访问原来的动态页面了。</p>
+<p>通过URL REWRITE还有一些好处：<br>mod_rewrite和isapirewrite基本兼容，但是还是有些不同，比如：isapirewrite中&quot;?&quot;需要转义成&quot;\?&quot;，mod_rewrite不用，isapirewrite支持 &quot;\d+&quot; （全部数字），mod_rewrite不支持 </p>
+<ul>
+<li>隐藏后台实现：这在后台应用平台的迁移时非常有用：当从asp迁移到java平台时，对于前台用户来说，根本感受不到后台应用的变化；*   简化数据校验：因为像(\d+)这样的参数，可以有效的控制数字的格式甚至位数；</li>
+</ul>
+<p>比如我们需要将应用从news.asp?id=234迁移成news.php?query=234时，前台的表现可以一直保持为 news/234.html。从实现应用和前台表现的分离：保持了URL的稳定性，而使用mod_rewrite甚至可以把请求转发到其他后台服务器上。</p>
+<h2 id="基于PATH-INFO的URL美化"><a href="#基于PATH-INFO的URL美化" class="headerlink" title="基于PATH_INFO的URL美化"></a><a name="path_info"></a>基于PATH_INFO的URL美化</h2><p>Url美化的另外一个方式就是基于PATH_INFO：<br>PATH_INFO是一个CGI 1.1的标准，经常发现很多跟在CGI后面的&quot;/value_1/value_2&quot;就是PATH_INFO参数：<br>比如：<a href="http://phpunixman.sourceforge.net/index.php/man/ls" target="_blank" rel="external">http://phpunixman.sourceforge.net/index.php/man/ls</a> 中：$PATH_INFO = &quot;/man/ls&quot;</p>
+<p>PATH_INFO是CGI标准，因此PHP Servlet等都有的支持。比如Servlet中就有request.getPathInfo()方法。<br>注意：/myapp/servlet/Hello/foo的 getPathInfo()返回的是/foo，而/myapp/dir/hello.jsp/foo的getPathInfo()将返回的 /hello.jsp，从这里你也可以知道jsp其实就是一个Servlet的PATH_INFO参数。ASP不支持PATH_INFO<br>PHP中基于PATH_INFO的参数解析的例子如下：<br>//注意：参数按&quot;/&quot;分割，第一个参数是空的：从/param1/param2中解析出$param1 $param2这2个参数<br>if ( isset($_SERVER[&quot;PATH_INFO&quot;]) ) {<br>    list($nothing, $param1, $param2) = explode(‘/‘, $_SERVER[&quot;PATH_INFO&quot;]);<br>}</p>
+<p>如何隐蔽应用：例如 .php，的扩展名：<br>在APACHE中这样配置：<br>&lt;FilesMatch &quot;^app_name$&quot;&gt;<br>    ForceType application/x-httpd-php<br>&lt;/FilesMatch&gt;</p>
+<p>如何更像静态页面：app_name/my/app.html<br>解析的PATH_INFO参数的时候，把最后一个参数的最后5个字符“.html”截断即可。<br>注意：APACHE2中缺省是不允许PATH_INFO的，需要设置 AcceptPathInfo on</p>
+<p>特别是针对使用虚拟主机用户，无权安装和配置mod_rewrite的时候，PATH_INFO往往就成了唯一的选择。</p>
+<p>OK，这样以后看见类似于<a href="http://www.example.com/article/234这样的网页你就知道可能是" target="_blank" rel="external">http://www.example.com/article/234这样的网页你就知道可能是</a> article/show.php?id=234这个php程序生成的动态网页，很多站点表面看上去可能有很多静态目录，其实很有可能都是使用1，2个程序实现的内容发布。比如很多WIKIWIKI系统都使用了这个机制：整个系统就一个简单的wiki程序，而看上去的目录其实都是这个应用拿后面的地址作为参数的查询结果。</p>
+<p>利用基于MOD_REWRITE/PATH_INFO ＋ CACHE服务器的解决方案对原有的动态发布系统进行改造，也可以大大降低旧有系统升级到新的内容管理系统的成本。并且方便了搜索引擎收录入索引。</p>
+<h2 id="附：如何在IIS上利用PHP支持PATH-INFO"><a href="#附：如何在IIS上利用PHP支持PATH-INFO" class="headerlink" title="附：如何在IIS上利用PHP支持PATH_INFO"></a><a name="page"></a>附：如何在IIS上利用PHP支持PATH_INFO</h2><p>PHP的ISAPI模式安装备忘：只试成 php-4.2.3-Win32</p>
+<h1 id="解包目录"><a href="#解包目录" class="headerlink" title="解包目录"></a>解包目录</h1><p>php-4.2.3-Win32.zip c:\php</p>
+<h1 id="PHP-INI初始化文件"><a href="#PHP-INI初始化文件" class="headerlink" title="PHP.INI初始化文件"></a>PHP.INI初始化文件</h1><p>复制：c:\php\php.ini-dist 到 c:\winnt\php.ini</p>
+<h1 id="配置文件关联"><a href="#配置文件关联" class="headerlink" title="配置文件关联"></a>配置文件关联</h1><p>按照install.txt中的说明配置文件关联</p>
+<h1 id="运行库文件"><a href="#运行库文件" class="headerlink" title="运行库文件"></a>运行库文件</h1><p>复制 c:\php\php4ts.dll 到 c:\winnt\system32\php4ts.dll</p>
+<p>这样运行后：会发现php把PATH_INFO映射到了物理路径上<br>Warning: Unknown(C:\CheDong\Downloads\ariadne\www\test.php\path): failed to create stream: No such file or directory in Unknown on line 0</p>
+<p>Warning: Unknown(): Failed opening ‘C:\CheDong\Downloads\ariadne\www\test.php\path’ for inclusion (include_path=’.;c:\php4\pear’) in Unknown on line 0</p>
+<h1 id="安装ariadne的PATCH"><a href="#安装ariadne的PATCH" class="headerlink" title="安装ariadne的PATCH"></a>安装ariadne的PATCH</h1><p>停止IIS服务<br>net stop iisadmin<br>ftp://ftp.muze.nl/pub/ariadne/win/iis/php-4.2.3/php4isapi.dll<br>覆盖原有的c:\php\sapi\php4isapi.dll</p>
+<p>注：<br>ariadne是一个基于PATH_INFO的内容发布系统，<br>PHP 4.3.2 RC2中CGI模式的PATH_INFO已经修正，照常安装即可。</p>
+<p>参考资料：<br>URL Rewrite文档：<br><a href="http://www.isapirewrite.com/docs/" target="_blank" rel="external">ISAPI REWRITE文档</a><br><a href="http://www.isapirewrite.com/download/" target="_blank" rel="external">IIS的ISAPI REWRITE下载（免费）</a><br><a href="http://httpd.apache.org/docs/mod/mod_rewrite.html" target="_blank" rel="external">http://httpd.apache.org/docs/mod/mod_rewrite.html</a><br><a href="http://httpd.apache.org/docs-2.0/mod/mod_rewrite.html" target="_blank" rel="external">http://httpd.apache.org/docs-2.0/mod/mod_rewrite.html</a></p>
+<p>搜索引擎友好的URL设计<br><a href="http://www.sitepoint.com/article/485" target="_blank" rel="external">http://www.sitepoint.com/article/485</a><br><span>说不定这个URL原来就是articel.php?id=485<br></span></p>
+<p>一个基于PATH_INFO的开源内容管理系统<br><a href="http://typo3.com/" target="_blank" rel="external">http://typo3.com/</a></p>
+<p>Google的PageRank算法说明：<br><a href="http://pr.efactory.de/" target="_blank" rel="external">http://pr.efactory.de/</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Web应用/">Web应用</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/47/" title="Internet Explorer Developer Toolbar Beta ..解脱了">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Internet Explorer Developer Toolbar Beta ..解脱了</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/45/"  title="Web OS eXo 帅">
+ <strong>下一篇：</strong><br/> 
+ <span>Web OS eXo 帅
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="46" data-title="面向搜索引擎的URL设计" data-url="http://blog.zephyrleaves.net/?p=46"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#把URI地址用作参数传递：URL-REWRITE"><span class="toc-number">1.</span> <span class="toc-text">把URI地址用作参数传递：URL REWRITE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于PATH-INFO的URL美化"><span class="toc-number">2.</span> <span class="toc-text">基于PATH_INFO的URL美化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#附：如何在IIS上利用PHP支持PATH-INFO"><span class="toc-number">3.</span> <span class="toc-text">附：如何在IIS上利用PHP支持PATH_INFO</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解包目录"><span class="toc-number"></span> <span class="toc-text">解包目录</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP-INI初始化文件"><span class="toc-number"></span> <span class="toc-text">PHP.INI初始化文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置文件关联"><span class="toc-number"></span> <span class="toc-text">配置文件关联</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#运行库文件"><span class="toc-number"></span> <span class="toc-text">运行库文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装ariadne的PATCH"><span class="toc-number"></span> <span class="toc-text">安装ariadne的PATCH</span></a>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

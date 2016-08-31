@@ -1,0 +1,691 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>元数据编程运用 | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="我比较推崇通过尽量利用编程中的元数据配合一些规约来进行功能实现.这里的元数据包括字段名,字段类型,方法名等等等等,任何你在编程的时候输入的字符实际上都可以作为元数据的一种,所以这篇文章的中心思想就是让你输入的每个字符都有含义,并且利用这些含义 .那么通过利用每个字符的含义可以大大节省代码量从而提高编码效率 .下面就是通过一些例子和技巧来展示这个思想.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="元数据编程运用">
+<meta property="og:url" content="http://blog.zephyrleaves.net/799/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="我比较推崇通过尽量利用编程中的元数据配合一些规约来进行功能实现.这里的元数据包括字段名,字段类型,方法名等等等等,任何你在编程的时候输入的字符实际上都可以作为元数据的一种,所以这篇文章的中心思想就是让你输入的每个字符都有含义,并且利用这些含义 .那么通过利用每个字符的含义可以大大节省代码量从而提高编码效率 .下面就是通过一些例子和技巧来展示这个思想.">
+<meta property="og:updated_time" content="2015-08-15T08:29:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="元数据编程运用">
+<meta name="twitter:description" content="我比较推崇通过尽量利用编程中的元数据配合一些规约来进行功能实现.这里的元数据包括字段名,字段类型,方法名等等等等,任何你在编程的时候输入的字符实际上都可以作为元数据的一种,所以这篇文章的中心思想就是让你输入的每个字符都有含义,并且利用这些含义 .那么通过利用每个字符的含义可以大大节省代码量从而提高编码效率 .下面就是通过一些例子和技巧来展示这个思想.">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/799/" title="元数据编程运用" itemprop="url">元数据编程运用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2014-10-15T03:37:19.000Z" itemprop="datePublished"> 发表于 2014-10-15</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#iOS上的元数据运用"><span class="toc-number">1.</span> <span class="toc-text">iOS上的元数据运用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Runtime-Programming"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">Runtime Programming</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Metamarco"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">Metamarco</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java上的元数据运用"><span class="toc-number">2.</span> <span class="toc-text">Java上的元数据运用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#反射"><span class="toc-number">2.0.0.1.</span> <span class="toc-text">反射</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#AnnotationProcessor"><span class="toc-number">2.0.0.2.</span> <span class="toc-text">AnnotationProcessor</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Groovy元数据编程"><span class="toc-number">3.</span> <span class="toc-text">Groovy元数据编程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后说一句"><span class="toc-number">4.</span> <span class="toc-text">最后说一句</span></a></li></ol>
+		
+		</div>
+		
+		<p>我比较推崇通过尽量利用编程中的元数据配合一些规约来进行功能实现.这里的元数据包括字段名,字段类型,方法名等等等等,任何你在编程的时候输入的字符实际上都可以作为元数据的一种,所以这篇文章的中心思想就是<strong><em>让你输入的每个字符都有含义,并且利用这些含义</em></strong> .那么通过利用每个字符的含义可以大大节省代码量从而提高编码效率 .下面就是通过一些例子和技巧来展示这个思想.</p>
+<a id="more"></a>
+<p>这里可以通过Objective-C/Java/Groovy上的一些应用来展示,我们先说一下iOS上的开发</p>
+<h2 id="iOS上的元数据运用"><a href="#iOS上的元数据运用" class="headerlink" title="iOS上的元数据运用"></a>iOS上的元数据运用</h2><p>Objective-C(下面简称OC)这门语言是个挺有意思,它是基于C之上来构建的一门语言,所以它可以使用C中的一切,但是作为一门强静态语言,他的运用时又极其的动态,所以在iOS之上进行元数据编程就很有乐趣</p>
+<h5 id="Runtime-Programming"><a href="#Runtime-Programming" class="headerlink" title="Runtime Programming"></a>Runtime Programming</h5><p>OC的Reference里面专门有一章是讲 <a href="https://developer.apple.com/library/mac/documentation/cocoa/conceptual/ObjCRuntimeGuide/Introduction/Introduction.html" target="_blank" rel="external">Runtime Programming</a> 的,具体里面的原理大家可以看文档,这里就讲一下一些具体的实例.</p>
+<p>首先要做到元数据编程就需要能先拿到元数据,OC提供的库里面通过 <code>#import &amp;lt;objc/runtime.h&amp;gt;</code> 就能找到大部分的方法去拿到元数据.包括获取Class,Protocol,objc&#95;property&#95;t,Ivar,Method,Category,SEL,IMP,objc&#95;method&#95;description,objc&#95;cache,objc&#95;property&#95;attribute&#95;t<br>基本都能拿到和进行操作,如果大家对上面的定义每个含义都能很清楚的了解那么对OC的整个语言实现体系,也能有一个大概的认识了.</p>
+<p>现在先看一个例子来说明元数据编程的作用, 最近凌飞推荐了一个Json的库<a href="https://github.com/icanzilb/JSONModel/" target="_blank" rel="external">JsonModel</a> 在上面的例子里看到了一个对象的定义</p>
+<pre><code>@protocol ProductModel
+@end
+
+@interface ProductModel : JSONModel
+@property (assign, nonatomic) int id;
+@property (strong, nonatomic) NSString* name;
+@property (assign, nonatomic) float price;
+@end
+
+@implementation ProductModel
+@end
+
+@interface OrderModel : JSONModel
+@property (assign, nonatomic) int order_id;
+@property (assign, nonatomic) float total_price;
+@property (strong, nonatomic) NSArray&amp;lt;ProductModel&amp;gt;* products;
+@end
+
+@implementation OrderModel
+@end
+</code></pre><p> 可以看到其中最有意思的一行<code>@property (strong, nonatomic) NSArray&amp;lt;ProductModel, ConvertOnDemand&amp;gt;* products;</code> 这一行表示定义了一个属性products 它的类型是一个NSArray,而且让它被反序列化的时候这个NSArray里面被放入的对象是ProductModel这个类型. 这个描述是不是和Java的泛型很像啊,但是OC这门语言实际上是不支持泛型的,那它是怎么做到的呢.</p>
+<p> 我们看<code>NSArray&amp;lt;ProductModel&amp;gt;</code> 这个写法,这是一个Protocol的用法,也就是说ProductModel是一个Protocol,所以我们看到是有</p>
+<pre><code>@protocol ProductModel
+@end
+</code></pre><p> 这样的定义在上面的.那么<code>NSArray&amp;lt;ProductModel&amp;gt;</code>中的ProductModel实际上是指<code>@protocol ProductModel</code>,而不是<code>@interface ProductModel</code>,那就是说<a href="https://github.com/icanzilb/JSONModel/" target="_blank" rel="external">JsonModel</a>的作者只是利用的一个技巧,将和类相同名字的Protocol作为其元数据的传递被利用起来,做到代码的美观和语义的丰满.</p>
+<p> 现在我们看到里元数据的利用,我们再来看具体实现是怎么把这个元数据利用起来的.首先我们要拿到这个属性的元数据,我们通过<code>objc_property_t *properties = class_copyPropertyList(class, &amp;amp;propertyCount);</code> 这个方法拿到这个类下面所有的属性, 然后再通过<code>const char *attrs = property_getAttributes(property);</code>拿到属性的属性.可以看到属性的属性实际上是一个字符串 那么<code>@property (strong, nonatomic) NSArray&amp;lt;ProductModel&amp;gt;* products;</code>这个属性的属性被取出来是这样子的:<code>T@&quot;NSArray&amp;lt;ProductModel&amp;gt;&quot;,&amp;amp;,N,V_products</code> 通过分析这个字符串我们就能拿到这个属性字段的类型包括描述它的那个Protocol,那么利用这个Protocol和类相同名字的这个规约,我们就能拿到,我们约定的这个属性NSArray需要包含的数据的类型了,然后在反序列化Json的时候就能准确的知道需要反序列化的类型,而不再是单纯的NSDictionary了.</p>
+<p> 上面的那个例子就可以看到利用元数据可以帮助实现一些很技巧却也带来很有效的节省工作量的做法,就是利用元数据将原先需要重复手工ObjectMapping的步骤通过元数据被抽象到框架上层进行封装,而对使用者透明,从而提高了整个编码效率.</p>
+<h5 id="Metamarco"><a href="#Metamarco" class="headerlink" title="Metamarco"></a>Metamarco</h5><p> 由于OC是基于C的,而C有一个很有意思的东西就是宏(marco),利用marco我们也能进行针对macro的元数据编程,来达到一些很不可思议的效果.</p>
+<p> 我推荐看这个实现<a href="https://github.com/jspahrsummers/libextobjc/blob/master/extobjc/metamacros.h" target="_blank" rel="external">metamacros.h</a>, 这是一个<a href="https://github.com/jspahrsummers/libextobjc" target="_blank" rel="external">libextobjc</a>下的一个针对marco进行元数据操纵的头文件,里面提供了很多利用marco进行元数据编程的define, 可以进行计算,判断,拼接的功能.</p>
+<p> 由于marco是在编译器被执行的,所以marco可以做到在编译期做强制检查的功能,在编译期就能讲错误暴露出来.</p>
+<p> 这里举一个例子来看,见<a href="https://github.com/jspahrsummers/libextobjc/blob/master/extobjc/EXTKeyPathCoding.h" target="_blank" rel="external">EXTKeyPathCoding.h</a></p>
+<pre><code>**
+ * \@keypath allows compile-time verification of key paths. Given a real object
+ * receiver and key path:
+ *
+ * @code
+
+NSString *UTF8StringPath = @keypath(str.lowercaseString.UTF8String);
+// =&amp;gt; @&quot;lowercaseString.UTF8String&quot;
+
+NSString *versionPath = @keypath(NSObject, version);
+// =&amp;gt; @&quot;version&quot;
+
+NSString *lowercaseStringPath = @keypath(NSString.new, lowercaseString);
+// =&amp;gt; @&quot;lowercaseString&quot;
+
+ * @endcode
+ *
+ * ... the macro returns an \c NSString containing all but the first path
+ * component or argument (e.g., @&quot;lowercaseString.UTF8String&quot;, @&quot;version&quot;).
+ *
+ * In addition to simply creating a key path, this macro ensures that the key
+ * path is valid at compile-time (causing a syntax error if not), and supports
+ * refactoring, such that changing the name of the property will also update any
+ * uses of \@keypath.
+ */
+#define keypath(...) \
+    metamacro_if_eq(1, metamacro_argcount(__VA_ARGS__))(keypath1(__VA_ARGS__))(keypath2(__VA_ARGS__))
+
+#define keypath1(PATH) \
+    (((void)(NO &amp;amp;&amp;amp; ((void)PATH, NO)), strchr(# PATH, &apos;.&apos;) + 1))
+
+#define keypath2(OBJ, PATH) \
+    (((void)(NO &amp;amp;&amp;amp; ((void)OBJ.PATH, NO)), # PATH))
+</code></pre><p> 我们知道OC中的keypath在运行时是以字符串的形式存在的,那么如果开发者改了字段名,而没有改使用中的keypath的话,那么在运行时就会出现错误,且不容易被发现,但是如果使用上面定义的@keypath的宏来获取keypath那么他在编译器就会做一次检查这个字段名是否存在,提早报出错误.</p>
+<p> metamarco的使用场景还有很多,比如根据规约生成有关联的方法名(见<a href="https://github.com/alibaba/MBMvc/blob/master/MBMvc/Bindable/TBMBBind.h" target="_blank" rel="external">TBMBBind.h</a>中<code>TBMBWhenThisKeyPathChange</code>的使用)便于自动注册等等,等待大家的挖掘.</p>
+<h2 id="Java上的元数据运用"><a href="#Java上的元数据运用" class="headerlink" title="Java上的元数据运用"></a>Java上的元数据运用</h2><p> Java有着很强大的反射系统(不过感觉还是没有OC强,不过用起来比OC方便多了),可以很容易的获取到元数据,而且配合Annotation可以衍生出很多元数据类型来,同样的在Java5之后,提供了AnnotationProcessor这等神器,也让Java有了预编译这个阶段,可以发挥很多作用出来.</p>
+<h5 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h5><p> 通过反射我们能拿到最大多数元数据,包括Type(Class是Type的一种),Field,Method,Constructor,Package,Annotation等,这里我还是通过举一些例子来看怎么利用起来.</p>
+<p> 看一个例子:<a href="https://github.com/alibaba/tdhs-java-client/blob/master/src/main/java/com/taobao/tdhs/client/request/Filter.java" target="_blank" rel="external">Filter.java</a></p>
+<p> 其中看它的字段定义</p>
+<pre><code>public class Filter implements Request {
+    private String _field;
+
+    private int _____flag;
+
+    private String _value;
+</code></pre><p>可以看到字段名被以下划线作为开始.为什么要这么做呢.<a href="https://github.com/alibaba/tdhs-java-client" target="_blank" rel="external">tdhs-java-client</a> 是一个网络客户端,里面涉及到做序列化,这里因为性能考虑使用了TLV这种很简单的序列化协议,而这边由于考虑到协议的变换,将序列化功能单独抽象出来到<a href="https://github.com/alibaba/tdhs-java-client/blob/master/src/main/java/com/taobao/tdhs/client/protocol/TDHSProtocolBinary.java" target="_blank" rel="external">TDHSProtocolBinary.java</a>,那么就需要被序列化的字段的元数据由字段本身来维护.所以这里使用了一下几个元数据</p>
+<ol>
+<li>字段名: 以下划线为字段名开始的字段表示这个字段是需要被序列化的,如果是4个下划线开始的字段表示这个int是以32位int被序列化否则是8位的大小被序列化.</li>
+<li>字段书写顺序: 字段被书写时的顺序,也被用作序列化成TLV时的字段顺序.</li>
+</ol>
+<p>从这个例子可以看出利用这些元数据,就能减少很多编码,如果没用可能每个对象都需要实现一个encode方法来实现编码.而现在就能被直接抽象到一个专门的Encode类中来进行序列化了,后续有新的对象也能很透明的被加进来.</p>
+<p>当然从优雅的角度而言,用Annotation来表明这些属性是最好的,但是不幸的是 java.lang.reflect.Field#getAnnotation 的性能比较差,在高并发下很耗CPU(主要是getAnnotation没有做cache),最后选择了直接使用字段名来做利用.</p>
+<hr>
+<p>当然上面的例子是一个比较极端的例子,一般情况下Java是善于使用Annotation来元数据传递的.举一个Modulet的例子</p>
+<pre><code>@Component
+@Desc(&quot;发布Feed&quot;)
+@NeedUserAuth
+@MtopConfig(dataToParameter = true, hsfMethodName = &quot;publishFeed&quot;)
+public class PublishFeedModulet implements Modulet&amp;lt;FeedParam, FeedId&amp;gt; 
+</code></pre><p>这段代码对PublishFeedModulet这个类,有4个Annotation进行描述,我们这里就说下@NeedUserAuth这个Annotation,打上这个Annotation的Modulet表示调用到Modulet的时候是需要用户验证的,说白了就是需要登录的,但是判断登录的代码并不会写在这个Modulet里面,而是在调用链上的一个拦截器上被判断,那么判断是否登录和获取登录信息的逻辑就被抽象到拦截器上,而通过获取具体Modulet上是否有@NeedUserAuth这个元数据,将用户验证逻辑直接复用到Modulet上来.</p>
+<hr>
+<p>还有一个很容易被忽略的元数据就是泛型.泛型不单单只能被用来做类型限制,也能在运用时被取出来做一些处理</p>
+<p>还是上面的Modulet,我们可以看到有<code>Modulet&amp;lt;FeedParam, FeedId&amp;gt;</code> 这里表面了Modulet的输入和输出的类型FeedParam 和 FeedId, 那么在运行时可以通过<code>Type[] genericInterfaces = aClass.getGenericInterfaces();</code> 拿到Type然后在这个Type(实际上是ParameterizedType)里拿到泛型的类型,然后通过这个泛型的具体类型 再去做具体的反序列化到这个类型是实例然后传递进来.</p>
+<p>还有一个很好的例子就是<a href="https://developer.jboss.org/wiki/GenericDataAccessObjects?_sscc=t" target="_blank" rel="external">Generic Data Access Objects</a> 通过利用泛型,将可复用的逻辑很容易的集中起来.</p>
+<h5 id="AnnotationProcessor"><a href="#AnnotationProcessor" class="headerlink" title="AnnotationProcessor"></a>AnnotationProcessor</h5><p>对于AnnotationProcessor的利用,最有说服力的就是<a href="http://projectlombok.org/" target="_blank" rel="external">lombok</a>了,他通过Annotation或者直接的字段名等元数据信息在编译期直接生成代码的方式,让你大大节省一些重复的编码,比如说生成Getter/Setter/ToString等等,但是debug的时候就有的苦逼了,嘿嘿</p>
+<p>但是道理和上面的反射是一样的,AnnotationProcessor提供了一种在编译期获取元数据的方式,并且可以让我们能利用这些元数据做一些事情.只不过利用这个元数据的过程是在编译期而不是运行时.</p>
+<h2 id="Groovy元数据编程"><a href="#Groovy元数据编程" class="headerlink" title="Groovy元数据编程"></a>Groovy元数据编程</h2><p>Groovy是一个很有意思的语言,首先他是一个动态语言,所以在它上面做元数据编程是一件很容易的事情,所以衍生出来的做一级DSL也会很容易.</p>
+<p>网上关于Groovy Metaprogramming的文章有很多大家可以自己去搜索查看.这里就不多写了.</p>
+<p>推荐一篇写的比较全面介绍的文章<a href="https://www.packtpub.com/books/content/metaprogramming-and-groovy-mop" target="_blank" rel="external">METAPROGRAMMING AND THE GROOVY MOP</a></p>
+<p><em>主要是写的累了,休息一下</em></p>
+<h2 id="最后说一句"><a href="#最后说一句" class="headerlink" title="最后说一句"></a>最后说一句</h2><p>元数据编程本身是一种高度抽象,很多时候表现和实现是高度分离的,基本都是靠一些规约维系其中的关系.所以使用过程中对于后续的维护者还是review者都有很大的学习成本.所以也要节制的去使用,因为爱是节制~</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Groovy/">Groovy</a><a href="/tags/iOS/">iOS</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/795/"  title="一个程序员的管理思考">
+ <strong>下一篇：</strong><br/> 
+ <span>一个程序员的管理思考
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="799" data-title="元数据编程运用" data-url="http://blog.zephyrleaves.net/?p=799"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#iOS上的元数据运用"><span class="toc-number">1.</span> <span class="toc-text">iOS上的元数据运用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Runtime-Programming"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">Runtime Programming</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Metamarco"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">Metamarco</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java上的元数据运用"><span class="toc-number">2.</span> <span class="toc-text">Java上的元数据运用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#反射"><span class="toc-number">2.0.0.1.</span> <span class="toc-text">反射</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#AnnotationProcessor"><span class="toc-number">2.0.0.2.</span> <span class="toc-text">AnnotationProcessor</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Groovy元数据编程"><span class="toc-number">3.</span> <span class="toc-text">Groovy元数据编程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后说一句"><span class="toc-number">4.</span> <span class="toc-text">最后说一句</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

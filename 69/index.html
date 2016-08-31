@@ -1,0 +1,655 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>我的RCP之旅(二) -- IAdaptable | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="&amp;nbsp;IAdaptable在Eclipse里是一个非常重要的接口。
+乍看IAdaptable是不是想到了Adapter模式..恩~~,他们的作用的确是差不多的.. IAdaptable也算是对Adapter模式的一种扩展.不过比之普通的Adapter模式, IAdaptable显得是那么的强大&amp;hellip;
+&amp;nbsp;
+Adapter模式是能够将没有接口的实现,通过Adapter这个接口">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的RCP之旅(二) -- IAdaptable">
+<meta property="og:url" content="http://blog.zephyrleaves.net/69/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="&amp;nbsp;IAdaptable在Eclipse里是一个非常重要的接口。
+乍看IAdaptable是不是想到了Adapter模式..恩~~,他们的作用的确是差不多的.. IAdaptable也算是对Adapter模式的一种扩展.不过比之普通的Adapter模式, IAdaptable显得是那么的强大&amp;hellip;
+&amp;nbsp;
+Adapter模式是能够将没有接口的实现,通过Adapter这个接口">
+<meta property="og:updated_time" content="2015-08-15T04:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我的RCP之旅(二) -- IAdaptable">
+<meta name="twitter:description" content="&amp;nbsp;IAdaptable在Eclipse里是一个非常重要的接口。
+乍看IAdaptable是不是想到了Adapter模式..恩~~,他们的作用的确是差不多的.. IAdaptable也算是对Adapter模式的一种扩展.不过比之普通的Adapter模式, IAdaptable显得是那么的强大&amp;hellip;
+&amp;nbsp;
+Adapter模式是能够将没有接口的实现,通过Adapter这个接口">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/69/" title="我的RCP之旅(二) -- IAdaptable" itemprop="url">我的RCP之旅(二) -- IAdaptable</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-08-06T07:25:59.000Z" itemprop="datePublished"> 发表于 2007-08-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p></p><p style="margin: 0cm 0cm 0pt" class="MsoNormal"><span><font face="Calibri"><span>&nbsp;</span>IAdaptable</font></span><span style="font-family: 宋体">在</span><span><font face="Calibri">Eclipse</font></span><span style="font-family: 宋体">里是一个非常重要的接口。</span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 5.25pt" class="MsoNormal"><span style="font-family: 宋体">乍看</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">是不是想到了</span><span><font face="Calibri">Adapter</font></span><span style="font-family: 宋体">模式</span><span><font face="Calibri">..</font></span><span style="font-family: 宋体">恩</span><span><font face="Calibri">~~,</font></span><span style="font-family: 宋体">他们的作用的确是差不多的</span><span><font face="Calibri">.. IAdaptable</font></span><span style="font-family: 宋体">也算是对</span><span><font face="Calibri">Adapter</font></span><span style="font-family: 宋体">模式的一种扩展</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">不过比之普通的</span><span><font face="Calibri">Adapter</font></span><span style="font-family: 宋体">模式</span><span><font face="Calibri">, IAdaptable</font></span><span style="font-family: 宋体">显得是那么的强大</span><span><font face="Calibri">&hellip;</font></span></p>
+<p><span><font face="Calibri">&nbsp;</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 5.25pt" class="MsoNormal"><span><font face="Calibri">Adapter</font></span><span style="font-family: 宋体">模式是能够将没有接口的实现</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">通过</span><span><font face="Calibri">Adapter</font></span><span style="font-family: 宋体">这个接口来体现出来</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">说白了这个实现还是存在的</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">而</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">做的不是添加接口来体现实现</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">他甚至可以将整个接口都改变</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">在数据保留的情况下将实现都改变</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">或者添加新的实现</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">所以</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">做的最多的是类型的转换</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">而且最主要的是这一切都可以是动态的</span><span><font face="Calibri">.</font></span></p>
+<p><span><font face="Calibri">&nbsp;</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 5.25pt" class="MsoNormal"><span style="font-family: 宋体">下面来看看</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">是怎么运作的</span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 26.25pt;text-indent: -21pt" class="MsoListParagraph"><span><span><font face="Calibri">1.</font><span style="font: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span style="font-family: 宋体">单单使用</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">接口</span><span><font face="Calibri">(</font></span><span style="font-family: 宋体">静态的</span><span><font face="Calibri">)</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: -21pt" class="MsoListParagraph"><span><span><font face="Calibri">a)</font><span style="font: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span style="font-family: 宋体">普通的类型转换</span><span><font face="Calibri">: </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 68.25pt;text-indent: 0cm" class="MsoListParagraph"><span><font face="Calibri">Object o = new ArrayList(); </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 15.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;</span>List list = (List)o</font></span><span style="font-family: 宋体">；</span></p>
+<p></p><p style="margin: 0cm 0cm 0pt" class="MsoNormal"><span><span><font face="Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></span></span><span style="font-family: 宋体">这种转换还是比较常见的</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">那我看来看看用</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">是怎么转换的</span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: -21pt" class="MsoListParagraph"><span><span><font face="Calibri">b)</font><span style="font: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span style="font-family: 宋体">通过</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">进行类型转换</span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp; </span>IAdaptable adaptable = new ArrayList(); </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 105pt;text-indent: -57.75pt" class="MsoNormal"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp; </span>//</font></span><span style="font-family: 宋体">注：这里的</span><span><font face="Calibri">ArrayList</font></span><span style="font-family: 宋体">不是指</span><span><font face="Calibri"> java.util.ArrayList </font></span><span style="font-family: 宋体">而是实现了</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">接口的一个</span><span><font face="Calibri">ArrayList</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 15.75pt" class="MsoListParagraph"><span><font face="Calibri">List list = (List)adaptable.getAdapter(java.util.List.class);</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 15.75pt" class="MsoListParagraph"><span style="font-family: 宋体">这就是上面所说的动态类型转换，我们所做的事情是试图把</span><span><font face="Calibri"> adaptable</font></span><span style="font-family: 宋体">转换为一个</span><font face="Calibri"> <span>List</span></font><span style="font-family: 宋体">实例。大家一定会想这不是对此一举么</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">但是如果我们想把一个</span><span><font face="Calibri">HashMap</font></span><span style="font-family: 宋体">通过</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">转换成一个</span><span><font face="Calibri">List.</font></span><span style="font-family: 宋体">这个时候</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">的威力就体现出来了</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">如下</span><span><font face="Calibri">:</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt" class="MsoListParagraph"><span><font face="Calibri">IAdaptable adaptable = new HashMap(); </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 105pt;text-indent: -57.75pt" class="MsoNormal"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp; </span>//</font></span><span style="font-family: 宋体">注：这里的</span><span><font face="Calibri">HashMap</font></span><span style="font-family: 宋体">不是指</span><span><font face="Calibri"> java.util. HashMap</font></span><span style="font-family: 宋体">而是实现了</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">接口的一个</span><span><font face="Calibri">HashMap</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 15.75pt" class="MsoListParagraph"><span><font face="Calibri">List list = (List)adaptable.getAdapter(java.util.List.class);</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 15.75pt" class="MsoListParagraph"><span style="font-family: 宋体">我们来看看这个</span><span><font face="Calibri">getAdapter</font></span><span style="font-family: 宋体">是怎么实现的</span><span><font face="Calibri">:</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 15.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp; </span>public class HashMap implements IAdaptable { </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 42pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;</span>public Object getAdapter(Class clazz) { </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp; </span>if (clazz == java.util.List.class) {</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp; </span>List list = new ArrayList(this.size()); </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp; </span>list.addAll(this.values()); </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 105pt" class="MsoNormal"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp; </span>return list; </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp; </span>} </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp; </span>return null; </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 99.75pt" class="MsoNormal"><span><font face="Calibri">}</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 15.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp; </span><span>&nbsp;</span>&hellip;&hellip;.</font></span></p>
+<p><span style="font-size: 11.5pt"><font face="Calibri">}</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 44pt;text-indent: -23pt" class="MsoNormal"><span style="font-size: 11.5pt"><span><font face="Calibri">&nbsp;&nbsp;&nbsp; </font></span></span><span style="font-size: 11.5pt;font-family: 宋体">大家可以看到当</span><span style="font-size: 11.5pt"><font face="Calibri">clazz</font></span><span style="font-size: 11.5pt;font-family: 宋体">是</span><span style="font-size: 11.5pt"><font face="Calibri">List</font></span><span style="font-size: 11.5pt;font-family: 宋体">的时候</span><span><font face="Calibri">getAdapter</font></span><span style="font-family: 宋体">就会将</span><span><font face="Calibri">HashMap</font></span><span style="font-family: 宋体">转化为</span><span><font face="Calibri">List</font></span><span style="font-family: 宋体">如果还想将</span><span><font face="Calibri">HashMap</font></span><span style="font-family: 宋体">转为其他类型的话</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">只要再加一个</span><span><font face="Calibri">if(){}</font></span><span style="font-family: 宋体">就可以了</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">但是大家一定也觉得如果要增加一种转换类型就需要直接修改</span><span><font face="Calibri">HashMap</font></span><span style="font-family: 宋体">的源码并重新编译</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">这样做好像并不符合</span><span><font face="Calibri">Eclipse</font></span><span style="font-family: 宋体">的风格</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">所以</span><span><font face="Calibri">Eclipse</font></span><span style="font-family: 宋体">将他进一步抽象</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">提供了一个</span><span><font face="Calibri">PlatformObject</font></span><span style="font-family: 宋体">抽象类并通过</span><span><font face="Calibri">AdapterManager</font></span><span style="font-family: 宋体">来管理各种</span><span><font face="Calibri">adapter.</font></span><span style="font-family: 宋体">这样大家可以通过配置文件动态的添加</span><span><font face="Calibri">adapter</font></span><span style="font-family: 宋体">来动态的对一个类添加功能</span><span><font face="Calibri">..</font></span><span style="font-family: 宋体">大家往下看</span></p>
+<p><span style="font-size: 11.5pt"><span><font face="Calibri">2.</font><span style="font: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span style="font-size: 11.5pt;font-family: 宋体">通过</span><span style="font-size: 11.5pt"><font face="Calibri">IAdapterManager</font></span><span style="font-size: 11.5pt;font-family: 宋体">管理</span><span style="font-size: 11.5pt"><font face="Calibri">Adapter(</font></span><span style="font-size: 11.5pt;font-family: 宋体">动态的</span><span style="font-size: 11.5pt"><font face="Calibri">)</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 26.25pt" class="MsoNormal"><span style="font-family: 宋体">要通过</span><span><font face="Calibri">IAdapterManager</font></span><span style="font-family: 宋体">来管理</span><span><font face="Calibri">Adapter,</font></span><span style="font-family: 宋体">那需要转换的对象就要继承</span><span><font face="Calibri">PlatformObject, PlatformObject</font></span><span style="font-family: 宋体">里已经实现了</span><span><font face="Calibri">getAdapter:</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri">public Object getAdapter(Class adapter) {</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp; </span>return AdapterManager.getDefault().getAdapter(this, adapter);</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri">}</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 26.25pt" class="MsoNormal"><span style="font-family: 宋体">可以看到它是调用了</span><span><font face="Calibri">AdapterManager</font></span><span style="font-family: 宋体">的</span><span><font face="Calibri">getAdapter</font></span><span style="font-family: 宋体">来实现转换</span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 26.25pt" class="MsoNormal"><span style="font-family: 宋体">再看</span><span><font face="Calibri">AdapterManager</font></span><span style="font-family: 宋体">的</span><span><font face="Calibri">getAdapter</font></span><span style="font-family: 宋体">的源码</span><span><font face="Calibri">:</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri">public Object getAdapter(Object adaptable, Class adapterType) {</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>IAdapterFactory factory = (IAdapterFactory) getFactories(adaptable.getClass()).get(adapterType.getName());</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Object result = null;</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></font></span></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (factory != null)</p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>result = factory.getAdapter(adaptable, adapterType);</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if (result == null &amp;&amp; adapterType.isInstance(adaptable))</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>return adaptable;</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>return result;</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 21pt" class="MsoNormal"><span style="font-family: 宋体">可以看到它是将具体的转换实现封装在</span><span><font face="Calibri">IAdapterFactory</font></span><span style="font-family: 宋体">中</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">通过</span><span><font face="Calibri">IAdapterFactory. getAdapter</font></span><span style="font-family: 宋体">来实现转换</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">那具体的</span><span><font face="Calibri">IAdapterFactory</font></span><span style="font-family: 宋体">就得大家自己来实现了</span><span><font face="Calibri">.</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 21pt" class="MsoNormal"><span style="font-family: 宋体">记得还要将这个</span><span><font face="Calibri">IAdapterFactory</font></span><span style="font-family: 宋体">注册到</span><span><font face="Calibri">platform</font></span><span style="font-family: 宋体">上如下</span><span><font face="Calibri">:</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri">Platform.getAdapterManager().registerAdapters( </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp; </span>new NodeListFactory(), List.class </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp; </span>);</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 15.75pt" class="MsoNormal"><span><font face="Calibri">(NodeListFactory</font></span><span style="font-family: 宋体">就是具体封装实现的那个</span><span><font face="Calibri">IAdapterFactory)</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 15.75pt" class="MsoNormal"><span><font face="Calibri">,</font></span><span style="font-family: 宋体">不然</span><span><font face="Calibri">AdapterManager</font></span><span style="font-family: 宋体">可不知道要去调那个</span><span><font face="Calibri">IAdapterFactory.</font></span></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Eclipse/">Eclipse</a><a href="/tags/RCP/">RCP</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/70/" title="我的RCP之旅(三) -- MVC">
+  <strong>上一篇：</strong><br/>
+  <span>
+  我的RCP之旅(三) -- MVC</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/68/"  title="我的RCP之旅(一) -- My First RCP">
+ <strong>下一篇：</strong><br/> 
+ <span>我的RCP之旅(一) -- My First RCP
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="69" data-title="我的RCP之旅(二) -- IAdaptable" data-url="http://blog.zephyrleaves.net/?p=69"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

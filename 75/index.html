@@ -1,0 +1,703 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java与Groovy的整合 | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="Groovy是构建在JVM上的一个轻量级却强大的动态语言.因为Groovy就是用Java写的,Groovy可以做到与Java的无缝兼容,可以使用Java强大的类库 而且Groovy最终也会被编译成class文件. 
+Groovy在1.0版的时候还存在性能问题,因为Groovy的很多实现都是用反射来做的,但是现在Groovy 1.1快推出了,据说快了10x…现在JetBrains也加入了Groovy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java与Groovy的整合">
+<meta property="og:url" content="http://blog.zephyrleaves.net/75/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="Groovy是构建在JVM上的一个轻量级却强大的动态语言.因为Groovy就是用Java写的,Groovy可以做到与Java的无缝兼容,可以使用Java强大的类库 而且Groovy最终也会被编译成class文件. 
+Groovy在1.0版的时候还存在性能问题,因为Groovy的很多实现都是用反射来做的,但是现在Groovy 1.1快推出了,据说快了10x…现在JetBrains也加入了Groovy">
+<meta property="og:updated_time" content="2015-08-15T04:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java与Groovy的整合">
+<meta name="twitter:description" content="Groovy是构建在JVM上的一个轻量级却强大的动态语言.因为Groovy就是用Java写的,Groovy可以做到与Java的无缝兼容,可以使用Java强大的类库 而且Groovy最终也会被编译成class文件. 
+Groovy在1.0版的时候还存在性能问题,因为Groovy的很多实现都是用反射来做的,但是现在Groovy 1.1快推出了,据说快了10x…现在JetBrains也加入了Groovy">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/75/" title="Java与Groovy的整合" itemprop="url">Java与Groovy的整合</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-10-23T05:35:42.000Z" itemprop="datePublished"> 发表于 2007-10-23</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>Groovy是构建在JVM上的一个轻量级却强大的动态语言.因为Groovy就是用Java写的,Groovy可以做到与Java的无缝兼容,可以使用Java强大的类库 而且Groovy最终也会被编译成class文件. </p>
+<p>Groovy在1.0版的时候还存在性能问题,因为Groovy的很多实现都是用反射来做的,但是现在Groovy 1.1快推出了,据说快了10x…现在JetBrains也加入了Groovy Team旨在改善Groovy的性能,在Groovy2.0的时候还可能加上JIT,那性能就不成问题了,看来Groovy已经不是小打小闹了.而且随之而来的Grail.等基于Groovy的框架的推出,Groovy前景一片大好啊. </p>
+<p>这篇文章不是为了讲Groovy的一些语法,而是说他怎么和Java做整合. </p>
+<ul>
+<li>静态使用Groory</li>
+</ul>
+<blockquote>
+<blockquote>
+<p>1.运行Groovy类. </p>
+<blockquote>
+<p>Groovy最终是会被编译成Java 的Class类的,所以Java是可以直接使用Groovy的类的. </p>
+<p>如下,先是一个Groovy类: </p>
+<p>package com.test; </p>
+<p>class TestGroovyHelloWorld {<br>def doit(){<br>println &quot;hello world!&quot;<br>}<br>} </p>
+<p>此类定义了一个doit方法,打印出hello world!字符串 </p>
+<p>然后看看Java怎么用这个类: </p>
+<p>package com.test; </p>
+<p>public class TestHelloWorld { </p>
+<p>/** </p>
+<ul>
+<li>@param args<br>*/<br>public static void main(String[] args) {<br>TestGroovyHelloWorld test = new TestGroovyHelloWorld();<br>test.doit(); </li>
+</ul>
+<p>} </p>
+<p>} </p>
+<p>运行一下,果然打出了hello world! </p>
+<p>很简单吧,只要直接import就行了.hoho,而且定义一个GroovyBean比定义一个JavaBean要简单的多的多.</p><p dir="ltr">2.运行Groovy脚本 </p>
+<p></p><p dir="ltr">实际上和Groovy类差不多,只不过Groovy类是集成自GroovyObject,而Groovy脚本是集成GroovyScript的,实际看看例子吧 </p>
+<p></p><p dir="ltr">Groovy脚本: </p>
+<p></p><p dir="ltr">package com.test; </p>
+<p></p><p dir="ltr">println &quot;$test hello world!&quot; </p>
+<p></p><p dir="ltr">也很简单,就是打出hello world!不同的时候前面加上了$test ,这个有点类似与FreeMarker的格式($test也可以写成${test}),作用也是一样,通过外部将test参数引入,可以将$test替换成一个对象.看看下面Java怎么做的吧: </p>
+<p></p><p dir="ltr">public class TestMain { </p>
+<p></p><p dir="ltr">/** </p>
+<ul>
+<li>@param args<br>*/<br>public static void main(String[] args) {<br>Binding b = new Binding();<br>b.setVariable(&quot;test&quot;, &quot;Kevin&quot;);//向脚本中的$test传入对象&quot;Kevin&quot;<br>Script test = new TestScript(b);<br>test.run();<br>}<br>} </li>
+</ul>
+<p></p><p dir="ltr">打印出来一看是Kevin hello world!了..</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<ul>
+<li><div>动态使用Groovy </div>
+
+</li>
+</ul>
+<blockquote>
+<p>Groovy是一个动态的脚本语言,如果只是向上面那样静态的使用,那优势就少了一半,既然是动态语言,那就看看怎么动态的去使用Groovy吧 </p>
+<p>1.通过接口,动态载入并使用Groovy类 </p>
+<blockquote>
+<p><span><span style="font-family: Century">(1)</span></span><span style="font-family: SimSun">、定义</span><span><span style="font-family: Century">Java</span></span><span style="font-family: SimSun">接口包含在</span><span><span style="font-family: Century">Java</span></span><span style="font-family: SimSun">中需要调用的</span><span><span style="font-family: Century">Groovy</span></span><span style="font-family: SimSun">方法</span> </p>
+<p>public interface IFoo {<br>public Object run(Object foo);<br>} </p>
+<p>(2)、创建Groovy类实现该接口 </p>
+<p>class Foo implements IFoo {<br>public Object run(Object foo) {<br>println ‘Hello World!’<br>x = 123<br>foo * 10<br>}<br>} </p>
+<p>(3)、动态载入Groovy类，创建接口实例，调用接口中定义的方法 </p>
+<p>import groovy.lang.GroovyClassLoader;<br>import java.io.File;<br>public class InvokeGroovy {<br>public static void main(String[] args) {<br>ClassLoader cl = new InvokeGroovy().getClass().getClassLoader();<br>GroovyClassLoader groovyCl = new GroovyClassLoader(cl);<br>try {<br>Class groovyClass = groovyCl.parseClass(new File(&quot;src/Foo.groovy&quot;));<br>IFoo foo = (IFoo) groovyClass.newInstance();<br>System.out.println(foo.run(new Integer(2)));<br>} catch (Exception e) {<br>e.printStackTrace();<br>}<br>}<br>}</p><p dir="ltr">上面的方法是通过定义好接口来动态载入,如果没有接口怎么办…办法还是有的,那就是传说中的反射..Groovy也支持反射哦 </p>
+</blockquote>
+<p></p><p dir="ltr">2.通过反射,动态载入并使用Groovy类 </p>
+<blockquote>
+<p></p><p dir="ltr">import groovy.lang.GroovyClassLoader;<br>import groovy.lang.GroovyObject;<br>import java.io.File;<br>public class DynamicGroovy {<br>private GroovyObject groovyObject;<br>public Object getProperty(String name) {<br>return groovyObject.getProperty(name);<br>}<br>public Object invokeScriptMethod(String scriptName, String methodName, Object[] args) {<br>ClassLoader parent = getClass().getClassLoader();<br>GroovyClassLoader loader = new GroovyClassLoader(parent);<br>try {<br>Class groovyClass = loader.parseClass(new File(scriptName));<br>groovyObject = (GroovyObject) groovyClass<br>.newInstance();<br>return groovyObject.invokeMethod(methodName, args);<br>} catch (Exception e) {<br>e.printStackTrace();<br>return null;<br>}<br>}<br>public static void main(String[] args) {<br>DynamicGroovy dynamicGroovy = new DynamicGroovy();<br>Object[] params = {new Integer(2)};<br>Object result = dynamicGroovy.invokeScriptMethod(&quot;src/Foo.groovy&quot;, &quot;run&quot;, params);<br>System.out.println(result);<br>System.out.println(dynamicGroovy.getProperty(&quot;x&quot;));<br>}<br>}</p><p dir="ltr">3.动态的载入Groovy脚本 </p>
+</blockquote>
+<p></p><p dir="ltr">动态载入脚本就更简单了,因为Groovy提供了一个方法evaluate,,和javascript的eval很像吧: </p>
+<blockquote>
+<p></p><p dir="ltr">import groovy.lang.Binding;<br>import groovy.lang.GroovyShell; </p>
+<p></p><p dir="ltr">public class TestEval { </p>
+<p></p><p dir="ltr">public Object doit() {<br>Binding bb = new Binding();<br>bb.setVariable(&quot;test&quot;, &quot;hello world!&quot;);<br>GroovyShell gs = new GroovyShell(bb);<br>return gs.evaluate(&quot;println test&quot;);<br>} </p>
+<p></p><p dir="ltr">/** </p>
+<ul>
+<li>@param args<br>*/<br>public static void main(String[] args) {<br>TestEval te = new TestEval();<br>te.doit(); </li>
+</ul>
+<p></p><p dir="ltr">} </p>
+<p></p><p dir="ltr">}</p><p dir="ltr">简单吧,通过evaluate一个字符串就行了,evaluate还支持脚本文件和类文件哦….功能很强大的.</p>
+</blockquote>
+</blockquote>
+<ul>
+<li><div>Groovy与流行框架的集成 </div>
+
+</li>
+</ul>
+<blockquote>
+<p>1.与Spring的集成 </p>
+<p>现在Spring的核心包就提供了与Groovy的集成了,,很好,很强大,这样就可以显示业务逻辑的动态改变了 </p>
+<blockquote>
+<p>由于Groovy的代码中也有描述Java代码的机制，因此两者合用非常容易<br>Spring Bean: </p>
+<p>代码<br>class=&quot;org.springframework.beans.factory.groovy.GroovyFactory&quot;&gt;<br>20 </p>
+<p>下面是groovy的例子: </p>
+<p>代码<br>factory-bean=&quot;groovyScriptFactory&quot;<br>factory-method=&quot;create&quot;&gt; </p>
+<p>SimpleHello.groovy </p>
+<p>groovy文件: </p>
+<p>代码<br>package org.springframework.beans.factory.groovy; </p>
+<p>class Test implements Hello { </p>
+<p>String sayHello() {<br>&quot;hello world&quot;<br>}<br>}</p><p dir="ltr">2.与webwork的集成 </p>
+<p></p><p dir="ltr">在WebWork2中，可以使用Groovy实<br>现Action类来简化代码，提高编码效率 </p>
+<p></p><p dir="ltr">例子： </p>
+<p></p><p dir="ltr">package web </p>
+<p>import java.util.Date </p>
+<p>import org.apache.commons.logging.Log<br>import org.apache.commons.logging.LogFactory </p>
+<p>import com.opensymphony.xwork.ActionSupport </p>
+<p>class GroovyAction extends ActionSupport { </p>
+<p>protected final Log logger = LogFactory.getLog(getClass()) </p>
+<p>private String now </p>
+<p>String execute() {<br>now = &quot;${new Date()}&quot;<br>logger.info(&quot;returning view with ${now}&quot;) </p>
+<p>&quot;success&quot;<br>} </p>
+<p>void setNow(String now) {<br>this.now = now<br>} </p>
+<p>String getNow() {<br>now<br>} </p>
+<p>}<br>上面的Action类是Groovy类，同样扩展ActionSupport，这里要注意： </p>
+<p></p><p dir="ltr">execute()方法没有throws Exception语句，这是因为目前的Groovy还没有这个Java特性，这需要在以后的版本中增加；如果添加，编译会报错 </p>
+<p></p><p dir="ltr">execute()方法返回时，不要使用类似SUCCESS的常量，而是用对应的值（如&quot;success&quot;）；如果使用SUCCESS，Groovy会把它解析成类的属性，抛异常 </p>
+<p></p><p dir="ltr">当然，在/WEB-INF/lib目录下需要包含运行以依赖的jar文件：Groovy和ASM.</p>
+</blockquote>
+</blockquote>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Groovy/">Groovy</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/76/" title="S.O.D.A理解">
+  <strong>上一篇：</strong><br/>
+  <span>
+  S.O.D.A理解</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/74/"  title="AWT+LCD+ClearType=ERROR">
+ <strong>下一篇：</strong><br/> 
+ <span>AWT+LCD+ClearType=ERROR
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="75" data-title="Java与Groovy的整合" data-url="http://blog.zephyrleaves.net/?p=75"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

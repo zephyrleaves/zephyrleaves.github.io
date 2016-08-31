@@ -1,0 +1,796 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Objective-C 初体验 -- 语法篇 | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="拿到MBP也有3个礼拜了
+上个礼拜总算有时间好好看了一下 Objective-C
+Objective-C 可以说是一个静态语言,但又有很多动态特性.这点上感觉和ActionScript很象,不过ActionScript是纯脚本语言了
+在这里也记录一下,用其他语言来类比它的一些特性和实现,会以Java为主结合C/C++,ActionScript等,方便兄弟们学习更快掌握 和 同乐">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective-C 初体验 -- 语法篇">
+<meta property="og:url" content="http://blog.zephyrleaves.net/656/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="拿到MBP也有3个礼拜了
+上个礼拜总算有时间好好看了一下 Objective-C
+Objective-C 可以说是一个静态语言,但又有很多动态特性.这点上感觉和ActionScript很象,不过ActionScript是纯脚本语言了
+在这里也记录一下,用其他语言来类比它的一些特性和实现,会以Java为主结合C/C++,ActionScript等,方便兄弟们学习更快掌握 和 同乐">
+<meta property="og:updated_time" content="2015-08-15T05:34:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Objective-C 初体验 -- 语法篇">
+<meta name="twitter:description" content="拿到MBP也有3个礼拜了
+上个礼拜总算有时间好好看了一下 Objective-C
+Objective-C 可以说是一个静态语言,但又有很多动态特性.这点上感觉和ActionScript很象,不过ActionScript是纯脚本语言了
+在这里也记录一下,用其他语言来类比它的一些特性和实现,会以Java为主结合C/C++,ActionScript等,方便兄弟们学习更快掌握 和 同乐">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/656/" title="Objective-C 初体验 -- 语法篇" itemprop="url">Objective-C 初体验 -- 语法篇</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2012-08-29T09:38:04.000Z" itemprop="datePublished"> 发表于 2012-08-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#语法"><span class="toc-number">1.</span> <span class="toc-text">语法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#方法定义"><span class="toc-number">1.1.</span> <span class="toc-text">方法定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法调用"><span class="toc-number">1.2.</span> <span class="toc-text">方法调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#属性和内部变量"><span class="toc-number">1.3.</span> <span class="toc-text">属性和内部变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Protocol"><span class="toc-number">1.4.</span> <span class="toc-text">Protocol</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Category"><span class="toc-number">1.5.</span> <span class="toc-text">Category</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Block"><span class="toc-number">1.6.</span> <span class="toc-text">Block</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#id"><span class="toc-number">1.7.</span> <span class="toc-text">id</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>拿到MBP也有3个礼拜了</p>
+<p>上个礼拜总算有时间好好看了一下 Objective-C</p>
+<p>Objective-C 可以说是一个静态语言,但又有很多动态特性.这点上感觉和ActionScript很象,不过ActionScript是纯脚本语言了</p>
+<p>在这里也记录一下,用其他语言来类比它的一些特性和实现,会以Java为主结合C/C++,ActionScript等,方便兄弟们学习更快掌握 和 同乐<br><a id="more"></a></p>
+<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><p>Objective-C是C的超集,即在Objective-C(.m文件)里面是能完全写C的代码的,而且也能和Objective-C相互调用.</p>
+<p>对于刚接触Objective-C的兄弟们,一般都会对其语法颇为不爽,这里列一下不爽的几点</p>
+<ol>
+<li>参数前面还跟了个玩意儿</li>
+<li>self是咋回事</li>
+<li>方法调用都是用[],眼花缭乱有木有</li>
+<li>好多 : 冒号有木有5.  编译不报错有木有</li>
+</ol>
+<p>这里就来慢慢解释</p>
+<h2 id="方法定义"><a href="#方法定义" class="headerlink" title="方法定义"></a>方法定义</h2><p>Objective-C的方法定义是很有意思的</p>
+<p>举个例子:</p>
+<pre><code>- (id)initWithTitle:(NSString *)title message:(NSString *)message;
+</code></pre><p> -(减号) 代表这个方法是个实例方法</p>
+<p> 如果是+(加号) 代表这个是类方法 相当于Java的static方法(但还是有些不同的下面会讲到)</p>
+<p> 而一开始很多人会以为方法名是<code>initWithTitle</code> ,这个时候大家的认识就开始错误了,实际上整个方法名应该是<code>initWithTitle:message:</code> 这在后面使用<code>@selector</code>的时候就很明确了</p>
+<p> 做个对比就是</p>
+<pre><code>- (id)initWithTitle:(NSString *)title error:(NSString *)message;
+</code></pre><p>这个方法和上面的方法实际上是两个不同名字的方法,这个方法全名应该是<code>initWithTitle:error:</code></p>
+<p>虽然他们有相同的<code>initWithTitle</code>和 相同的参数类型,但是由于message和error也是方法名的一部分所以就导致这是两个方法.</p>
+<p>而方法里面 : (冒号)后面跟着的就是参数了 ,比如里面的title和message就在起方法实现里面作为传参被使用</p>
+<p>Objective-C 为什么这么定义方法就是为了提高可读性,能够在方法定义的时候对参数就进行描述..</p>
+<p>所以类似上面方法的正确看法就是</p>
+<pre><code>- (id)initWithTitle:(NSString *)title message:(NSString *)message;
+</code></pre><p>|方法的作用 |需要title这个参数 |需要message这个参数 |</p>
+<p>大家以后写方法的时候需要注意这种写法.</p>
+<p>还有Objective还有Objective-C虽然实现了面向对象,但毕竟不是Objective-C++(.mm),所以Objective-C是不支持方法重载的,</p>
+<p>比如</p>
+<pre><code>- (id)initWithTitle:(NSString *)title message:(NSStringessage;
+- (id)initWithTitle:(NSString *)title message:(NSNumber *)message;
+</code></pre><p> 这两个方法同时定义会直接编译失败</p>
+<h2 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h2><p> Objective-C的方法调用是用[]来表示的</p>
+<p> 比如 <code>[self addSubview:loadingView]</code>;</p>
+<p> 这个就是表示调用self (self就是相当于Java中的this关键字) 的<code>addSubview:</code>方法 ,并传入<code>loadingView</code>这个参数</p>
+<p> 就其内部实现就是就其内部实现就是调用<code>objc_msgSend</code>这个方法 来实现调用</p>
+<p> 我们来看看objc_msgSend的实现</p>
+<p> <a href="http://www.mulle-kybernetik.com/artikel/Optimization/opti-9.html" target="_blank" rel="external">http://www.mulle-kybernetik.com/artikel/Optimization/opti-9.html</a></p>
+<pre><code>id  c_objc_msgSend( struct objc_class /* ahem */ *self, SEL _cmd, ...)
+{
+struct objc_class    *cls;
+struct objc_cache    *cache;
+unsigned int         hash;
+struct objc_method   *method;
+unsigned int         index;
+
+if( self)
+{
+    cls   = self-&amp;gt;isa;
+    cache = cls-&amp;gt;cache;
+    hash  = cache-&amp;gt;mask;
+    index = (unsigned int) _cmd &amp;amp; hash;
+
+    do
+    {
+        method = cache-&amp;gt;buckets[ index];
+        if( ! method)
+            goto recache;
+        index = (index + 1) &amp;amp; cache-&amp;gt;mask;
+    }
+    while( method-&amp;gt;method_name != _cmd);
+    return( (*method-&amp;gt;method_imp)( (id) self, _cmd));
+}
+return( (id) self);
+
+recache:
+/* ... */
+return( 0);
+}
+</code></pre><p>可以看到方法调用并不是msg base的(当时我就被<code>objc_msgSend</code>这个方法名给骗了),而是vtable是实现,并且是lazy load的</p>
+<p>那么Objective-C的调用有那些特性呢</p>
+<p>特性一在于Object特性一在于Objective-C的方法绑定都是在运行时确定的而不是编译时</p>
+<p>特性二在于发消息是可以被动态解析,甚至转发的.而调用则做不到这点</p>
+<p>即你可以向一个 对一个对象 调用其没有实现的方法.而如果你设置了其动态解析货转发,那么这个方法还是会被执行的</p>
+<p>具体可以看</p>
+<p><a href="http://www.apple.com.cn/developer/mac/library/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/chapter%5C_5%5C_section%5C_1.html#//apple%5C_ref/doc/uid/TP40008048-CH102-SW1" target="_blank" rel="external">http://www.apple.com.cn/developer/mac/library/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/chapter&#95;5&#95;section&#95;1.html#//apple&#95;ref/doc/uid/TP40008048-CH102-SW1</a></p>
+<p>和</p>
+<p><a href="http://www.apple.com.cn/developer/mac/library/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/chapter%5C_6%5C_section%5C_1.html#//apple%5C_ref/doc/uid/TP40008048-CH105-SW1" target="_blank" rel="external">http://www.apple.com.cn/developer/mac/library/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/chapter&#95;6&#95;section&#95;1.html#//apple&#95;ref/doc/uid/TP40008048-CH105-SW1</a></p>
+<p>所以整个消息被执行过程所以整个消息被执行过程就是</p>
+<ol>
+<li>先去找这个对象有没有被实现的这个消息</li>
+<li>没有实现就去找有没有被动态解析</li>
+<li>没有再看有没有被设置可以消息转发</li>
+<li>最后都没有则报错</li>
+</ol>
+<p>可以看到利用这些特性可以很容易的实现 动态代理</p>
+<p>特性三因为是发消息那么这个消息就有可能不是被同步执行的,还可以被异步执行</p>
+<p>即<code>[self addSubview:loadingView];</code>还可以写成</p>
+<p><code>[self performSelectorInBackground:@selector(addSubview:l) withObject:loadingView]</code></p>
+<p>此时这个方法会被另外一个现场异步执行</p>
+<p>那么我们看看NSObject(类似Java中的基类Object)的send Messages的相关方法</p>
+<pre><code>Sending Messages
+-performSelector:withObject:afterDelay:
+-performSelector:withObject:afterDelay:inModes:
+-performSelectorOnMainThread:withObject:waitUntilDone:
+-performSelectorOnMainThread:withObject:waitUntilDone:modes:
+-performSelector:onThread:withObject:waitUntilDone:
+-performSelector:onThread:withObject:waitUntilDone:modes:
+-performSelectorInBackground:withObject:
+</code></pre><p> 可以看到performSelector可以选择不同的线程来执行,甚至还能延迟执行</p>
+<p> 不过具体会在后面的线程章节来细说</p>
+<p> 那我们再来看看类方法</p>
+<p> 比如<code>+(id)initWithTitle:(NSString *)title message:(NSString *)message;</code></p>
+<p> 就是个类方法 调用的时候 类似<code>[NSObject initWithTitle:title message:message]</code>这样调用</p>
+<p> 看到这个就明白类方法就是绑定在类上面的消息实现</p>
+<p> 那么这个时候在这个实现里面还是可以使用self的,只不过这个self不是指向类实例,而是类本身</p>
+<p> 那我们再说说self:</p>
+<p> 在其他语言比如Java里面this,表示的是当前实例,于实例绑定,所以在static方法里面是不能出现this的,因为没有实例.</p>
+<p> 而在Objective-C里面self不是和实例绑定,而是和消息绑定,实际上self本身也是个传递参数,只不过是隐藏的而已,所以这点上和python很想,self传递的就是这个消息绑定的对象(类本身也是对象),实际上和self一起传递的隐藏参数还有一个 就是&#95;cmd , &#95;cmd代表的就是消息本身即SEL</p>
+<p> 在做消息动态解析的时候就是很明显的使用这两个参数了 因为在IMP(这个就是消息的真正实现里面),最开始的两个参数就是 self和_cmd,比如</p>
+<pre><code>void dynamicMethodIMP(id self, SEL _cmd) {
+    // implementation ....
+}
+</code></pre><h2 id="属性和内部变量"><a href="#属性和内部变量" class="headerlink" title="属性和内部变量"></a>属性和内部变量</h2><p>Objective-C的属性定义 使用<code>@property</code>来实现</p>
+<p>Objective-C的内部变量可在紧跟<code>@interface</code>或<code>@implementation</code>的{}中来定义</p>
+<p>如:</p>
+<pre><code>@interface RemoteContext : NSObject {
+@private
+    NSMutableDictionary *_extra;
+    NSMutableDictionary *_eventListener;
+}
+      @property(retain, nonatomic) NSString *host;
+@property(copy, nonatomic) NSString *api;
+@property(copy, nonatomic) NSString *version;
+@property(retain, nonatomic) NSObject *parameter;
+@property(readonly, nonatomic) NSMutableDictionary *extra;
+@property(retain, nonatomic) ClientInfo *clientInfo;
+@property id &amp;lt;RemoteHandlerProtocol&amp;gt; handler;
+@end
+</code></pre><p>其中如</p>
+<pre><code>NSMutableDictionary *_extra;
+</code></pre><p>和</p>
+<pre><code>@property(readonly, nonatomic) NSMutableDictionary *extra;
+</code></pre><p>是同一份数据</p>
+<p>_extra是对对象内部的访问</p>
+<p>extra是对象外部来访问</p>
+<p>实际上对于@property 的属性 就算你未为他声明内部变量</p>
+<p>编译器也会直接帮你生成一个内部变量以_开头加上你的属性名</p>
+<p>比如</p>
+<pre><code>@property(retain, nonatomic) NSString *host;
+</code></pre><p>会自动帮你生成</p>
+<pre><code>NSString *_host;
+</code></pre><p> 这样的内部变量 当你能在对象内部直接访问</p>
+<p> 然后就是@synthesize关键字</p>
+<p> 如</p>
+<pre><code>@implementation RemoteContext {
+}
+@synthesize api = _api;
+</code></pre><p>就是相当于帮你对api这个property生成getter和setter方法</p>
+<p>getter方法是</p>
+<pre><code>-(NSString*) api;
+</code></pre><p>setter方法是</p>
+<pre><code>-(void)setApi:(NSString *)api;
+</code></pre><p>而getter和setter方法名的自动生成也是可以被自定义的在</p>
+<pre><code>@property(getter=getApi) NSString *api;
+</code></pre><p> 就会生成<code>-(NSString*) getApi;</code>这样的getter方法</p>
+<p> 关于<code>@property</code> 里面的 其他关键字 比如 <code>retain,assign</code>涉及到Objective-C的内存管理,会在后面的内存管理篇来细讲</p>
+<p> 相对于<code>@synthesize</code>还有一个动态生成getter/setter的关键字<code>@dynamic</code></p>
+<p> 这里<code>@synthesize</code>是在编译时生成getter/setter方法而<code>@dynamic</code>则是在运行时通过上面讲到的方法动态解析来生成getter/setter方法</p>
+<h2 id="Protocol"><a href="#Protocol" class="headerlink" title="Protocol"></a>Protocol</h2><p> Protocol就是协议, Protocol可以单纯的认为就是Java中的interface</p>
+<p> 即可以预先定义好有哪些方法,需要可能被实现,而需要被遵守的类则可能需要实现这些预先定义好的方法</p>
+<p> 如:</p>
+<pre><code>@protocol RemoteHandlerProtocol &amp;lt;NSObject&amp;gt;
+@optional
+- (void)preProcess:(RemoteContext *)context;
+- (void)process:(RemoteContext *)context;
+- (void)processResult:(RemoteContext *)context;
+- (void)response:(RemoteContext *)context;
+@required
+- (void)request:(RemoteContext *)remoteContext;
+@end
+</code></pre><p> 协议<code>RemoteHandlerProtocol</code>继承<code>NSObject</code>这个协议</p>
+<p> <code>@optional</code>下面的方法表示可以不被实现</p>
+<p> <code>@required</code>下面的方法则必须被实现</p>
+<p> 那些可以不被实现的方法 ,需要被调用的时候怎么办的</p>
+<p> 那需要通过<code>[self respondsToSelector:@selector(printTest)]</code> 这个调用来判断是否存在这个方法的实现 然后再调用</p>
+<p> 而很多在定义 形参或属性或变量是 用<code>id&amp;lt;Protocol&amp;gt;</code> 来表示形参或属性或变量都必须是实现Protocol的才行</p>
+<h2 id="Category"><a href="#Category" class="headerlink" title="Category"></a>Category</h2><p> Category的作用就是在已存在的类上为其再新加新的方法 实际上就是对已存在的类作mixin</p>
+<p> 而要用到Category中定义的方法 直接#import这个Category的头文件就可以了</p>
+<h2 id="Block"><a href="#Block" class="headerlink" title="Block"></a>Block</h2><p> Block是在iOS5中才实现的语言特性,整个来说就是一种闭包的实现,我挺喜欢的.</p>
+<p> 由于iOS都是使用Protocol + delegate模式来实现事件的响应 , 导致事件的绑定和事件的响应是分开的,导致代码上下文是不连贯的</p>
+<p> 而Block的出现则可以缓解这个问题</p>
+<h2 id="id"><a href="#id" class="headerlink" title="id"></a>id</h2><p>id 是一个typedef</p>
+<pre><code>      typedef struct objc_object {
+    Class isa;
+} *id;
+</code></pre><p> 可以看到id是一个指针,它指向一个拥有<code>Class isa;</code>的结构体</p>
+<p> 很多资料和书上都把id和NSObject * 作等价处理</p>
+<p> 但实际上还是有很多不一样的 毕竟不是<code>typedef NSObject * id;</code></p>
+<pre><code>typedef struct objc_object {
+     Class isa;
+ } *id;
+</code></pre><p>这样的定义表示,任何拥有<code>Class</code>的对象结构都可以被认为是<code>id</code> , 当然原始类型是不行了</p>
+<p><code>id</code>相比<code>NSObject</code>还有更神奇的就是 对id 发任何消息 都不会出现 编译错误 甚至这个消息是完全没有被实现的</p>
+<p>即对<code>id</code>作方法调用在编译时是完全不做校验的,全在运行时来动态绑定实现,当然 如果使用了<code>id&amp;lt;Protocol&amp;gt;</code>还是会在编译时检验消失是否在Protocol中被定义</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Objective-C/">Objective-C</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/676/" title="Objective-C 初体验 --反射篇">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Objective-C 初体验 --反射篇</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/640/"  title="TDH_Socket在淘宝某核心应用的一次压测">
+ <strong>下一篇：</strong><br/> 
+ <span>TDH_Socket在淘宝某核心应用的一次压测
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="656" data-title="Objective-C 初体验 -- 语法篇" data-url="http://blog.zephyrleaves.net/?p=656"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#语法"><span class="toc-number">1.</span> <span class="toc-text">语法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#方法定义"><span class="toc-number">1.1.</span> <span class="toc-text">方法定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法调用"><span class="toc-number">1.2.</span> <span class="toc-text">方法调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#属性和内部变量"><span class="toc-number">1.3.</span> <span class="toc-text">属性和内部变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Protocol"><span class="toc-number">1.4.</span> <span class="toc-text">Protocol</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Category"><span class="toc-number">1.5.</span> <span class="toc-text">Category</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Block"><span class="toc-number">1.6.</span> <span class="toc-text">Block</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#id"><span class="toc-number">1.7.</span> <span class="toc-text">id</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

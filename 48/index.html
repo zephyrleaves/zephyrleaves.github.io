@@ -1,0 +1,738 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>整合Tomcat服务器和Apache服务器(zt) | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="本文使用软件的下载地址  
+(1)Windows  2000  Service  Pack  3.exe    下载地址:  
+http://download.microsoft.com/download/win2000platform/SP/SP3/NT5/CN/W2Ksp3.exe  
+(2)j2sdk-1_4_1_02-windows-i586.exe    下载地址:  
+http://">
+<meta property="og:type" content="article">
+<meta property="og:title" content="整合Tomcat服务器和Apache服务器(zt)">
+<meta property="og:url" content="http://blog.zephyrleaves.net/48/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="本文使用软件的下载地址  
+(1)Windows  2000  Service  Pack  3.exe    下载地址:  
+http://download.microsoft.com/download/win2000platform/SP/SP3/NT5/CN/W2Ksp3.exe  
+(2)j2sdk-1_4_1_02-windows-i586.exe    下载地址:  
+http://">
+<meta property="og:updated_time" content="2015-08-15T04:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="整合Tomcat服务器和Apache服务器(zt)">
+<meta name="twitter:description" content="本文使用软件的下载地址  
+(1)Windows  2000  Service  Pack  3.exe    下载地址:  
+http://download.microsoft.com/download/win2000platform/SP/SP3/NT5/CN/W2Ksp3.exe  
+(2)j2sdk-1_4_1_02-windows-i586.exe    下载地址:  
+http://">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/48/" title="整合Tomcat服务器和Apache服务器(zt)" itemprop="url">整合Tomcat服务器和Apache服务器(zt)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-01-22T10:44:50.000Z" itemprop="datePublished"> 发表于 2007-01-22</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Example-socket-channel，-override-port-and-host"><span class="toc-number">1.</span> <span class="toc-text">Example  socket  channel，  override  port  and  host.</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#define-the-worker"><span class="toc-number">2.</span> <span class="toc-text">define  the  worker</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Uri-mapping"><span class="toc-number">3.</span> <span class="toc-text">Uri  mapping</span></a></li></ol>
+		
+		</div>
+		
+		<p> 本文使用软件的下载地址  </p>
+<p>(1)Windows  2000  Service  Pack  3.exe    下载地址:  </p>
+<p><a href="http://download.microsoft.com/download/win2000platform/SP/SP3/NT5/CN/W2Ksp3.exe" target="_blank" rel="external">http://download.microsoft.com/download/win2000platform/SP/SP3/NT5/CN/W2Ksp3.exe</a>  </p>
+<p>(2)j2sdk-1_4_1_02-windows-i586.exe    下载地址:  </p>
+<p><a href="http://java.sun.com/webapps/download/Redirect/32167382/584747937728280705350560724608606933322" target="_blank" rel="external">http://java.sun.com/webapps/download/Redirect/32167382/584747937728280705350560724608606933322</a><br>8071972022813600060132859339008063305596058473206-3865/j2sdk-1_4_1_02-windows-i586.exe  </p>
+<p>(3)jakarta-tomcat-4.1.18-LE-jdk14.exe    下载地址:  </p>
+<p><a href="http://apache.linuxforum.net/dist/jakarta/tomcat-4/binaries/tomcat-4.1.18-LE-jdk14.exe" target="_blank" rel="external">http://apache.linuxforum.net/dist/jakarta/tomcat-4/binaries/tomcat-4.1.18-LE-jdk14.exe</a>  </p>
+<p>(4)apache_2.0.44-win32-x86-no_ssl.msi下载地址:  </p>
+<p><a href="http://apache.linuxforum.net/dist/httpd/binaries/win32/apache_2.0.44-win32-x86-no_ssl.msi" target="_blank" rel="external">http://apache.linuxforum.net/dist/httpd/binaries/win32/apache_2.0.44-win32-x86-no_ssl.msi</a>  </p>
+<p>(5)mod_jk2-2.0.43.dll下载地址:  </p>
+<p><a href="http://jakarta.apache.org/builds/jakarta-tomcat-connectors/jk2/release/v2.0.1/bin/win32/mod_jk2-2.0.43.dll" target="_blank" rel="external">http://jakarta.apache.org/builds/jakarta-tomcat-connectors/jk2/release/v2.0.1/bin/win32/mod_jk2-2.0.43.dll</a>                </p>
+<p>前言:用mod_jk2来整合Tomcat服务器和Apache服务器，简单多了。  </p>
+<p>一、安装Windows  2000  Professional  </p>
+<p>安装完Windows  2000  Professional后，强烈建议安装Windows  2000  Service  Pack  3，因为在Windows  2000下安装<br>最新的JDK时需要事先安装Windows  2000  Service  Pack  3。  </p>
+<p>二、安装Java的JDK（j2sdk-1_4_1_02-windows-i586.exe）  </p>
+<p>安装时按照默认目录：  C:\j2sdk1.4.1_02，JDK安装完成后需要设置系统变量。在桌面上右击&quot;我的电脑&quot;，点&quot;属性&quot;，<br>选择&quot;高级&quot;，点&quot;系统变量&quot;，在&quot;系统变量&quot;中做如下设置：  </p>
+<p>(1)找到PATH，点&quot;编辑&quot;，只在&quot;变量值&quot;里最后添加:  C:\j2sdk1.4.1_02\bin;  </p>
+<p>然后点&quot;确定&quot;。  </p>
+<p>(2)点&quot;新建&quot;，在&quot;变量名&quot;里输入:    CLASSPATH    </p>
+<p>在&quot;变量值&quot;里输入:    .;C:\j2sdk1.4.1_02\lib\tools.jar;  </p>
+<p>然后点&quot;确定&quot;，注意前面那个点，它表示当前目录，包含了该目录后，就可以到任意目录下去执行需要用到该目录下某个<br>类的    Java    程序。  </p>
+<p>三、安装Tomcat（jakarta-tomcat-4.1.18-LE-jdk14.exe）  </p>
+<p>安装时只改变安装目录，设置为  C:\Tomcat  4.1，其余全为默认，密码自己设定。Tomcat安装完成后也需要设置系统变量，<br>在桌面上右击&quot;我的电脑&quot;，点&quot;属性&quot;，选择&quot;高级&quot;，点&quot;系统变量&quot;，在&quot;系统变量&quot;中做如下设置：  </p>
+<p>(1)  点&quot;新建&quot;，在&quot;变量名&quot;里输入:      JAVA_HOME  </p>
+<p>   在&quot;变量值&quot;里输入:      C:\j2sdk1.4.1_02  </p>
+<p>   然后点&quot;确定&quot;保存。  </p>
+<p>(2)  点&quot;新建&quot;，在&quot;变量名&quot;里输入:      TOMCAT_HOME  </p>
+<p>   在&quot;变量值&quot;里输入:      C:\Tomcat  4.1  </p>
+<p>   然后点&quot;确定&quot;保存。  </p>
+<p>四、测试Tomcat  </p>
+<p>(1)启动Tomcat服务器，在&quot;开始&quot;  -&gt;  &quot;程序&quot;  -&gt;  &quot;Apache  Tomcat  4.1&quot;中点&quot;Start  Tomcat&quot;  (出现一个&quot;命令提示符&quot;</p>
+<p>窗口，不要关闭它)，Tomcat服务器就开始运行了。  </p>
+<p>(2)在IE中输入      <a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a>    后，看到Tomcat的首页(上面有只小猫)表示安装成功。  </p>
+<p>(3)关闭Tomcat服务器，在&quot;开始&quot;-&gt;  &quot;程序&quot;  -&gt;&quot;  Apache  Tomcat  4.1&quot;中点&quot;Stop  Tomcat&quot;  (原来开服务器时的&quot;命令提示</p>
+<p>符&quot;窗口便自动关闭)，Tomcat服务器就停止运行了。  </p>
+<p>五、建立虚拟目录  </p>
+<p>Tomcat服务器有默认的虚拟目录（C:\Tomcat  4.1\  webapps），但是我们开发网站时一般放在自建的文件夹下，如果想把一般</p>
+<p>文件夹变成Tomcat认识的虚拟目录，我们需要自己配置。现在结合实例介绍配置Tomcat虚拟目录的方法：  </p>
+<pre><code>(1)在D盘建立Zgtt文件夹，然后在文件夹下做个简单的JSP文件（用于测试），命名为index.jsp  ，内容如下:  
+
+      &amp;lt;html&amp;gt;  
+
+      &amp;lt;head&amp;gt;  
+
+      &amp;lt;title&amp;gt;Hello&amp;lt;/title&amp;gt;  
+
+      &amp;lt;/head&amp;gt;  
+
+      &amp;lt;body&amp;gt;  
+
+      &amp;lt;%  out.println(&amp;quot;Hello  World!&amp;quot;);  %&amp;gt;  
+
+      &amp;lt;/body&amp;gt;  
+</code></pre><p>&lt;/html&gt;  </p>
+<p>(2)关闭Tomcat服务器(方法见&quot;四、测试Tomcat&quot;中(3)说明)。  </p>
+<p>(3)在C盘下，打开&quot;Tomcat  4.1&quot;文件夹，然后再打开子目录&quot;conf&quot;找到&quot;server.xml&quot;文件，用记事本打开它并查找&quot;&lt;/Host&gt;&quot;，</p>
+<p>在&lt;/Host&gt;前面添加这句代码：&lt;Context  path=&quot;/zgtt&quot;  docBase=&quot;D:\Zgtt&quot;  debug=&quot;0&quot;  reloadable=&quot;true&quot;  </p>
+<p>crossContext=&quot;true&quot;&gt;&lt;/Context&gt;    ，然后保存文件。  </p>
+<p>(4)启动Tomcat服务器(方法见&quot;四、测试Tomcat&quot;中(1)说明)。  </p>
+<p>(5)在IE中输入      <a href="http://localhost:8080/zgtt/index.jsp" target="_blank" rel="external">http://localhost:8080/zgtt/index.jsp</a>  链接后，如果看到&quot;Hello  World!  &quot;  后表示虚拟目录zgtt设置成功。  </p>
+<p>六、安装Apache（apache_2.0.44-win32-x86-no_ssl.msi）  </p>
+<p>(1)安装时改变安装目录，设置为  C:\。  </p>
+<p>(2)参数设置可以任意取值(注意要按照提示的格式填写)。  </p>
+<p>(3)修改一个小错误：  </p>
+<p>Apache2.0.44有一个小问题，默认安装成功后，在Apache2主目录下的htdocs目录中没有index.html文件，我们须将该目录</p>
+<p>下的index.html.en改名为index.html。  </p>
+<p>(4)解决不自动显示中文：编辑C:\Apache2\conf目录下配置文件httpd.conf。用记事本打开它并查找&quot;AddDefaultCharset  </p>
+<p>ISO-8859-1&quot;，注释掉&quot;AddDefaultCharset  ISO-8859-1&quot;，即在&quot;AddDefaultCharset  ISO-8859-1&quot;前加个&quot;#&quot;字符。</p>
+<p>然后在&quot;#AddDefaultCharset  ISO-8859-1&quot;下面添加如下三行：  </p>
+<p>AddDefaultCharset  GB2312  </p>
+<p>DefaultLanguage  GB2312  </p>
+<p>AddLanguage  zh-cn  .cn  </p>
+<p>七、测试Apache  </p>
+<p>安装配置完Apache服务器后，我们需要测试一下，看看是否安装成功。  </p>
+<p>(1)启动Apache服务器：点&quot;开始&quot;  -&gt;  &quot;程序&quot;    -&gt;  &quot;Apache  HTTP  Server  2.0.44&quot;  -&gt;  &quot;Control  Apache  Server&quot;  -&gt;</p>
+<p>  &quot;Monitor  Apache  Servers&quot;，如果在系统“拖盘”处看见Apache的羽毛图标上出现绿色小三角.则表示Apache服务器成功启动了。  </p>
+<p>(2)在IE中输入&quot;<a href="http://localhost/" target="_blank" rel="external">http://l<br>ocalhost</a>&quot;后，看到Apache的带有羽毛的apache首页，表示安装成功。  </p>
+<p>(3)关闭Apache服务器：单击系统“拖盘”里Apache的图标，选&quot;Stop&quot;，如果在系统“拖盘”处看见Apache的羽毛图标上出现红色的</p>
+<p>圆点.则表示Apache服务器成功关闭了。  </p>
+<p>八、整合Apache服务器和Tomcat服务器  </p>
+<p>这是最关键的一步，一定要仔细按照步骤配置：  </p>
+<p>(1)关掉Apache服务器(方法见&quot;七、测试Apache&quot;中(3)说明)。  </p>
+<p>(2)关掉Tomcat服务器.  (方法见&quot;四、测试Tomcat&quot;中(3)说明)。  </p>
+<p>(3)将mod_jk2-2.0.43.dll复制到C:\Apache2\modules子目录下。  </p>
+<p>(4)编辑C:\Apache2\conf目录下配置文件httpd.conf。在此文件的最后添加以  </p>
+<p>下几行：  </p>
+<pre><code>    LoadModule  jk2_module  modules/mod_jk2-2.0.43.dll    
+
+    &amp;lt;VirtualHost  *&amp;gt;    
+
+    ServerAdmin  [webmaster@dummy-host.example.com](mailto:webmaster@dummy-host.example.com)    
+
+    DocumentRoot  &amp;quot;C:/Tomcat  4.1/webapps&amp;quot;    
+
+    ServerName  dummy-host.example.com    
+
+    DirectoryIndex  index.htm  index.html  index.jsp    
+
+    ErrorLog  logs/dummy-host.example.com-error_log    
+
+    CustomLog  logs/dummy-host.example.com-access_log  common    
+
+    &amp;lt;/VirtualHost&amp;gt;    
+
+注意DocumentRoot一行要与自己的TOMCAT安装目录一致。    
+</code></pre><p>DirectoryIndex一行是为了自动解释JSP类型的文件。  </p>
+<p>(5)在C:\Apache2\conf目录下新建一个文件，一定命名为workers2.properties。  workers2.properties内容如下：  </p>
+<p>[shm]    </p>
+<p>file=${serverRoot}/logs/shm.file    </p>
+<p>size=1048576    </p>
+<h1 id="Example-socket-channel，-override-port-and-host"><a href="#Example-socket-channel，-override-port-and-host" class="headerlink" title="Example  socket  channel，  override  port  and  host."></a>Example  socket  channel，  override  port  and  host.</h1><p>[channel.socket:localhost:8009]    </p>
+<p>port=8009    </p>
+<p>host=127.0.0.1  </p>
+<h1 id="define-the-worker"><a href="#define-the-worker" class="headerlink" title="define  the  worker"></a>define  the  worker</h1><p>[ajp13:localhost:8009]    </p>
+<p>channel=channel.socket:localhost:8009    </p>
+<h1 id="Uri-mapping"><a href="#Uri-mapping" class="headerlink" title="Uri  mapping"></a>Uri  mapping</h1><p>[uri:/*]    </p>
+<p>worker=ajp13:localhost:8009  </p>
+<p>九、测试Apache服务器和Tomcat服务器整合  </p>
+<p>(1)启动Apache服务器(方法见&quot;7.测试Apache&quot;中(1)说明)。  </p>
+<p>(2)启动Tomcat服务器(方法见&quot;4.测试Tomcat&quot;中(1)说明)。  </p>
+<p>(3)在IE中输入&quot;<a href="http://localhost:8080/zgtt/index.jsp" target="_blank" rel="external">http://localhost:8080/zgtt/index.jsp</a>&quot;。链接后，如果看到&quot;Hello  World!  &quot;，表明Tomcat启动成功。  </p>
+<p>(4)在IE中输入&quot;<a href="http://localhost/zgtt/index.jsp" target="_blank" rel="external">http://localhost/zgtt/index.jsp</a>&quot;。链接后，如果再次看到&quot;Hello  World!  &quot;，则表明Apache服务器和Tomcat服<br>务器整合成功。  </p>
+<p>&nbsp;</p>
+<p>注：<br>然后安装。（我的安装在G:\Program Files\Apache Group下<br>G:\Program Files\Apache Group\Apache2<br>G:\Program Files\Apache Group\Tomcat 5.0.7）<br>然后把mod_jk_2.0.46.dll复制到G:\Program Files\Apache Group\Apache2\modules下。</p>
+<p>先开始修改 G:\Program Files\Apache Group\Apache2\conf\http.conf：<br>查找&quot;DirectoryIndex&quot;，在index.html后添加index.jsp<br>成下面这样：<br>DirectoryIndex index.html index.jsp index.html.var<br>查找 &quot;Listen&quot;，修改端口号成下面这样：</p>
+<p>#Listen 12.34.56.78:80<br>Listen 80<br>在http.conf的结尾加上以下内容：<br> LoadModule jk_module modules/mod_jk_2.0.46.dll<br> JkWorkersFile &quot;G:/Program Files/Apache Group/Tomcat 5.0.7/conf/workers.properties&quot;<br> JkLogFile &quot;G:/Program Files/Apache Group/Tomcat 5.0.7/logs/mod_jk2.log&quot;<br> JkLogLevel info<br>&lt;VirtualHost <em>&gt;<br>ServerAdmin <a href="mailto:lnboy@delphibbs.com" target="_blank" rel="external">lnboy@delphibbs.com</a><br>DocumentRoot &quot;G:/Program Files/Apache Group/Tomcat 5.0.7/webapps/ROOT&quot;<br>ServerName <a href="http://www.delphibbs.com/" target="_blank" rel="external">www.delphibbs.com</a><br>DirectoryIndex index.html index.htm index.jsp<br>ErrorLog logs/shsc-error_log.txt<br>CustomLog logs/shsc-access_log.txt common<br>JkMount /servlet/</em> ajp13 #让Apache支持对servlet传送，用以Tomcat解析<br>JkMount /*.jsp ajp13 #让Apache支持对jsp传送，用以Tomcat解析<br>&lt;/VirtualHost&gt;<br>保存http.conf。</p>
+<p>再在G:\Program Files\Apache Group\Tomcat 5.0.7\conf下新建workers.properties。</p>
+<p>写入以下内容：<br>workers.tomcat_home=G:\Program Files\Apache Group\Tomcat 5.0.7<br>workers.java_home=G:\JBuilder9\jdk1.4<br>ps=\<br>worker.list=ajp13<br>worker.ajp13.port=8009<br>worker.ajp13.host=localhost<br>worker.ajp13.type=ajp13<br>worker.ajp13.lbfactor=1</p>
+<p>保存workers.properties。</p>
+<p>最后是先启动tomcat，再启动Apache，就成功了 。<br>分别打开<a href="http://127.0.0.1/" target="_blank" rel="external">http://127.0.0.1/</a>和<a href="http://127.0.0.1:8080/" target="_blank" rel="external">http://127.0.0.1:8080/</a>都可以看见tomcat的欢迎画面。<br>在G:\Program Files\Apache Group\Tomcat 5.0.7\webapps\ROOT下新建一个demo.htm文件，<br>里面写上hello,world!!!，然后保存。<br>再打开<a href="http://127.0.0.1/demo.htm" target="_blank" rel="external">http://127.0.0.1/demo.htm</a>和<a href="http://127.0.0.1:8080/demo.htm" target="_blank" rel="external">http://127.0.0.1:8080/demo.htm</a>，<br>都可以看见刚才新建的页面。</p>
+<p>但是此时如果打开<a href="http://127.0.0.1/jsp-examples/" target="_blank" rel="external">http://127.0.0.1/jsp-examples/</a>是会出现404错误，<br>而<a href="http://127.0.0.1:8080/jsp-examples/" target="_blank" rel="external">http://127.0.0.1:8080/jsp-examples/</a>则正常。<br>接下来我们需要在http.conf里添加虚拟目录的映射。</p>
+<p>http.conf里<br>查找：&quot;Alias&quot;，再继续找 &quot;icons&quot;，找到下面这样的一段：<br>Alias /icons/ &quot;G:/Program Files/Apache Group/Apache2/icons/&quot;</p>
+<p>&lt;Directory &quot;G:/Program Files/Apache Group/Apache2/icons&quot;&gt;<br>   Options Indexes MultiViews<br>   AllowOverride None<br>   Order allow,deny<br>   Allow from all<br>&lt;/Directory&gt;</p>
+<p>添加我需要的虚拟目录：<br>Alias /jsp-examples/ &quot;G:\Program Files\Apache Group\Tomcat 5.0.7\webapps\servlets-examples&quot;</p>
+<p>&lt;Directory &quot;G:\Program Files\Apache Group\Tomcat 5.0.7\webapps\servlets-examples&quot;&gt;<br>   Options Indexes MultiViews<br>   AllowOverride None<br>   Order allow,deny<br>   Allow from all<br>&lt;/Directory&gt;<br>重新启动apache，这下<a href="http://127.0.0.1/jsp-examples/" target="_blank" rel="external">http://127.0.0.1/jsp-examples/</a>可以打开了<br>（注意和tomcat下打开有所不同，这是因为apache的默认文档不包含index.html）</p>
+<p>我总算明白，以前参考了n篇我以前从来没有成搞成功，其中一个原因就是：<br>http.conf里&quot;G:/Program Files/Apache Group/Tomcat 5.0.7/webapps/ROOT&quot;这样含有空格的路径没有用引号引起来，导致apache无法正确解析，所以一直出错:(，而给出的例子大多都是装在<br>C:\apache,c:\tomcat5之类的路径，所以不会碰到这样的错误。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Web应用/">Web应用</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/49/" title="Hibernate+Spring 对DAO的处理实列(转)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Hibernate+Spring 对DAO的处理实列(转)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/47/"  title="Internet Explorer Developer Toolbar Beta ..解脱了">
+ <strong>下一篇：</strong><br/> 
+ <span>Internet Explorer Developer Toolbar Beta ..解脱了
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="48" data-title="整合Tomcat服务器和Apache服务器(zt)" data-url="http://blog.zephyrleaves.net/?p=48"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Example-socket-channel，-override-port-and-host"><span class="toc-number">1.</span> <span class="toc-text">Example  socket  channel，  override  port  and  host.</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#define-the-worker"><span class="toc-number">2.</span> <span class="toc-text">define  the  worker</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Uri-mapping"><span class="toc-number">3.</span> <span class="toc-text">Uri  mapping</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

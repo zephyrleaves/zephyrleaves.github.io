@@ -1,0 +1,638 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>关于Java占用内存的研究 （转载请注明作者zms） | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="&amp;lt;![CDATA[
+最近对程序占用内存方面做了一些优化，取得了不错的效果，总结了一些经验简要说一下，相信会对大家写出优质的程序有所帮助下面的论述针对32位系统，对64位系统不适用，后叙
+经常你写了一个程序，一测试，功能没问题，一看内存占用也不多，就不去考虑其它的东西了。但可能程序使用了一个什么数据结构，会当数据规模变大时，内存占用激增。
+基本&amp;amp;关键的问题是，Java里各种东东占多少内">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于Java占用内存的研究 （转载请注明作者zms）">
+<meta property="og:url" content="http://blog.zephyrleaves.net/33/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="&amp;lt;![CDATA[
+最近对程序占用内存方面做了一些优化，取得了不错的效果，总结了一些经验简要说一下，相信会对大家写出优质的程序有所帮助下面的论述针对32位系统，对64位系统不适用，后叙
+经常你写了一个程序，一测试，功能没问题，一看内存占用也不多，就不去考虑其它的东西了。但可能程序使用了一个什么数据结构，会当数据规模变大时，内存占用激增。
+基本&amp;amp;关键的问题是，Java里各种东东占多少内">
+<meta property="og:updated_time" content="2015-08-15T04:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于Java占用内存的研究 （转载请注明作者zms）">
+<meta name="twitter:description" content="&amp;lt;![CDATA[
+最近对程序占用内存方面做了一些优化，取得了不错的效果，总结了一些经验简要说一下，相信会对大家写出优质的程序有所帮助下面的论述针对32位系统，对64位系统不适用，后叙
+经常你写了一个程序，一测试，功能没问题，一看内存占用也不多，就不去考虑其它的东西了。但可能程序使用了一个什么数据结构，会当数据规模变大时，内存占用激增。
+基本&amp;amp;关键的问题是，Java里各种东东占多少内">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/33/" title="关于Java占用内存的研究 （转载请注明作者zms）" itemprop="url">关于Java占用内存的研究 （转载请注明作者zms）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-11-09T11:08:24.000Z" itemprop="datePublished"> 发表于 2006-11-09</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>&lt;![CDATA[</p>
+<p>最近对程序占用内存方面做了一些优化，取得了不错的效果，总结了一些经验<br>简要说一下，相信会对大家写出优质的程序有所帮助<br>下面的论述针对32位系统，对64位系统不适用，后叙</p>
+<p>经常你写了一个程序，一测试，功能没问题，一看内存占用也不多，就不去考虑其它的东西<br>了。但可能程序使用了一个什么数据结构，会当数据规模变大时，内存占用激增。</p>
+<p>基本&amp;关键的问题是，Java里各种东东占多少内存？？？？？？？？？</p>
+<p>对于primitive类型，有8个<br>byte short int long float double char boolean 它们的长度分别是<br>1  2  4  8  4  8  2 1<br>这个不罗嗦了，举例来说<br>long[] data=new long[1000];<br>占用内存  8<em>1000 bytes<br>此外，data本身是一个Object，也占用内存若干，后叙，当然它针对  8</em>1000来说，忽略不<br>计</p>
+<p>再说Object的占用，在说这个之前，先说说引用，一惯的说法是<br>Java里没有指针了，只有引用，引用是安全的</p>
+<p>这个说法没错，但是从机理上来说，引用就是指针，只是jvm对指针的使用检查和限制很多<br>，这个引用/指针变得很安全</p>
+<p>直接来结论：一个引用占4byte ，在32位系统上</p>
+<p>Object obj=null;        //4byte<br>Object[] objs=new Object[1000]; //至少4*1000byte</p>
+<p>你看我定义了一个 obj，还是null，就占4byte<br>定义了一个 objs,1000个元素，但都是null啊，就都每个占4byte<br>是的！！！！！<br>虽然obj==null，但它已经是 一个引用，或者说一个指针了<br>指针也要占地方啊！！！！啊！！！！啊！！！！</p>
+<p>接下来，直接给另一个结论： Object占8byte，注意，纯Object</p>
+<p>Object obj=new Object();  //多少？？？？</p>
+<p>8byte？？ 错！！ 12byte，忘了还有一个引用，8byte是Object的内容<br>记住  Object obj=new Object(); 占12byte</p>
+<p>Object[] objs=new Object[1000];<br>for(int i=0;i&lt;1000;i++) {<br>  objs[i]=new Object();<br>}</p>
+<p>至少占用  12*1000 bytes</p>
+<p>推论： Object占12bytes，似乎和上面的结论矛盾？？！！<br>没有！！ 不管Object，没有被垃圾回收之前，总得被别人引用吧？<br>总的有指针指它吧？  既然指，那个引用or指针就要占地方啊 4byte<br>加起来是12byte，反正一个Object至少 12bytes</p>
+<p>还是直接给结论，推导的过程我就都包办了，咱不是脏活累活抢着干么！！<br>一个Integer占 16 bytes</p>
+<p>这时您可能会有疑问，Integer=Object+int，就是：<br>public class Integer {<br>  public int value;<br>}<br>Integer应该占 8+4=12 bytes啊<br>你说的有道理，但是jvm对所有的Object有限制！！<br>这个限制被我发现了，就是不管什么Object占的空间，要是8的倍数<br>12不是8的倍数，只能是16了！！！</p>
+<p>推论：Byte也占16bytes!!!!!!!!!!!</p>
+<p>问：<br>Byte[] bytes=new Byte[1000];<br>占用空间多少？<br>答：  约为（至少为） (16+4)*1000 bytes<br>好家伙！！！！！！！！</p>
+<p>论题：数组空间占用怎么算？<br>我这里直接给结论了，推导这个花了更长的时间：<br>对于数组来说，数组这个Object有一个length属性，数组的元素相当于其成员<br>public class Array {<br>  public int length;<br>  //… 其它成员<br>}<br>对于数组，我们不是直接可以取length属性么，源于此</p>
+<p>public byte[] bytes=new byte[1000];<br>System.out.println(bytes.length);  // 看，有length属性<br>上面的bytes换算过来是：<br>public class Array {<br> public int length;<br> public byte byte0;<br> public byte byte1;<br> …<br> public byte byte999;<br>}<br>上面的bytes占用的内存是：<br>4+[8+4 + 1<em>1000] = 4+ [1012]=4+1016=1020<br>4是 bytes这个引用，8是Object基占的，4是length属性占的<br>1000是1000个成员占的，本来是 1012，但要求是8的倍数，变成 1016了<br>总共是 1020<br>再如：<br>byte[] bytes=new byte[4];<br>的内存占用是:<br>4+[8+4+4</em>1]=4+[16]=20;</p>
+<p>byte[] bytes=new byte[3];  也是 20</p>
+<p>对于元素是Object的数组，Object也是当作其成员，（注意只有引用这个数组的空间，这个<br>可以推到普通Class上）</p>
+<p>Byte[] bytes=new Byte[1000];<br>这个 bytes的定义相当于:<br>public class Array {<br>  public int length;<br>  public Byte byte0;<br>  …..<br>  public Byte byte999;<br>}<br>占用空间是：<br>4+[8+4+4<em>1000]+16</em>1000= 4+ 4016 + 16000  = 你自己算吧</p>
+<p>推论：千万不要用  Byte[]  有20倍的差距！！！！！！！</p>
+<p>你可能一下子没明白过来，没关系多琢磨一下，对于普通的class来说<br>，内容占用就是基加成员的占用，Object成员只记引用<br>public class Abc {<br>   public int n;<br>   public byte b;<br>   public Object obj;<br>}<br>它的内容占用是： [8+4+1+4]=24<br>所以  Abc one=new Abc()的占用是 4+24=28<br>提醒：对于 Abc的成员 obj没有计，如果要计入的话，循环这个过程就可以了。（琢磨一下<br>）</p>
+<p>举例：</p>
+<p>public class Abc {<br>   public byte b;<br>   public Object obj=null;<br>}</p>
+<p>public class Def {<br>   public int n;<br>   public byte b;<br>   public Abc obj=new Abc();<br>}<br>问：<br>Def one=new Def(); //占多少？<br>答：<br>4+[8+4+1+4]+[8+1+4]=4+24+16=44</p>
+<p>public class Abc {<br>   public byte b;<br>   public Object obj=null;<br>}</p>
+<p>public class Def {<br>   public int n;<br>   public byte b;<br>   public Abc[] objs=new Abc[100];<br>   {<br>      for(int i=0;i&lt;10;i++) {<br>         objs[i]=new Abc();<br>      }<br>   }<br>}<br>问：<br>Def one=new Def(); //占多少？<br>答：<br>kao，一下我也算不出来，不过我写了程序，可以算出来，你给它一个Object，它就能递归<br>的算出总共占了多少内存，这个程序不复杂，你也可以写出来。我等机会合适了再放出。</p>
+<p>单独说一下String，String的结构是：<br>public class String {<br>    private final char value[];<br>    private final int offset;<br>    private final int count;<br>    private int hash; // Default to 0<br>}<br>所以，不考虑那个char[]的占用，一个String最少占用 [8+4+4+4+4]=24bytes<br>加上引用，共28bytes<br>所以<br>String s=&quot;&quot;;<br>占用28bytes！！！！！ 尽管它的长度为0<br>如果精确的算，加上引用一个String的占用是<br>4+24+[8+4+2*length]<br>String s=&quot;&quot;; 的占用是  28+16=  44<br>String s=&quot;ab&quot; 的占用是  28+16= 44<br>String s=&quot;abc&quot; 的占用是 28+24 = 52</p>
+<p>要说的是，String是常用的类，这么看，String耗内存很多，所以jvm有优化，同样的内容<br>尽量重用，所以除了28是必须的外，那个char[] 很可能一样<br>比方说<br>String[] s=new String[1000];<br>for(int i=0;i&lt;1000;i++) {<br>   s[i]=new String(&quot;abcdefasdjflksadjflkasdfj&quot;);<br>}<br>的占用的数量级是  28*1000，那 1000个字符串本身基本上不占内存，只有一份！！！！！<br>！<br>反正String 至少是 28,最多也可能是28！！！！！！！！</p>
+<p>比较占内存的数据结构，这个很重要：<br>基本上就是  primitive的包装</p>
+<p>实例：<br>我以前用一个<br> Hashtable&lt;String,Integer&gt;的结构，有100万个元素<br>改为String[]＋int[]后，内存占用改观不少，速度也很快<br>100万的String[] 快排一下，也就2秒多，查找用2分，和hash也差不多少</p>
+<p>完！</p>
+<p>&lt;</p>
+<p>p&gt;<br>说明：<br>1。 以上结论适用于32位系统，对于64位系统，有很多不同。反正结论是</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/34/" title="dojo的io在IE与FireFox的不同!">
+  <strong>上一篇：</strong><br/>
+  <span>
+  dojo的io在IE与FireFox的不同!</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/32/"  title="dojo 0.4.0 试用报告2">
+ <strong>下一篇：</strong><br/> 
+ <span>dojo 0.4.0 试用报告2
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="33" data-title="关于Java占用内存的研究 （转载请注明作者zms）" data-url="http://blog.zephyrleaves.net/?p=33"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

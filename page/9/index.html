@@ -1,0 +1,1179 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta property="og:type" content="website">
+<meta property="og:title" content="装逼程序员">
+<meta property="og:url" content="http://blog.zephyrleaves.net/page/9/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="装逼程序员">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/40/" title="JasperReport使用注意事项" itemprop="url">JasperReport使用注意事项</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-12-12T07:27:45.000Z" itemprop="datePublished"> 发表于 2006-12-12</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <font size="3">最近使用JasperReport报表,JasperReport配合iReport用起来还算简单而且JasperReport的功能还是很强大的,不过由于JasperReport相应的文档比较少,遇到问题也比较多,现在就讲讲遇到的比较郁闷的一些问题.<br><br>  1.生成PDF是中文显示不正确:这个由于JasperReport用itext的来生成PDF,而itext生成中文还需要itextasia的包,所以需要</font><font size="3">itext.jar和</font><font size="3">itextasia.jar都在classpath中,而还需要讲文本的字体设为STsong_light并且PDF encoding设为：UniGB-UCS2-H (Chinese Simplified)或UniGB-UCS2-v (Chinese Simplified)选中PDF Embedded这样一般就没问题了<br><br>2.在Linux下JasperReport抛出Error initializing graphic environment的异常,经过分析得知，该错误是由于Jasperreport程序在转换为PDF时，采用了AWT方式，而AWT会调用操作系统本地窗口资源图.找到问题所在，就可以着手解决，解决的方法也很简单，就是让JVM启动时不检测图形界面，由于我们是用的是Tomcat，所以在 /tomcat/bin/catalina.sh 中添加以下的启动参数，即：<br>    CATALINA_OPTS=’-Djava.awt.headless=true’<br><br>    如果使用的不是Tomcat系统，可在启动JVM的地方添加：<br>    JAVA_OPTS=’-Djava.awt.headless=true’<br>    然后重新启动Tomcat，问题解决。<br><br>    &lt;br /&gt;注意：-Djava.awt.headless=true这个参数是在jdk1.4.1以后才引入的，如果系统使用的JDK是1.4以下的版本.&lt;br /&gt;<br><br>对于 Java 1.4 以前，下载  xvfb 或者其他的虚拟 x-window 软件，再在 Java 运行环境里的 DISPLAY 作相应改变。<br><br>3.JasperReport的一些优化:<br>JasperRopert是先compile 再 fill 后 export 三步组成,这里compile是可以事先做好的,先将jrxml编译成jasper文件,当fill时直接fill这个jasper文件(可以读成InputStream,也可以直接给明路径)就可以了,这样在运行时就少了compile一步,速度有所提升,但缺点时每当改了jrxml都要自己先compile好才行哦.<br><br></font>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/40/#comments" class="ds-thread-count comments-count-link" data-thread-key="40/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/39/" title="JavaScript代码风格" itemprop="url">JavaScript代码风格</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-11-25T16:15:43.000Z" itemprop="datePublished"> 发表于 2006-11-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>This document follows the basic outline of the Java Programming Conventions<br>Guide, a copy of which may be found at <a href="http://geosoft.no/javastyle.html" target="_blank" rel="external">http://geosoft.no/javastyle.html</a>.</p>
+<div class="section"><br><br># <a href="http://dojotoolkit.org/docs/js_style_guide.html#id1" target="_blank" rel="external">Conventions</a><br><br><div class="section"><br><br>## <a href="http://dojotoolkit.org/docs/js_style_guide.html#id2" target="_blank" rel="external">General</a><br><br>Any violation to this guide is allowed if it enhances readability.<br><br>Guidelines in this document are informed by discussions carried out among the<br>Dojo core developers. The most weight has been given to considerations that<br>impact external developer interaction with Dojo code and APIs. Rules such as<br>whitespace placement are of a much lower order importance for Dojo developers,<br>but should be followed in the main in order to improve developer coordination.<br><br></div><br><div class="section"><br><br>## <a href="http://dojotoolkit.org/docs/js_style_guide.html#id3" target="_blank" rel="external">Quick Reference</a><br><br>Table of core API naming constructs:<br><br><table border="1" class="docutils"><br><br><col width="8%"><br><col width="16%"><br><col width="75%"><br><br><thead valign="bottom"><br><tr><th class="head">Construct</th><br><th class="head">Convention</th><br><th class="head">Comment</th><br></tr><br></thead><br><tbody valign="top"><br><tr><td>package</td><br><td>lower</td><br><td>never multiple words</td><br></tr><br><tr><td>class</td><br><td>UpperLower</td><br><td>&nbsp;</td><br></tr><br><tr><td>public method</td><br><td>lowerUpper</td><br><td>whether class or instance method. lower_case() is acceptable only if the particular function is mimicing another API.</td><br></tr><br><tr><td>public var</td><br><td>lowerUpper</td><br><td>&nbsp;</td><br></tr><br><tr><td>constant</td><br><td>UpperLower or UPPER_LOWER</td><br><td>&nbsp;</td><br></tr><br></tbody><br></table><br>Table of constructs that are not visible in the API, and therefore are optional<br>and carry less weight of enforcement.<br><br><table border="1" class="docutils"><br><br><col width="29%"><br><col width="56%"><br><col width="15%"><br><br><thead valign="bottom"><br><tr><th class="head">Construct</th><br><th class="head">Convention</th><br><th class="head">Comment</th><br></tr><br></thead><br><tbody valign="top"><br><tr><td>private method</td><br><td><tt><span class="pre">_lowerUpper</span></tt></td><br><td>&nbsp;</td><br></tr><br><tr><td>private var</td><br><td><tt><span class="pre">_lowerUpper</span></tt></td><br><td>&nbsp;</td><br></tr><br><tr><td>method args</td><br><td><tt><span class="pre">_lowerUpper</span></tt>, lowerUpper</td><br><td>&nbsp;</td><br></tr><br><tr><td>local vars</td><br><td><tt><span class="pre">_lowerUpper</span></tt>, lowerUpper</td><br><td>&nbsp;</td><br></tr><br></tbody><br></table><br></div><br><div class="section"><br><br>## <a href="http://dojotoolkit.org/docs/js_style_guide.html#id4" target="_blank" rel="external">Naming Conventions</a><br><br>1.  <p class="first">Names representing packages SHOULD be in all lower case.<br><br>2.  </p><p class="first">Names representing types (classes) MUST be nouns and written in<br>UpperLower case:<br><br><pre>Account, EventHandler<br></pre><br><br>3.  </p><p class="first">Constants SHOULD be placed within a single object created as a holder<br>for constants, emulating an Enum; the enum SHOULD be named<br>appropriately, and members SHOULD be named using either UpperLower or<br>UPPER_LOWER case:<br><br><pre>var NodeTypes = {<br>    Element : 1,<br>    DOCUMENT: 2<br>}<br></pre><br><br>4.  </p><p class="first">Abbreviations and acronyms SHOULD NOT be uppercase when used as a name:<br><br><pre>getInnerHtml(), getXml(), XmlDocument<br></pre><br><br>5.  </p><p class="first">Names representing methods SHOULD be verbs or verb phrases:<br><br><pre>obj.getSomeValue()<br></pre><br><br>6.  </p><p class="first">Public class variables MUST be written using upperLower case.<br><br>7.  </p><p class="first">Private class variables MAY be written using <tt><span class="pre">_upperLower</span></tt> (with<br>preceding underscore):<br><br><pre>var MyClass = function(){<br>    var <em>buffer;<br>    this.doSomething = function(){<br>    };<br>}<br></em></pre><br><br>8.  </p><p class="first">Variables that are intended to be private, but cannot be based on the<br>semantics of Javascript, SHOULD prepended with a &quot;&quot; (underscore) char:<br><br><pre>this._somePrivateVariable = statement ;<br></pre><br>NB  Note that the above variable also follows the convention for a<br>private variable.<br><br>9.  </p><p class="first">Generic variables SHOULD have the same name as their type:<br><br><pre>setTopic(topic) //  where topic isTypeOf Topic<br></pre><br><br>10.  </p><p class="first">All names SHOULD be written in English.<br><br>11.  </p><p class="first">Variables with a large scope SHOULD have globally unambiguious names,<br>ambiguity MAY be distinguished by package memebership. Variables with<br>small or private scope MAY be more terse still.<br><br>12.  </p><p class="first">The name of the return object is implicit, and SHOULD be avoided in a<br>method name:<br><br><pre>getHandler(); //    NOT getEventHandler()<br></pre><br><br>1.  </p><p class="first">Public names SHOULD be as clear as necessary and SHOULD avoid unclear<br>shortenings and contractions:<br><br><pre>MouseEventHandler, NOT MseEvtHdlr.<br></pre><br>Note that, again, any context that can be determined by package<br>membership SHOULD be used when determining if a variable name is clear.<br>For example, a class that represents a mouse event handler:<br><br><pre>dojo.events.mouse.Handler, NOT dojo.events.mouse.MouseEventHandler<br></pre><br><br>2.  </p><p class="first">Classes/constructors MAY be named based on their inheritance<br>pattern, with the base class to the right of the name:<br><br><pre>EventHandler<br>UIEventHandler<br>MouseEventHandler<br></pre><br>NB  The base class CAN be dropped from a name if it is obviously<br>implicit in the name:<br><br><pre>MouseEventHandler as opposed to MouseUIEventHandler.<br></pre><br></p></div><br><div class="section"><br><br>## <a href="http://dojotoolkit.org/docs/js_style_guide.html#id5" target="_blank" rel="external">Specific Naming conventions</a><br><br>1.  <p class="first">The terms get/set SHOULD NOT used where a field is accessed, unless the<br>variable being accessed is lexically private.<br><br>2.  </p><p class="first">&quot;is&quot; prefix SHOULD be used for boolean variables and methods<br>NB. Alternatives include &quot;has&quot;, &quot;can&quot; and &quot;should&quot;<br><br>3.  </p><p class="first">The term &quot;compute&quot; CAN be used in methods where something is computed.<br><br>4.  </p><p class="first">The term &quot;find&quot; CAN be used in methods where something is looked up.<br><br>5.  </p><p class="first">The terms &quot;initialize&quot; or &quot;init&quot; CAN be used where an object or a<br>concept is established.<br><br>6.  </p><p class="first">UI Control variables SHOULD be suffixed by the control type.<br>ex.  leftComboBox, topScrollPane<br><br>7.  </p><p class="first">Plural form MUST be used to name collections.<br><br>8.  </p><p class="first">&quot;num&quot; prefix or &quot;count&quot; postfix SHOULD be used for variables<br>representing a number of objects.<br><br>9.  </p><p class="first">Iterator variables SHOULD be called &quot;i&quot;, &quot;j&quot;, &quot;k&quot;, etc.<br><br>10.  </p><p class="first">Compliment names MUST be used for compliment entities.<br>ex.  get/set, add/remove, create/destroy, start/stop, insert/delete,<br>begin/end, etc.<br><br>11.  </p><p class="first">Abbreviations in names SHOULD be avoided.<br><br>12.  </p><p class="first">Negated boolean variable names MUST be avoided:<br><br><pre>isNotError, isNotFound are unacceptable.<br></pre><br><br>13.  </p><p class="first">Exception classes SHOULD be suffixed with &quot;Exception&quot; or &quot;Error&quot; .. FIXME (trt) not sure about this?<br><br>14.  </p><p class="first">Methods returning an object MAY be named after what they return, and<br>methods returning void after what they do.<br></p></div><br><div class="section"><br><br>## <a href="http://dojotoolkit.org/docs/js_style_guide.html#id6" target="_blank" rel="external">Files</a><br><br>1.  <p class="first">Class or object-per-file guidelines are not yet determined.<br><br>2.  </p><p class="first">Tabs (set to 4 spaces) SHOULD be used for indentation.<br><br>3.  </p><p class="first">If your editor supports &quot;file tags&quot;, please append the appropriate tag<br>at the end of the file enable others to effortlessly obey the correct<br>indentation guidelines for that file:<br><br><pre>// vim:ts=4:noet:tw=0:<br></pre><br><br>1.  </p><p class="first">The incompleteness of split line MUST be made obvious:<br><br><pre>var someExpression = Expression1<br>    + Expression2<br>    + Expression3 ;<br><br>    var o = someObject.get(<br>        Expression1,<br>        Expression2,<br>        Expression3<br>    );<br></pre><br>Note the indentation for expression continuation is indented relative<br>to the variable name, while indentation for parameters is relative to<br>the method being called.<br><br>Note also the position of the parenthesis in the method call;<br>positioning SHOULD be similar to the use of block notation.<br></p></div><br><div class="section"><br><br>## <a href="http://dojotoolkit.org/docs/js_style_guide.html#id7" target="_blank" rel="external">Variables</a><br><br>1.  Variables SHOULD be initialized where they are declared and they SHOULD<br>be declared in the smallest scope possible. A null initialization is<br>acceptable.<br>2.  Variables MUST never have a dual meaning.<br>3.  Related variables of the same type CAN be declared in a common<br>statement; unrelated variables SHOULD NOT be declared in the same<br>statement.<br>4.  Variables SHOULD be kept alive for as short a time as possible.<br>5.  Loops / iterative declarations<br><br>        1.  Only loop control statements MUST be included in the &quot;for()&quot;<br>construction.<br>    2.  Loop variables SHOULD be initialized immediately before the loop;<br>loop variables in a &quot;for&quot; statement MAY be initialized in the &quot;for&quot;<br>loop construction.<br>    3.  The use of &quot;do…while&quot; loops are acceptable (unlike in Java)<br>    4.  The use of &quot;break&quot; and &quot;continue&quot; is not discouraged (unlike in Java)<br><br>6.  Conditionals<br><br>        1.  Complex conditional expressions SHOULD be avoided; use temporary<br>boolean variables instead.<br>    2.  The nominal case SHOULD be put in the &quot;if&quot; part and the exception<br>in the &quot;else&quot; part of an &quot;if&quot; statement.<br>    3.  Executable statements in conditionals MUST be avoided.<br><br>7.  Miscellaneous<br><br>        1.  The use of magic numbers in the code SHOULD be avoided; they SHOULD<br>be declared using named &quot;constants&quot; instead.<br>    2.  Floating point constants SHOULD ALWAYS be written with decimal<br>point and at least one decimal.<br>    3.  Floating point constants SHOULD ALWAYS be written with a digit<br>before the decimal point.<br></div><br><div class="section"><br><br>## <a href="http://dojotoolkit.org/docs/js_style_guide.html#id8" target="_blank" rel="external">Layout</a><br><br>1.  <p class="first">Block statements.<br>1.  Block layout SHOULD BE as illustrated below:<br><br><pre>while(!isDone){<br>    doSomething();<br>    isDone = moreToDo();<br>}<br></pre><br><br>    1.  </p><p class="first">If statements SHOULD have the following form:<br><br>    <pre>if(someCondition){<br>    statements;<br>}else if(someOtherCondition){<br>    statements;<br>}else{<br>    statements;<br>}<br></pre><br><br>        2.  </p><p class="first">for statements SHOULD have the following form:<br><br>    <pre>for(initialization; condition; update){<br>    statements;<br>}<br></pre><br><!-- FIXME: (alex) this reference should use reST reference syntax! --><br><br>    1.  </p><p class="first">while statement SHOULD follow the form in example VI.A.1.<br><br>    2.  </p><p class="first">a do…while statement SHOULD have the following form:<br><br>    <pre>do{<br>    statements;<br>}while (condition);<br></pre><br><br>        3.  </p><p class="first">a switch statement SHOULD have the following form:<br><br>    <pre>switch (condition){<br>    case ABC:<br>        statements;<br>        //  fallthrough<br>    case DEF:<br>        statements;<br>        break;<br>    default :<br>        statements;<br>        break;<br>}<br></pre><br><br>        4.  </p><p class="first">A try…catch…finally statement SHOULD have the following form:<br><br>    <pre>try{<br>    statements;<br>}catch (ex){<br>    statements;<br>}finally{<br>    statements;<br>}<br></pre><br><br>        5.  </p><p class="first">Single statement if-else, while or for MUST NOT be written without<br>brackets, but CAN be written on the same line:<br><br>    <pre>if(condition){ statement; }<br>while(condition){ statement; }<br>for(intialization; condition; update){ statement; }<br></pre><br><br>2.  </p><p class="first">Whitespace<br><br>    1.  Conventional operators MAY be surrounded by a space (including<br>ternary operators).<br>    2.  Reserved words SHOULD be followed by a space.<br>    3.  Commas SHOULD be followed by a space.<br>    4.  Colons MAY be surrounded by a space.<br>    5.  Semi-colons in for statements SHOULD be followed by a space.<br>    6.  Semi-colons SHOULD NOT be preceded by a space.<br>    7.  Functions/method calls SHOULD NOT be followed by a space.<br>ex. doSomething(someParameter);     //  NOT doSomething (someParameter)<br>    8.  Logical units within a block SHOULD be separated by one blank line.<br>    9.  Statements MAY be aligned wherever this enhances readability.<br><br>3.  </p><p class="first">Comments<br><br>    1.  Tricky code SHOULD not be commented, but rewritten.<br>    2.  All comments SHOULD be written in English.<br>    3.  Comments SHOULD be indented relative to their position in the code,<br>preceding or to the right of the code in question.<br>    4.  The declaration of collection variables SHOULD be followed by a<br>comment stating the common type of the elements in the collection.<br>    5.  Comments SHOULD be included to explain BLOCKS of code, to explain<br>the point of the following block.<br>    6.  Comments SHOULD NOT be included for every single line of code.<br>            </p></div></div>
+
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/AJAX/">AJAX</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/39/#comments" class="ds-thread-count comments-count-link" data-thread-key="39/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/38/" title="Dojo的压缩" itemprop="url">Dojo的压缩</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-11-25T16:11:38.000Z" itemprop="datePublished"> 发表于 2006-11-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>内容：<br><a href="http://dojotoolkit.org/docs/compressor_system.html" target="_blank" rel="external">http://dojotoolkit.org/docs/compressor_system.html</a></p>
+<p>在Dojo的build过程最后一个可选步骤是compression(压缩).像其它JavaScript工具一样,Dojo也用工具减少代码量,可以被浏览器更快的下载.<br>  当然,太多的压缩工具存在,但各方面因素决定Dojo的压缩工具是唯一的.<br>Example<br>为了运行以下的例子,推荐你安装jdk1.4.从Dojo官网下载压缩工具.<br><a href="http://dojotoolkit.org/svn" target="_blank" rel="external">http://dojotoolkit.org/svn</a>…<br>如果你看了前文，D:&#092;zkj&#092;dojosource&#092;buildscripts&#092;lib下有这个包</p>
+<p>然后编辑infile.js文件,内容如下:</p>
+<p>function MyClass(){<br>  this.foo = function(argument1, argument2){<br>    var addedArgs = parseInt(argument1)+parseInt(argument2);<br>    return addedArgs;<br>  }</p>
+<p>  var anonymousInnerFunction = function(){<br>    // do stuff here!<br>  }<br>}</p>
+<p>function MyFunc(){<br>  // this is a top-level function<br>}</p>
+<p>// 你可以输入一些空格</p>
+<p>我们在命令行输入以下命令得到 outfile.js文件</p>
+<p>java -jar custom_rhino.jar -c infile.js &gt; outfile.js 2&gt;&amp;1<br>outfile.js的内容是以下代码.</p>
+<p>function MyClass(){<br>this.foo=function(_1,_2){<br>var _3=parseInt(_1)+parseInt(_2);<br>return _3;<br>};<br>var _4=function(){<br>};<br>}<br>function MyFunc(){<br>}</p>
+<p>你可以比较一下文件大小.<br>obelisk:/tmp/compress alex$ ls -lah<br>…<br>-rw-r–r–  1 alex users 321B Aug 12 09:21 infile.js<br>-rw-r–r–  1 alex users 140B Aug 12 09:21 outfile.js<br>321 bytes to 140 bytes, a 56% reduction. Not bad!</p>
+<p>我在window操作系统,但看代码也知道压缩不少.</p>
+<p>Riding a Rhino</p>
+<p>  这些工作是怎么完成的呢?为什么选择这个工具而不是其它呢?Dojo的compressor基础是Rhino. Rhino是来自the Mozilla project的javascript解释引擎(java实现).而其它一些压缩工具一般是自定义的规则表达式来完成压缩的.<br>  相比那些regular-expression为基础的工具,通过Rhino对js代码的解析,Dojo compressor能得到更好的效果,体现在变量的上下文环境,变量名等.Dojo compressor不会改变代码的public API.</p>
+<p>API Safety</p>
+<p>There are many &quot;obfuscators&quot; available in addition to size reduction tools. Over the years, many people have attempted to &quot;encrypt&quot; or otherwise obfuscate JavaScript sent over the wire to browsers, and it never pans out. Why not? For starters, JavaScript (as implemented in browsers) is completely interpreted. This means that any further compilation beyond source transformations will not work everywhere, and the tool provides a &quot;decryption&quot; tool along with the &quot;encrypted&quot; or obfuscated source, the unencrypted version will be available at runtime for anyone with a debugger to see. For those tools that just transform source code by mangling variable names, it’s even easier to revert their changes. Therefore, obfuscation and encryption aren’t useful goals. Size reduction, on the other hand, is a useful goal.<br>But not if your size-reduction tool breaks things. There are, of course, many increments available for the &quot;compression&quot; process. Potential choices available to a tool author include:<br>· removing comments<br>· collapsing line-beginning whitespace<br>· removing line-ending whitespace<br>· collapsing multiple blank lines<br>· removing all new-line characters<br>· removing whitespace around operators<br>· removing whitespace near/around curly braces<br>· replacing symbols with shorter names (this is how most &quot;obfuscation&quot; is done)<br>And the list goes on and gets ever-more esoteric as one tries to squeeze every last K out of a JavaScript file. But at some point, you can go too far. The Dojo compressor attempts to strike a balance between debuggability (not replacing all symbols and not removing all newlines) and size reduction.<br>Getting The Source<br>Rhino的源代码可以从Mozilla CVS服务器得到:<br><a href="http://www.mozilla.org/cvs" target="_blank" rel="external">http://www.mozilla.org/cvs</a>…<br>具体路径在:<br>/cvsroot/mozilla/js/rhino<br>Our patches should apply cleanly against Rhino HEAD and are available in unified diff format from:<br><a href="http://dojotoolkit.org/svn" target="_blank" rel="external">http://dojotoolkit.org/svn</a>…<br>Unlike the rest of Dojo, the Dojo Foundation does not control the copyright of the original work, and we therefore cannot license this code under there AFL. It is made available under the tri-licensing terms of the Mozilla project.<br>The Future<br>The Dojo compression tool is by no means the last word in file-size or on-the-wire reduction. Gzipping content on the wire is the next obvious improvement for those deploying applications.<br>The Dojo package system and JSAN allow developers to include just those packages from a library that they require, and future work on real JS linkers will further strip down capable libraries like Dojo to only absolutely what is needed by application authors.<br>The Dojo project intends to continue to produce the best Open Source tools for JS and webapp developers, and we will make these transparently available in the Dojo build system, as we do today with the compression and package systems.<br>About The Author<br>Alex Russell is the project lead for Dojo and can be reached at . His blog is at: <a href="http://alex.dojotoolkit.or" target="_blank" rel="external">http://alex.dojotoolkit.or</a>… </p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/AJAX/">AJAX</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/38/#comments" class="ds-thread-count comments-count-link" data-thread-key="38/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/37/" title="Dojo的打包系统" itemprop="url">Dojo的打包系统</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-11-25T16:07:31.000Z" itemprop="datePublished"> 发表于 2006-11-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><strong>Purpose</strong></p>
+<pre><code>利用Dojo的packaging
+</code></pre><p>system，只要引入一个简单的可定制的script(dojo.js)文件，通过简单的代码就可以从Dojo的source<br>tree中找到并获得（下载）你所需的packages，当然这些packages是你应用程序需要的。这些功能实现不需要你了解Dojo源码结构，也不<br>需要为你下载的script file加script标签。</p>
+<p>对于Dojo<br>0.3以上版本，dojo.hostenv.conditionalLoadModule()方法已经被dojo.kwCompoundRequire<br>()方法替换。dojo.hostenv.moduleLoaded()也已经被dojo.provide()替换。如果你在Dojo0.3+中用老的方<br>法，请看compatibility package.</p>
+<p><strong>Example package file format</strong>（包文件中的格式）</p>
+<p>// dojo/src/webui/widgets/<strong>package</strong>.js中的内容</p>
+<div class="code"><br>dojo.kwCompoundRequire({<br>  common: [&quot;dojo.webui.widgets.parse&quot;] // a generic dependency<br>});<br><br>dojo.provide(&quot;dojo.webui.widgets.*&quot;);<br></div>
+
+<p><strong>Definitions</strong></p>
+<p>kwCompoundRequire<br>    这个方法调用会根据dojo的执行环境，选择性的下载文件，如src\webui\widgets\parse.js<br>provide<br>    大致意思是告诉用户，dojo提供了dojo.webui.widgets.<em>包，你可以dojo.require(&quot;dojo.webui.widgets.</em>&quot;);来访问，这样会把kwCompoundRequire的参数中都下载的。<br><strong>A Longer Example</strong></p>
+<p>这段代码的位置在 dojo/src/foo/<strong>package</strong>.js:</p>
+<div class="code"><br>dojo.kwCompoundRequire({<br>    common: [&quot;dojo.foo.Foo&quot;, &quot;dojo.foo.Bar&quot;],<br>    browser: [&quot;dojo.foo.Baz&quot;]<br>});<br><br>dojo.provide(&quot;dojo.foo.*&quot;);<br></div>
+
+<p>这一大堆代码告诉我们，当我们在浏览器环境中写dojo.require(&quot;dojo.foo.*&quot;)时，Foo.js, Bar.js, 和 Baz.js将被包括，当在command line(命令行运行时)，只有Foo.js and Bar.js被包括。</p>
+<p><strong>Including Dojo from source files</strong></p>
+<p>如果你要用dojo,你只需要在你的html代码中加入</p>
+<div class="code">&lt;script type=&quot;text/javascript&quot; src=&quot;/dojo/dojo.js&quot;&gt;&lt;/script&gt;</div>
+
+<p>如果你要加载Dojo的某些包，你只需要简单的用dojo.require就可以实现。例如你要加载Dojo的事件模块，你只需要dojo.require(&quot;dojo.event.Event&quot;); </p>
+<p><strong>自己打包dojo.js文件（原文写的缺少步骤，自己组织了下）</strong></p>
+<p>1、从<a href="http://svn.dojootoolkit.org/dojo/trunk/" target="_blank" rel="external">http://svn.dojootoolkit.or…</a> 下载源码。偶用小绿毛龟TortoiseSVN<br>2、安装jdk,ant包。<br>2、把foo.profile.js放到源码的buildscripts\profiles文件夹下（ D:\zkj\dojosource\buildscripts\profiles）</p>
+<p>foo.profile.js 文件名称</p>
+<div class="code"><br>var dependencies = [<br>  &quot;dojo.io.<em>&quot;,<br>  &quot;dojo.event.</em>&quot;,<br>  &quot;dojo.xml.<em>&quot;,<br>  &quot;dojo.graphics.</em>&quot;,<br>  &quot;dojo.io.BrowserIO&quot;,<br>  &quot;dojo.webui.<em>&quot;,<br>  &quot;dojo.webui.widgets.foo.</em>&quot;,<br>];<br></div>
+
+<p>load(&quot;getDependencyList.js&quot;);<br>3、在D:\zkj\dojosource\buildscripts文件夹下执行命令 ant -Dprofile=<span>foo</span> clean release<br>4、在D:\zkj\dojosource\release文件夹下你就看到你自己打包的dojo了。</p>
+<p>自己打包有什么好处：<br>1、可以根据自己的定义（.profile.js），确定我们预先把哪些模块直接打包到dojo.js文件中。<br>2、对于dojo通过xmlhttp下载js代码效率上我是有写担心，如果带项目运行阶段，我们完全可以把用到的所有模块打包到dojo.js中，减少的动态加载。 </p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/AJAX/">AJAX</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/37/#comments" class="ds-thread-count comments-count-link" data-thread-key="37/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/36/" title="Dojo FAQ" itemprop="url">Dojo FAQ</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-11-25T16:03:02.000Z" itemprop="datePublished"> 发表于 2006-11-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>翻译至dojo的FAQ只是节选了一些比较容易碰到的问题,还有一些自己遇到的问题,希望对大家有帮助:</p>
+<p><span style="font-weight: bold">1.为啥IE会说有个语法错误?</span></p>
+<p>很有可能你是在列表后面多了个逗号如下所示:</p>
+<p>var request = dojo.io.bind({<br>url: this.actionURL,<br>method: ‘get’,<br>content: {<br>id: this.rowId,<br>field: this.dbField,<br>value: this.checkbox.checked<br>}, &lt;—- 这就是你多的逗号<br>});</p>
+<p>或Or:</p>
+<p>var foo = [ 1 , 2, 3, ];</p>
+<p>或:</p>
+<p>var obj = {<br>apple: &quot;delicious&quot;,<br>brussel sprouts: &quot;yucky&quot;,<br>}; </p>
+<p>这个问题很普遍,而且在Firefox下是可以解析的,而在IE下会使整段script代码失效,这样调试起来也很麻烦,着实让人郁闷.</p>
+<p><span style="font-weight: bold">2.为啥页面载入的这么慢?</span></p>
+<p>一些用dojo.require()载入的资源是通过同步XHR来从服务器来读取的?这在开发的时候很方便,但在部署的时候就会出现网页载入很慢的问题.实际上可以用打包的方法来将一些经</p>
+<p>常用的js打包到一个dojo.js中,然后在对这个dojo.js压缩一下,这样就会快很多(关于打包和压缩将会在以后具体说明).</p>
+<p><span style="font-weight: bold">3.dojo.addOnLoad 没有在页面载入后执行</span></p>
+<p>为了使dojo.addOnLoad正确的执行,你需要将代码写在一个init函数中,然后再用dojo.addOnLoad执行,例下:</p>
+<p>这个是不对的:dojo.addOnLoad(alert(&quot;this page is not yet loaded&quot;);<br>你应该这么写:<br>function init() {<br>alert(&quot;this page is fully loaded!&quot;);<br>}<br>dojo.addOnLoad(init);</p>
+<p>alert方法应该写在init中,再用dojo.addOnLoad载入,才能被正确的执行.</p>
+<p>dojo.addOnLoad在firefox中执行也有问题,有时在Document未解析完前就执行了,这样有些DomNode会取不到而出现问题,而在IE却是正常的…..看来这个问题也有待解决!<br>所以最好还是在一些DomNode的onload事情中执行函数才能在firefox和IE中都正常运行.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/AJAX/">AJAX</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/36/#comments" class="ds-thread-count comments-count-link" data-thread-key="36/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/35/" title="JBuilder 2007蓄日待发" itemprop="url">JBuilder 2007蓄日待发</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-11-17T16:37:53.000Z" itemprop="datePublished"> 发表于 2006-11-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><img src="http://canyousee.blogbus.com/files/1163781487.jpg" alt="http://canyousee.blogbus.com/files/1163781487.jpg"></p>
+<p>看截图这此JBuider 2007是作为Eclipse的插件出现的,不知道能不能夺回JAVA开发工具的王者地位<span></span></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/35/#comments" class="ds-thread-count comments-count-link" data-thread-key="35/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/34/" title="dojo的io在IE与FireFox的不同!" itemprop="url">dojo的io在IE与FireFox的不同!</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-11-17T16:12:55.000Z" itemprop="datePublished"> 发表于 2006-11-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>最近的做的这个项目,用dojo的Iframe来和后台进行交互,可是郁闷的事情来了,在Firefox下是好的,可是到ie后,当将数据传到后台后原本是中文的全变成乱码了,这下郁闷了,Firefox下是好的呀,用HTTPDebug看了一下Request发现应该是POST操作的,在ie全变成GET了..而且Content-Type也为null.查了一下代码,明明已经在dojo.io.bind中注明method:&quot;post&quot;了,这下我就以为是ie坏了,可是到别人的电脑一试也是一样,看来还是代码的问题,抱着试试看的想法,我在那些需要提交Form上加上了method为post的属性,这一加ie就可以了,这个困扰了我一晚上的问题,就家里一条属性就解决了!…<br>看来dojo在ie下用io来定义method是没用的,还得在form中加上method属性;<br>Firefox和ie在解析javascript上也是有一定的区别的.在Firefox上运行成功的程序在ie就会通不过,可能原因就是小小的var,有时ie会认为没有var的变量是无法使用的,而Firefox却没什么问题.<br>而CSS在Firefox中和IE中的差的更多….不知道什么时候能统一哟!</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/AJAX/">AJAX</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/34/#comments" class="ds-thread-count comments-count-link" data-thread-key="34/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/33/" title="关于Java占用内存的研究 （转载请注明作者zms）" itemprop="url">关于Java占用内存的研究 （转载请注明作者zms）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-11-09T11:08:24.000Z" itemprop="datePublished"> 发表于 2006-11-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>&lt;![CDATA[</p>
+<p>最近对程序占用内存方面做了一些优化，取得了不错的效果，总结了一些经验<br>简要说一下，相信会对大家写出优质的程序有所帮助<br>下面的论述针对32位系统，对64位系统不适用，后叙</p>
+<p>经常你写了一个程序，一测试，功能没问题，一看内存占用也不多，就不去考虑其它的东西<br>了。但可能程序使用了一个什么数据结构，会当数据规模变大时，内存占用激增。</p>
+<p>基本&amp;关键的问题是，Java里各种东东占多少内存？？？？？？？？？</p>
+<p>对于primitive类型，有8个<br>byte short int long float double char boolean 它们的长度分别是<br>1  2  4  8  4  8  2 1<br>这个不罗嗦了，举例来说<br>long[] data=new long[1000];<br>占用内存  8<em>1000 bytes<br>此外，data本身是一个Object，也占用内存若干，后叙，当然它针对  8</em>1000来说，忽略不<br>计</p>
+<p>再说Object的占用，在说这个之前，先说说引用，一惯的说法是<br>Java里没有指针了，只有引用，引用是安全的</p>
+<p>这个说法没错，但是从机理上来说，引用就是指针，只是jvm对指针的使用检查和限制很多<br>，这个引用/指针变得很安全</p>
+<p>直接来结论：一个引用占4byte ，在32位系统上</p>
+<p>Object obj=null;        //4byte<br>Object[] objs=new Object[1000]; //至少4*1000byte</p>
+<p>你看我定义了一个 obj，还是null，就占4byte<br>定义了一个 objs,1000个元素，但都是null啊，就都每个占4byte<br>是的！！！！！<br>虽然obj==null，但它已经是 一个引用，或者说一个指针了<br>指针也要占地方啊！！！！啊！！！！啊！！！！</p>
+<p>接下来，直接给另一个结论： Object占8byte，注意，纯Object</p>
+<p>Object obj=new Object();  //多少？？？？</p>
+<p>8byte？？ 错！！ 12byte，忘了还有一个引用，8byte是Object的内容<br>记住  Object obj=new Object(); 占12byte</p>
+<p>Object[] objs=new Object[1000];<br>for(int i=0;i&lt;1000;i++) {<br>  objs[i]=new Object();<br>}</p>
+<p>至少占用  12*1000 bytes</p>
+<p>推论： Object占12bytes，似乎和上面的结论矛盾？？！！<br>没有！！ 不管Object，没有被垃圾回收之前，总得被别人引用吧？<br>总的有指针指它吧？  既然指，那个引用or指针就要占地方啊 4byte<br>加起来是12byte，反正一个Object至少 12bytes</p>
+<p>还是直接给结论，推导的过程我就都包办了，咱不是脏活累活抢着干么！！<br>一个Integer占 16 bytes</p>
+<p>这时您可能会有疑问，Integer=Object+int，就是：<br>public class Integer {<br>  public int value;<br>}<br>Integer应该占 8+4=12 bytes啊<br>你说的有道理，但是jvm对所有的Object有限制！！<br>这个限制被我发现了，就是不管什么Object占的空间，要是8的倍数<br>12不是8的倍数，只能是16了！！！</p>
+<p>推论：Byte也占16bytes!!!!!!!!!!!</p>
+<p>问：<br>Byte[] bytes=new Byte[1000];<br>占用空间多少？<br>答：  约为（至少为） (16+4)*1000 bytes<br>好家伙！！！！！！！！</p>
+<p>论题：数组空间占用怎么算？<br>我这里直接给结论了，推导这个花了更长的时间：<br>对于数组来说，数组这个Object有一个length属性，数组的元素相当于其成员<br>public class Array {<br>  public int length;<br>  //… 其它成员<br>}<br>对于数组，我们不是直接可以取length属性么，源于此</p>
+<p>public byte[] bytes=new byte[1000];<br>System.out.println(bytes.length);  // 看，有length属性<br>上面的bytes换算过来是：<br>public class Array {<br> public int length;<br> public byte byte0;<br> public byte byte1;<br> …<br> public byte byte999;<br>}<br>上面的bytes占用的内存是：<br>4+[8+4 + 1<em>1000] = 4+ [1012]=4+1016=1020<br>4是 bytes这个引用，8是Object基占的，4是length属性占的<br>1000是1000个成员占的，本来是 1012，但要求是8的倍数，变成 1016了<br>总共是 1020<br>再如：<br>byte[] bytes=new byte[4];<br>的内存占用是:<br>4+[8+4+4</em>1]=4+[16]=20;</p>
+<p>byte[] bytes=new byte[3];  也是 20</p>
+<p>对于元素是Object的数组，Object也是当作其成员，（注意只有引用这个数组的空间，这个<br>可以推到普通Class上）</p>
+<p>Byte[] bytes=new Byte[1000];<br>这个 bytes的定义相当于:<br>public class Array {<br>  public int length;<br>  public Byte byte0;<br>  …..<br>  public Byte byte999;<br>}<br>占用空间是：<br>4+[8+4+4<em>1000]+16</em>1000= 4+ 4016 + 16000  = 你自己算吧</p>
+<p>推论：千万不要用  Byte[]  有20倍的差距！！！！！！！</p>
+<p>你可能一下子没明白过来，没关系多琢磨一下，对于普通的class来说<br>，内容占用就是基加成员的占用，Object成员只记引用<br>public class Abc {<br>   public int n;<br>   public byte b;<br>   public Object obj;<br>}<br>它的内容占用是： [8+4+1+4]=24<br>所以  Abc one=new Abc()的占用是 4+24=28<br>提醒：对于 Abc的成员 obj没有计，如果要计入的话，循环这个过程就可以了。（琢磨一下<br>）</p>
+<p>举例：</p>
+<p>public class Abc {<br>   public byte b;<br>   public Object obj=null;<br>}</p>
+<p>public class Def {<br>   public int n;<br>   public byte b;<br>   public Abc obj=new Abc();<br>}<br>问：<br>Def one=new Def(); //占多少？<br>答：<br>4+[8+4+1+4]+[8+1+4]=4+24+16=44</p>
+<p>public class Abc {<br>   public byte b;<br>   public Object obj=null;<br>}</p>
+<p>public class Def {<br>   public int n;<br>   public byte b;<br>   public Abc[] objs=new Abc[100];<br>   {<br>      for(int i=0;i&lt;10;i++) {<br>         objs[i]=new Abc();<br>      }<br>   }<br>}<br>问：<br>Def one=new Def(); //占多少？<br>答：<br>kao，一下我也算不出来，不过我写了程序，可以算出来，你给它一个Object，它就能递归<br>的算出总共占了多少内存，这个程序不复杂，你也可以写出来。我等机会合适了再放出。</p>
+<p>单独说一下String，String的结构是：<br>public class String {<br>    private final char value[];<br>    private final int offset;<br>    private final int count;<br>    private int hash; // Default to 0<br>}<br>所以，不考虑那个char[]的占用，一个String最少占用 [8+4+4+4+4]=24bytes<br>加上引用，共28bytes<br>所以<br>String s=&quot;&quot;;<br>占用28bytes！！！！！ 尽管它的长度为0<br>如果精确的算，加上引用一个String的占用是<br>4+24+[8+4+2*length]<br>String s=&quot;&quot;; 的占用是  28+16=  44<br>String s=&quot;ab&quot; 的占用是  28+16= 44<br>String s=&quot;abc&quot; 的占用是 28+24 = 52</p>
+<p>要说的是，String是常用的类，这么看，String耗内存很多，所以jvm有优化，同样的内容<br>尽量重用，所以除了28是必须的外，那个char[] 很可能一样<br>比方说<br>String[] s=new String[1000];<br>for(int i=0;i&lt;1000;i++) {<br>   s[i]=new String(&quot;abcdefasdjflksadjflkasdfj&quot;);<br>}<br>的占用的数量级是  28*1000，那 1000个字符串本身基本上不占内存，只有一份！！！！！<br>！<br>反正String 至少是 28,最多也可能是28！！！！！！！！</p>
+<p>比较占内存的数据结构，这个很重要：<br>基本上就是  primitive的包装</p>
+<p>实例：<br>我以前用一个<br> Hashtable&lt;String,Integer&gt;的结构，有100万个元素<br>改为String[]＋int[]后，内存占用改观不少，速度也很快<br>100万的String[] 快排一下，也就2秒多，查找用2分，和hash也差不多少</p>
+<p>完！</p>
+<p>&lt;</p>
+<p>p&gt;<br>说明：<br>1。 以上结论适用于32位系统，对于64位系统，有很多不同。反正结论是</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/33/#comments" class="ds-thread-count comments-count-link" data-thread-key="33/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/32/" title="dojo 0.4.0 试用报告2" itemprop="url">dojo 0.4.0 试用报告2</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-11-03T13:00:08.000Z" itemprop="datePublished"> 发表于 2006-11-03</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>今天用了一下DropdownDatePicker,发现这次的DropdownDatePicker比之0.3.1有了质的飞跃:<br>DropdownDatePicker在0.3.1的时候是以div的形式出现的.这着实很让人郁闷.因为在form提交的时候div是不被解析的,那怎么去取DropdownDatePicker值呢,就只有用隐藏的text域</p>
+<p>加上event来赋值达到效果.实在是太费事了…这次在0.4.0中DropdownDatePicker是以input形式出现的,这实在太&quot;激动人心&quot;了,form直接提交就可以了,而且比之0.3.1的</p>
+<p>DropdownDatePicker多了很多的事件和方法,enable,disable,getValue等等,配合0.4.0新出的dojo.date函数使DropdownDatePicker的应用更加得心应手.而且比之0.3.1单一的wipe</p>
+<p>效果,多了explode和fade效果更眩了.hoho</p>
+<p>ComboBox这次支持用dataUrl远程获得json的数据了,看了一下源代码,它是用dojo.io.bind来获得的,所以在远程的数据中不能用var一个变量来赋值(这样复用就难了)…好像和原</p>
+<p>来的数组也没啥区别,而且觉得比0.3.1的ComboBox更加难看了………不过比0.3.1多了很多的方法,事件和DropdownDatePicker差不多.不过ComboBox也有郁闷的地方.就是</p>
+<p>ComboBox在html页面表示的时候是用两个隐藏text域来表现选中的数据的(一个前台的表现域显示的是具体数据,一个是后台的域放着的是主键form提交的时候传的就是这个值)所以</p>
+<p>在给ComboBox赋值的时候要两个域都赋,函数是setValue()和setSelectedValue(),也可以用setAllValue()来一起赋,郁闷的就是当只知道其中一个值的时候是不能完美的将</p>
+<p>ComboBox显示出来的…好像也没什么办法来获得json数据来判断…不知道以后的版本会不会有改进.</p>
+<p>好,今天就说到这里… </p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/AJAX/">AJAX</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/32/#comments" class="ds-thread-count comments-count-link" data-thread-key="32/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/31/" title="Dojo 0.4.0 试用集" itemprop="url">Dojo 0.4.0 试用集</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-11-02T13:13:56.000Z" itemprop="datePublished"> 发表于 2006-11-02</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Dojo 0.4.0已经推出了.相较上一个版本0.3.1 这次有了很多的改动和改进,终于推出了其API(实际上就是将部分对应的源代码给贴出来..对初学还是很有用的,不过还是有很多属性</p>
+<p>和一些隐藏的方法没写出来,所以还是直接看源代码比较方便),经过了一段时间的试用,我也来总结一下经验(主要还是widget这部分)<br>1.这次0.4.0支持多语言了,终于看到DatePicker,validate中组件中出现中文了,真是大快人心.不过因为中文有zh_cn和zh之分,有时候会读不到相应的文件,不过自己copy一下文件</p>
+<p>到相应的目录就没问题了.开始dojo要做大一统toolkit的路线已经一步步在展开了.<br>2.这次widget中多了个FilteringTable组件,比之以前简陋的SortableTable有了很多的扩展.而且在0.5.0中将取消SortableTable了,所以好好研究了</p>
+<p>FilteringTable.FilteringTable相比SortableTable多了过滤功能,根据条件可以将数据进行过滤.还是就是FilteringTable,它将dojo.collections.Store作为它的后台数据存储容</p>
+<p>器,如果要将json数据解析到FilteringTable,只要用FilteringTable.store.setData(data)就可以将数据直接展示到前台了,比之SortableTable的parserData和render方便了很多,</p>
+<p>不过FilteringTable也有很多方面着实让我郁闷了一把:<br>  <font size="2">(1)就是它不支持ctrl键了,如果开启了multiple,那么选一行就多了一行了..没单选了…没办法自己改了一下源代码…-..-!! 在onSelect函数中加入对e.ctrlKey的判断和</font></p>
+<p>resetSelection();就可以了.<br>  (2)当自己的数据导入FilteringTable居然不能排序,而且一选就变成全选,而且还不能取消.这一度使我想放弃FilteringTable,不过后来还是找到了解决方法,在dojo的mail list</p>
+<p>也有人提到.就是在tbody的tr中需要有个value的属性就可以解决……如果是外部数据导入怎么办呢…不是那在初始化FilteringTable的时候不是有个valueField的属性么,以前</p>
+<p>一直不知道这个是干吗用的,这个就是用来设 tbody中tr的value属性用的.将valueField指定为外部json的一个字段名(实际上就是为了得到一个唯一的id啦.),那么FilteringTable</p>
+<p>就会自动将可以将json的这个字段名的值赋到tbody的tr中需要有个value的属性中,那么就可以选择和排序了.<br>3.其他的比如多了clock组件啊,什么的都是一些有趣的东西..下次慢慢在来介绍. </p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/AJAX/">AJAX</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/31/#comments" class="ds-thread-count comments-count-link" data-thread-key="31/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/8/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/10/">Next<span></span></a>
+  </nav>
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>

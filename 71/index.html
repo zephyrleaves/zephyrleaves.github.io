@@ -1,0 +1,712 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>我的RCP之旅(四)-- Extension | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="Eclipse基于Extension Point的扩展机制果然不同凡响.不用改变源码,通过扩展点添加插件即可实现功能的增强. 
+先看看如何通过扩展实现功能增强: 
+我们就看看用户是如何编写一个自己的view,然后扩展org.eclipse.ui.Views来将自己的view在RCP框架中运行起来. 
+
+首先要自己实现一个view:
+
+
+
+public class View extends View">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的RCP之旅(四)-- Extension">
+<meta property="og:url" content="http://blog.zephyrleaves.net/71/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="Eclipse基于Extension Point的扩展机制果然不同凡响.不用改变源码,通过扩展点添加插件即可实现功能的增强. 
+先看看如何通过扩展实现功能增强: 
+我们就看看用户是如何编写一个自己的view,然后扩展org.eclipse.ui.Views来将自己的view在RCP框架中运行起来. 
+
+首先要自己实现一个view:
+
+
+
+public class View extends View">
+<meta property="og:updated_time" content="2015-08-15T04:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我的RCP之旅(四)-- Extension">
+<meta name="twitter:description" content="Eclipse基于Extension Point的扩展机制果然不同凡响.不用改变源码,通过扩展点添加插件即可实现功能的增强. 
+先看看如何通过扩展实现功能增强: 
+我们就看看用户是如何编写一个自己的view,然后扩展org.eclipse.ui.Views来将自己的view在RCP框架中运行起来. 
+
+首先要自己实现一个view:
+
+
+
+public class View extends View">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/71/" title="我的RCP之旅(四)-- Extension" itemprop="url">我的RCP之旅(四)-- Extension</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-08-09T10:20:53.000Z" itemprop="datePublished"> 发表于 2007-08-09</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>Eclipse基于Extension Point的扩展机制果然不同凡响.不用改变源码,通过扩展点添加插件即可实现功能的增强. </p>
+<p>先看看如何通过扩展实现功能增强: </p>
+<p>我们就看看用户是如何编写一个自己的view,然后扩展org.eclipse.ui.Views来将自己的view在RCP框架中运行起来. </p>
+<ul>
+<li>首先要自己实现一个view:</li>
+</ul>
+<blockquote>
+<blockquote>
+<p>public class View extends ViewPart { </p>
+<p>public static final String ID = &quot;com.rcp.test.view.View&quot;; //$NON-NLS-1$ </p>
+<p>/** </p>
+<ul>
+<li>Create contents of the view part </li>
+<li>@param parent<br>*/<br>@Override<br>public void createPartControl(Composite parent) {<br>Composite container = new Composite(parent, SWT.NONE);<br>//<br>createActions();<br>initializeToolBar();<br>initializeMenu();<br>} </li>
+</ul>
+<p>/** </p>
+<ul>
+<li>Create the actions<br>*/<br>private void createActions() {<br>// Create the actions<br>} </li>
+</ul>
+<p>/** </p>
+<ul>
+<li>Initialize the toolbar<br>*/<br>private void initializeToolBar() {<br>IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();<br>} </li>
+</ul>
+<p>/** </p>
+<ul>
+<li>Initialize the menu<br>*/<br>private void initializeMenu() {<br>IMenuManager menuManager = getViewSite().getActionBars().getMenuManager();<br>} </li>
+</ul>
+<p>@Override<br>public void setFocus() {<br>// Set the focus<br>} </p>
+<p>}</p>
+</blockquote>
+</blockquote>
+<p>可以看到只要继承了ViewPart 的类就可以进行扩展(因为在Views这个扩展点定义了扩展这个扩展点的时候必须继承ViewPart ) </p>
+<ul>
+<li>在pulgin.xml中配置扩展信息:</li>
+</ul>
+<blockquote>
+<blockquote>
+<p>&lt;extension<br>point=&quot;org.eclipse.ui.views&quot;&gt;<br>&lt;view<br>class=&quot;com.rcp.test.view.View&quot;<br>id=&quot;com.rcp.test.view.View&quot;<br>name=&quot;New ViewPart&quot;&gt;<br>&lt;/view&gt;<br>&lt;/extension&gt; </p>
+<p>很简单在org.eclipse.ui.views下添加这个类就可以了..</p>
+</blockquote>
+</blockquote>
+<p>大家看到了实现一个扩展,那接下来看看如果定义一个扩展点: </p>
+<p>通过Eclipse的图形话工具是很容易就可以定义一个扩展点的.不过我还是说说直接配xml吧(嘿嘿!) </p>
+<ul>
+<li>首先在plugin.xml配置一个扩展点:</li>
+</ul>
+<blockquote>
+<p>&lt;extension-point id=&quot;ChatListener&quot; name=&quot;Chat Listener&quot; schema=&quot;schema/ChatListener.exsd&quot;/&gt; </p>
+<p>这里只要定义扩展点的id,名字和schema文件,schema就是真正约束扩展点的定义.</p>
+</blockquote>
+<ul>
+<li>定义schema</li>
+</ul>
+<blockquote>
+<p>如上一般schema都是放在schema文件夹下的.来看看schema都包含些什么: </p>
+<p>&lt;?xml version=&#039;1.0&#039; encoding=&#039;UTF-8&#039;?&gt;<br>&lt;!– Schema file written by PDE –&gt;<br>&lt;schema targetNamespace=&quot;com.kevin.im&quot;&gt;<br>&lt;annotation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.schema plugin=&quot;com.kevin.im&quot; id=&quot;ChatListener&quot; name=&quot;Chat Listener&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;documentation&gt;<br>[文档信息] </p>
+<p>&lt;/documentation&gt;<br>&lt;/annotation&gt; </p>
+<p>&lt;element name=&quot;extension&quot;&gt;<br>&lt;complexType&gt;<br>&lt;sequence minOccurs=&quot;2&quot; maxOccurs=&quot;2&quot;&gt;<br>&lt;element ref=&quot;rosterListener&quot;/&gt;<br>&lt;element ref=&quot;receiver&quot;/&gt;<br>&lt;/sequence&gt;<br>&lt;attribute name=&quot;point&quot; type=&quot;string&quot; use=&quot;required&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;attribute name=&quot;id&quot; type=&quot;string&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;attribute name=&quot;name&quot; type=&quot;string&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.attribute translatable=&quot;true&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;/complexType&gt;<br>&lt;/element&gt; </p>
+<p>&lt;element name=&quot;rosterListener&quot;&gt;<br>&lt;complexType&gt;<br>&lt;attribute name=&quot;class&quot; type=&quot;string&quot; use=&quot;required&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.attribute kind=&quot;java&quot; basedOn=&quot;:org.eclipse.ecf.presence.roster.IRosterListener&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;/complexType&gt;<br>&lt;/element&gt; </p>
+<p>&lt;element name=&quot;receiver&quot;&gt;<br>&lt;complexType&gt;<br>&lt;attribute name=&quot;class&quot; type=&quot;string&quot; use=&quot;required&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.attribute kind=&quot;java&quot; basedOn=&quot;:com.kevin.im.client.IMessageReceiver&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;/complexType&gt;<br>&lt;/element&gt; </p>
+<p>&lt;annotation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.section type=&quot;since&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;documentation&gt;<br>[Enter the first release in which this extension point appears.]<br>&lt;/documentation&gt;<br>&lt;/annotation&gt; </p>
+<p>&lt;annotation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.section type=&quot;examples&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;documentation&gt;<br>[Enter extension point usage example here.]<br>&lt;/documentation&gt;<br>&lt;/annotation&gt; </p>
+<p>&lt;annotation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.section type=&quot;apiInfo&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;documentation&gt;<br>[Enter API information here.]<br>&lt;/documentation&gt;<br>&lt;/annotation&gt; </p>
+<p>&lt;annotation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.section type=&quot;implementation&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;documentation&gt;<br>[Enter information about supplied implementation of this extension point.]<br>&lt;/documentation&gt;<br>&lt;/annotation&gt; </p>
+<p>&lt;annotation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.section type=&quot;copyright&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;/annotation&gt; </p>
+<p>&lt;/schema&gt; </p>
+<p>如上 &lt;meta.schema plugin=&quot;com.kevin.im&quot; id=&quot;ChatListener&quot; name=&quot;Chat Listener&quot;/&gt;<br>这句定义了扩展点的plugin id和扩展点的id,在代码中寻找这个扩展点的时候要用 #plugin#.#id#的形式来取..注意:id不能包含&quot;.&quot;,不然程序会解析不出来 </p>
+<p>&lt;element name=&quot;extension&quot;&gt;<br>&lt;complexType&gt;<br>&lt;sequence minOccurs=&quot;2&quot; maxOccurs=&quot;2&quot;&gt;<br>&lt;element ref=&quot;rosterListener&quot;/&gt;<br>&lt;element ref=&quot;receiver&quot;/&gt;<br>&lt;/sequence&gt;<br>&lt;attribute name=&quot;point&quot; type=&quot;string&quot; use=&quot;required&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;attribute name=&quot;id&quot; type=&quot;string&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;attribute name=&quot;name&quot; type=&quot;string&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.attribute translatable=&quot;true&quot;/&amp;gt<br>;<br>&lt;/appInfo&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;/complexType&gt;<br>&lt;/element&gt; </p>
+<p>&lt;element name=&quot;rosterListener&quot;&gt;<br>&lt;complexType&gt;<br>&lt;attribute name=&quot;class&quot; type=&quot;string&quot; use=&quot;required&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.attribute kind=&quot;java&quot; basedOn=&quot;:org.eclipse.ecf.presence.roster.IRosterListener&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;/complexType&gt;<br>&lt;/element&gt; </p>
+<p>&lt;element name=&quot;receiver&quot;&gt;<br>&lt;complexType&gt;<br>&lt;attribute name=&quot;class&quot; type=&quot;string&quot; use=&quot;required&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.attribute kind=&quot;java&quot; basedOn=&quot;:com.kevin.im.client.IMessageReceiver&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;/complexType&gt;<br>&lt;/element&gt; </p>
+<p>这一段实际上就是XML schema 的定义….这个我这里就不介绍了..直接用可视化编辑很很容易的定义</p>
+</blockquote>
+<p>&nbsp;</p>
+<ul>
+<li>最后看看然后在代码中直接访问这些扩展点:</li>
+</ul>
+<blockquote>
+<p>IExtensionRegistry reg = Platform.getExtensionRegistry();&nbsp; //从系统中获得扩展点信息<br>IExtensionPoint extPointForChat = reg.getExtensionPoint(&quot;com.test.View&quot;);&nbsp; //根据扩展点id获得整个扩展点</p>
+<p>for (IConfigurationElement config : extPointForChat.getConfigurationElements()) {//遍历扩展点的配置</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View&nbsp; view=(View) config.createExecutableExtension(&quot;class&quot;);&nbsp; //通过class这个attribute来创建这个类<br>}</p>
+<p>//接下去的,就看你用取到的属性干吗了..hoho</p>
+<p>&nbsp;</p>
+<p>如果自定义扩展点的信息较多较复杂，则可以模仿*.ui.views读取扩展点信息的方式，分成3种不同的类：</p>
+<p></p><p style="margin-left: 42pt" class="a5">&nbsp;&nbsp;● ViewDescriptor&mdash;&mdash;这是一个和自定义扩展点某一项信息相对应的数据类，它实际上为外界封闭了对IConfigurationElement类的访问。</p>
+<p></p><p style="margin-left: 42pt" class="a5">&nbsp;&nbsp;● ViewRegistry&mdash;&mdash;如果说ViewDescriptor是扩展点某一项的信息封装，那么ViewRegistry就是对自定义扩展点所有信息的封装。如果把ViewDescriptor比作某个省份，那么ViewRegistry就是整个国家。</p>
+<p></p><p style="margin-left: 42pt" class="a5">&nbsp;&nbsp;● ViewRegistryReader&mdash;&mdash;这个类负责向ViewRegistry输送数据，如果说ViewRegistry是盲人，那么ViewRegistryReader就是读报人。</p>
+</blockquote>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Eclipse/">Eclipse</a><a href="/tags/RCP/">RCP</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/72/" title="AspectJ初体验">
+  <strong>上一篇：</strong><br/>
+  <span>
+  AspectJ初体验</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/70/"  title="我的RCP之旅(三) -- MVC">
+ <strong>下一篇：</strong><br/> 
+ <span>我的RCP之旅(三) -- MVC
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="71" data-title="我的RCP之旅(四)-- Extension" data-url="http://blog.zephyrleaves.net/?p=71"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

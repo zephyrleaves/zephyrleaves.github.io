@@ -1,0 +1,825 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>压测小工具 | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="最近给某东西压测(由于是私有协议没有通用工具可用),就自己写了个可以给压力的工具,可以支持QPS显示和响应时间的分布显示,有兴趣的可以拿来玩玩">
+<meta property="og:type" content="article">
+<meta property="og:title" content="压测小工具">
+<meta property="og:url" content="http://blog.zephyrleaves.net/339/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="最近给某东西压测(由于是私有协议没有通用工具可用),就自己写了个可以给压力的工具,可以支持QPS显示和响应时间的分布显示,有兴趣的可以拿来玩玩">
+<meta property="og:updated_time" content="2015-08-15T04:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="压测小工具">
+<meta name="twitter:description" content="最近给某东西压测(由于是私有协议没有通用工具可用),就自己写了个可以给压力的工具,可以支持QPS显示和响应时间的分布显示,有兴趣的可以拿来玩玩">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/339/" title="压测小工具" itemprop="url">压测小工具</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2011-11-16T02:03:11.000Z" itemprop="datePublished"> 发表于 2011-11-16</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>最近给某东西压测(由于是私有协议没有通用工具可用),就自己写了个可以给压力的工具,可以支持QPS显示和响应时间的分布显示,有兴趣的可以拿来玩玩</p>
+<a id="more"></a>
+<p>sql压测使用样例:</p>
+<pre><code>import groovy.sql.Sql
+
+/**  
+* @author &amp;lt;a href=&quot;mailto:wentong@taobao.com&quot;&amp;gt;&amp;lt;/a&amp;gt;  
+* @since 11-11-9 2:00  
+*  
+*/
+
+def client_num = 100
+
+private List&amp;lt;Sql&amp;gt; connent(int num) {  
+def result = []  
+1.upto(num) {result.add(Sql.newInstance(&quot;jdbc:mysql://127.0.0.1:3306/sbtest&quot;, &quot;test&quot;, &quot;test&quot;, &quot;com.mysql.jdbc.Driver&quot;))}  
+return result  
+}
+
+def clients = connent(client_num)
+
+def getId() {  
+def total\_record\_num = 80000000
+
+def hot = 20
+
+def step = 100 / hot
+
+BigDecimal hot\_range = total\_record_num / step  
+if (RandomTest.nextInt(100) &amp;lt; 95) {  
+return RandomTest.getId(hot_range, 1).intValue().toString()  
+} else {  
+return RandomTest.getId(total\_record\_num, 1).intValue().toString()  
+}
+
+}
+
+def s = new StressTest()  
+s.add({  
+Sql client = clients.get(it)  
+client.execute(&quot;select id ,k,c,pad from sbtest where id =&quot; + getId())  
+}, client_num)
+
+s.run()
+
+clients.each {it.close()}
+`&lt;/pre&gt;
+
+StressTest 源码:
+
+&lt;pre&gt;`import java.util.concurrent.ExecutorService  
+import java.util.concurrent.Executors  
+import java.util.concurrent.TimeUnit  
+import java.util.concurrent.atomic.AtomicInteger  
+import java.util.concurrent.atomic.AtomicLong
+
+/**  
+* @author &amp;lt;a href=&quot;mailto:wentong@taobao.com&quot;&amp;gt;&amp;lt;/a&amp;gt;  
+* @since 11-11-9 1:12  
+*  
+*/  
+class StressTest {
+
+int interval = 1; //s
+
+int count = 0;
+
+int time = 0;
+
+boolean print_rt = true
+
+private final AtomicLong MONITOR\_STAT\_QPS_NUM = new AtomicLong();
+
+private final AtomicLong MONITOR\_RESPNSE\_TOTAL = new AtomicLong();
+
+private final AtomicLong MONITOR\_RESPNSE\_0MS = new AtomicLong();
+
+private final AtomicLong MONITOR\_RESPNSE\_0_1MS = new AtomicLong();
+
+private final AtomicLong MONITOR\_RESPNSE\_1_5MS = new AtomicLong();
+
+private final AtomicLong MONITOR\_RESPNSE\_5_10MS = new AtomicLong();
+
+private final AtomicLong MONITOR\_RESPNSE\_10_50MS = new AtomicLong();
+
+private final AtomicLong MONITOR\_RESPNSE\_50_100MS = new AtomicLong();
+
+private final AtomicLong MONITOR\_RESPNSE\_100_500MS = new AtomicLong();
+
+private final AtomicLong MONITOR\_RESPNSE\_500_1000MS = new AtomicLong();
+
+private final AtomicLong MONITOR\_RESPNSE\_1000_MS = new AtomicLong();
+
+private final ThreadLocal&amp;lt;Long&amp;gt; START_TIME = new ThreadLocal&amp;lt;Long&amp;gt;();
+
+private Map&amp;lt;Closure, Integer&amp;gt; closures = new HashMap&amp;lt;Closure, Integer&amp;gt;();
+
+private int thread_num = 0;
+
+private AtomicInteger stop\_thread\_num = new AtomicInteger();
+
+private ExecutorService pool;
+
+private boolean is_stop = false
+
+/**  
+* Method start ...  
+*/  
+private void start() {  
+START_TIME.set(System.currentTimeMillis());  
+}
+
+/**  
+* Method end ...  
+*/  
+private void end() {  
+long start = START_TIME.get();  
+long response = System.currentTimeMillis() - start;  
+MONITOR\_STAT\_QPS_NUM.incrementAndGet();  
+MONITOR\_RESPNSE\_TOTAL.incrementAndGet();  
+if (response &amp;lt;= 0) {  
+MONITOR\_RESPNSE\_0MS.incrementAndGet();  
+} else if (response &amp;gt; 0 &amp;amp;&amp;amp; response &amp;lt;= 1) {  
+MONITOR\_RESPNSE\_0_1MS.incrementAndGet();  
+} else if (response &amp;gt; 1 &amp;amp;&amp;amp; response &amp;lt;= 5) {  
+MONITOR\_RESPNSE\_1_5MS.incrementAndGet();  
+} else if (response &amp;gt; 5 &amp;amp;&amp;amp; response &amp;lt;= 10) {  
+MONITOR\_RESPNSE\_5_10MS.incrementAndGet();  
+} else if (response &amp;gt; 10 &amp;amp;&amp;amp; response &amp;lt;= 50) {  
+MONITOR\_RESPNSE\_10_50MS.incrementAndGet();  
+} else if (response &amp;gt; 50 &amp;amp;&amp;amp; response &amp;lt;= 100) {  
+MONITOR\_RESPNSE\_50_100MS.incrementAndGet();  
+} else if (response &amp;gt; 100 &amp;amp;&amp;amp; response &amp;lt;= 500) {  
+MONITOR\_RESPNSE\_100_500MS.incrementAndGet();  
+} else if (response &amp;gt; 500 &amp;amp;&amp;amp; response &amp;lt;= 1000) {  
+MONITOR\_RESPNSE\_500_1000MS.incrementAndGet();  
+} else if (response &amp;gt; 1000) {  
+MONITOR\_RESPNSE\_1000_MS.incrementAndGet();  
+}  
+}
+
+public void add(Closure closure, int threadNum) {  
+closures.put(closure, threadNum)  
+this.thread_num += threadNum  
+}
+
+public void run() {  
+pool = Executors.newFixedThreadPool(thread_num + 1)  
+def defer = { c -&amp;gt; pool.submit(c as Runnable) }  
+closures.each { c -&amp;gt;  
+if (c.value &amp;gt; 0) {  
+1.upto(c.value) { idx -&amp;gt;  
+defer {runit(c.key, idx - 1)}  
+}  
+}  
+}  
+defer {monitor()}  
+pool.shutdown()  
+while (!pool.awaitTermination(1000, TimeUnit.SECONDS)) {  
+}  
+println &quot;#######################################&quot;  
+}
+
+private void runit(Closure closure, int i) {  
+int c = count / thread_num;  
+try {  
+while (!is_stop &amp;amp;&amp;amp; (count == 0 || c &amp;gt; 0)) {  
+try {  
+start()  
+closure.call(i)  
+} finally {  
+end()  
+if (c &amp;gt; 0) {  
+c--  
+}  
+}  
+}  
+} finally {  
+stop\_thread\_num.incrementAndGet()  
+}  
+}
+
+/**  
+* Method run ...  
+*/  
+private void monitor() {  
+println(&quot;start monitor&quot;)  
+long start_time = System.currentTimeMillis()  
+long end\_time = start\_time + (time * 1000);  
+while (stop\_thread\_num.get() &amp;lt; thread_num) {  
+if (time &amp;gt; 0 &amp;amp;&amp;amp; System.currentTimeMillis() &amp;gt;= end_time) {  
+println &quot;time is over&quot;  
+is_stop = true  
+}  
+Thread.sleep(interval * 1000);
+
+      long num = MONITOR_STAT_QPS_NUM.getAndSet(0);
+      println(&amp;amp;quot;QPS:&amp;amp;quot; + (num / interval) + &amp;amp;quot; TOTAL:&amp;amp;quot; + MONITOR_RESPNSE_TOTAL.get());
+
+      if (print_rt) {
+        print_rt();
+      }
+      println(&amp;amp;quot;----------------------------------&amp;amp;quot;);
+    }
+
+    def total_time = (System.currentTimeMillis() - start_time) / 1000
+
+    println &amp;amp;quot;avg QPS:&amp;amp;quot; + MONITOR_RESPNSE_TOTAL.get() / total_time + &amp;amp;quot; ,total:&amp;amp;quot; + MONITOR_RESPNSE_TOTAL.get()
+    print_rt()
+    println(&amp;amp;quot;end monitor&amp;amp;quot;)
+
+}
+
+private def print_rt() {  
+long total = MONITOR\_RESPNSE\_TOTAL.get();  
+println(&quot; RT &amp;lt;= 0: &quot; + (MONITOR\_RESPNSE\_0MS.get() * 100 / total) + &quot;% &quot; +  
+MONITOR\_RESPNSE\_0MS.get() + &quot;/&quot; + total);  
+println(&quot; RT (0,1]: &quot; + (MONITOR\_RESPNSE\_0_1MS.get() * 100 / total) + &quot;% &quot; +  
+MONITOR\_RESPNSE\_0_1MS.get() + &quot;/&quot; + total);  
+println(&quot; RT (1,5]: &quot; + (MONITOR\_RESPNSE\_1_5MS.get() * 100 / total) + &quot;% &quot; +  
+MONITOR\_RESPNSE\_1_5MS.get() + &quot;/&quot; + total);  
+println(&quot; RT (5,10]: &quot; + (MONITOR\_RESPNSE\_5_10MS.get() * 100 / total) + &quot;% &quot; +  
+MONITOR\_RESPNSE\_5_10MS.get() + &quot;/&quot; + total);  
+println(&quot; RT (10,50]: &quot; + (MONITOR\_RESPNSE\_10_50MS.get() * 100 / total) + &quot;% &quot; +  
+MONITOR\_RESPNSE\_10_50MS.get() + &quot;/&quot; + total);  
+println(&quot; RT (50,100]: &quot; + (MONITOR\_RESPNSE\_50_100MS.get() * 100 / total) + &quot;% &quot; +  
+MONITOR\_RESPNSE\_50_100MS.get() + &quot;/&quot; + total);  
+println(&quot; RT (100,500]: &quot; + (MONITOR\_RESPNSE\_100_500MS.get() * 100 / total) + &quot;% &quot; +  
+MONITOR\_RESPNSE\_100_500MS.get() + &quot;/&quot; + total);  
+println(&quot; RT (500,1000]:&quot; + (MONITOR\_RESPNSE\_500_1000MS.get() * 100 / total) + &quot;% &quot; +  
+MONITOR\_RESPNSE\_500_1000MS.get() + &quot;/&quot; + total);  
+println(&quot; RT &amp;gt; 1000: &quot; + (MONITOR\_RESPNSE\_1000_MS.get() * 100 / total) + &quot;% &quot; +  
+MONITOR\_RESPNSE\_1000_MS.get() + &quot;/&quot; + total)  
+}  
+}
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Groovy/">Groovy</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/391/" title="HandlerSocket返回错误码167的bug分析">
+  <strong>上一篇：</strong><br/>
+  <span>
+  HandlerSocket返回错误码167的bug分析</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/325/"  title="照片整理小程序--按日期整理照片">
+ <strong>下一篇：</strong><br/> 
+ <span>照片整理小程序--按日期整理照片
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="339" data-title="压测小工具" data-url="http://blog.zephyrleaves.net/?p=339"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

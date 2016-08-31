@@ -1,0 +1,809 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Objective-C 初体验 --反射篇 | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="今天我们来讲讲Objective-C的反射,
+一般Java开发工程师听到Objective-C支持反射一定很兴奋吧!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective-C 初体验 --反射篇">
+<meta property="og:url" content="http://blog.zephyrleaves.net/676/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="今天我们来讲讲Objective-C的反射,
+一般Java开发工程师听到Objective-C支持反射一定很兴奋吧!">
+<meta property="og:updated_time" content="2015-08-15T05:30:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Objective-C 初体验 --反射篇">
+<meta name="twitter:description" content="今天我们来讲讲Objective-C的反射,
+一般Java开发工程师听到Objective-C支持反射一定很兴奋吧!">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/676/" title="Objective-C 初体验 --反射篇" itemprop="url">Objective-C 初体验 --反射篇</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2012-10-14T15:31:06.000Z" itemprop="datePublished"> 发表于 2012-10-14</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本反射"><span class="toc-number">1.</span> <span class="toc-text">基本反射</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Class相关的一些操作"><span class="toc-number">1.1.</span> <span class="toc-text">Class相关的一些操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#selector相关"><span class="toc-number">1.2.</span> <span class="toc-text">selector相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#继承关系"><span class="toc-number">1.3.</span> <span class="toc-text">继承关系</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#高级反射"><span class="toc-number">2.</span> <span class="toc-text">高级反射</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#objc-msgSend"><span class="toc-number">2.1.</span> <span class="toc-text">objc_msgSend</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class-protocol"><span class="toc-number">2.2.</span> <span class="toc-text">class/protocol</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#method-SEL-IMP"><span class="toc-number">2.3.</span> <span class="toc-text">method/SEL/IMP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ivar-property"><span class="toc-number">2.4.</span> <span class="toc-text">ivar /property</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>今天我们来讲讲Objective-C的反射,</p>
+<p>一般Java开发工程师听到Objective-C支持反射一定很兴奋吧!</p>
+<a id="more"></a>
+<h2 id="基本反射"><a href="#基本反射" class="headerlink" title="基本反射"></a>基本反射</h2><p>基本反射包括</p>
+<ul>
+<li>获取Class 或 根据字符串获取Class</li>
+<li>检查是否有selector 以及 根据字符串 获取selector 并执行</li>
+<li>检查继承关系</li>
+</ul>
+<p>基本反射就是能通过<code>NSObject</code>的一些方法和简单封装好的方法直接能进行反射的操作</p>
+<h3 id="Class相关的一些操作"><a href="#Class相关的一些操作" class="headerlink" title="Class相关的一些操作"></a>Class相关的一些操作</h3><p>首先就是获取一个实例的Class: <code>[self class]</code></p>
+<p>这个就是获取self对应实例的Class类型</p>
+<p>也可以通过[类名 class]的方式获取Class,比如<code>[UIView class]</code>和<code>[[[UIView alloc] init] class]</code>获取到的Class是一样的</p>
+<p>当然最主要还得有类似Java的<code>Class.forName(String)</code>通过字符串直接获取到Class : <code>NSClassFromString</code></p>
+<p>比如获取UIView的Class可以 <code>NSClassFromString(@&quot;UIView&quot;)</code> 直接返回的就是UIView的Class</p>
+<p>那么获取到Class有什么用呢?</p>
+<ol>
+<li>直接通过Class来实例化对象</li>
+<li>通过Class 你可以知道Class下面那些方法 属性 和 变量 ,并可以直接访问他们(会在后面的搞基反射里面讲)</li>
+</ol>
+<p>通过Class 直接实例化对象 很简单 比如</p>
+<pre><code>Class viewClass = NSClassFromString(@&quot;UIView&quot;);
+UIView *view = [viewClass alloc] init] ;
+</code></pre><p> 可以看到viewClass和UIView是等价的,包括对 <code>+</code> 类型方法的调用也是即 <code>[UIView layerClass]</code>和<code>[NSClassFromString(@&quot;UIView&quot;) layerClass]</code>是等价的</p>
+<h3 id="selector相关"><a href="#selector相关" class="headerlink" title="selector相关"></a>selector相关</h3><p> selector对应的就是Java中的Method了 对应<code>Method</code>这个类 在Objective-C中是<code>SEL</code></p>
+<p> <code>SEL</code>是一个结构体的指针<code>typedef struct objc_selector     *SEL;</code></p>
+<p> <code>SEL</code> 可以通过 <code>@selector</code>和<code>NSSelectorFromString</code>来直接获取</p>
+<p> 而<code>SEL</code>和<code>Method</code>的不同在于 <code>SEL</code>在Mac系统中是单例的 .</p>
+<p> 即<code>[Foo count]</code>和<code>[Bar count]</code> 里面的count 指向的是同一个指针,</p>
+<p> 包括<code>@selector(count)</code>和<code>NSSelectorFromString(@&quot;count&quot;)</code>指向的也都是同一个指针</p>
+<p> 这和Java每个Class用<code>getMethod</code>取出的Method都是单独的实例是不同的</p>
+<p> <code>SEL</code>对应的就是方法的名字 , 这和Objective-C的实现有关,就是方法对应的是消息,而<code>SEL</code>就是消息的名称,所以不同的实例可以使用相同的消息名,而消息名本身是单例的,不和实例本身产生关系</p>
+<p> 然后通过<code>- (BOOL)respondsToSelector:(SEL)aSelector</code> 可以判断实例是否真的有对于selector的实现,不管是否有被声明.</p>
+<p> 而要反射调用一个selector则可以通过一系列的<code>performSelector:</code>方法进行实现 比如</p>
+<h3 id="继承关系"><a href="#继承关系" class="headerlink" title="继承关系"></a>继承关系</h3><p> 类似Java 的 <code>instanceOf</code> Objective-C 也有类似的方法,有</p>
+<ol>
+<li><code>- (BOOL)isKindOfClass:(Class)aClass</code></li>
+<li><code>- (BOOL)isMemberOfClass:(Class)aClass</code></li>
+<li><code>+ (BOOL)isSubclassOfClass:(Class)aClass</code></li>
+<li><p><code>- (BOOL)conformsToProtocol:(Protocol *)aProtocol</code></p>
+<p>这几个方法都是定义在<code>NSObject</code>上的,区别在于</p>
+<p>isKindOfClass 基本和Java 的 <code>instanceOf</code>的功能一致 ,</p>
+<p>而isMemberOfClass 不能识别到父类 只能表明到底是不是这个Class ,</p>
+<p>而isSubclassOfClass是<code>+</code>类型的方法和isKindOfClass一样的,不过就是通过Class来进行调用,</p>
+<p>conformsToProtocol则是识别实例是否符合特定协议</p>
+<h2 id="高级反射"><a href="#高级反射" class="headerlink" title="高级反射"></a>高级反射</h2><p>高级反射基本就是类似于Java的整个反射体系了,只不过Objective-C的这部分反射都是通过C调用实现的,比起来比较苦逼</p>
+<p>主要的一些函数有:</p>
+</li>
+<li><p><code>objc_msgSend</code> 系列</p>
+</li>
+<li>class/protocol 系列</li>
+<li>method/SEL/IMP 系列</li>
+<li>ivar /property系列</li>
+</ol>
+<p>大部分的调用走包含在</p>
+<pre><code>#import &amp;lt;objc/runtime.h&amp;gt;
+#import &amp;lt;objc/message.h&amp;gt;
+</code></pre><p>这两个头文件里</p>
+<h3 id="objc-msgSend"><a href="#objc-msgSend" class="headerlink" title="objc_msgSend"></a>objc_msgSend</h3><p>看名字就能知道 这个是objective-c的消息发送函数 ,上一篇也讲到所有的Objective-C的调用全是通过<code>objc_msgSend</code>来实现的</p>
+<p>objc_msgSend的使用还是比较简单的,看<code>id objc_msgSend(id theReceiver, SEL theSelector, ...)</code>就能知道.</p>
+<p>这里就介绍一些技巧</p>
+<p>由于objc_msgSend 返回的是id 那么如果方法定义的是 基本类型怎么办?</p>
+<p>看个样例</p>
+<pre><code>unsigned retForUnsigned = ((unsigned ( *)(id, SEL)) objc_msgSend)(self, NSSelectorFromString(nsPropertyName));
+</code></pre><p> 通过这种cast就可以返回cast为对于的基本类型</p>
+<p> 而如果返回是浮点的话 可以直接调用<code>double objc_msgSend_fpret(id self, SEL op, …)</code></p>
+<p> 那么还有一种情况就是返回的是一个struct的话 需要调用 <code>void objc_msgSend_stret(void * stretAddr, id theReceiver, SEL theSelector,  ...)</code> 来完成</p>
+<p> 当然 他们都有对应的super函数来直接调用父类的方法,如<code>objc_msgSendSuper</code></p>
+<p> 实际上objc&#95;XXX/object&#95;XXX方法等方法都能找到对于的Objective-C的方法</p>
+<p> 不过有一个比较有意思的 可以向大家介绍一下</p>
+<p> 那就是<code>void objc_setAssociatedObject(id object, const void *key, id value, objc_AssociationPolicy policy)</code> 和 <code>id objc_getAssociatedObject(id object, const void *key)</code></p>
+<p> 使用这一对函数就可以动态的为对象加getter/setter方法</p>
+<p> 大家知道使用Categroy是不能直接加property的,但是通过上面一对就可以</p>
+<p> 可以看AFNetworking中的代码</p>
+<pre><code>static char kAFImageRequestOperationObjectKey;
+
+@interface UIImageView (_AFNetworking)
+    @property(readwrite, nonatomic, retain, setter = af_setImageRequestOperation:) AFImageRequestOperation *af_imageRequestOperation;
+@end
+
+@implementation UIImageView (_AFNetworking)
+@dynamic af_imageRequestOperation;
+@end
+
+#pragma mark -
+
+@implementation UIImageView (AFNetworking)
+
+- (AFHTTPRequestOperation *)af_imageRequestOperation {
+    return (AFHTTPRequestOperation *) objc_getAssociatedObject(self,&amp;amp;kAFImageRequestOperationObjectKey);
+}
+
+- (void)af_setImageRequestOperation:(AFImageRequestOperation *)imageRequestOperation {
+    objc_setAssociatedObject(self, &amp;amp;kAFImageRequestOperationObjectKey,imageRequestOperation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+</code></pre><p>不是设置@synthesize而是设置@dynamic + objc&#95;getAssociatedObject/objc&#95;setAssociatedObject 来完成动态的属性添加</p>
+<h3 id="class-protocol"><a href="#class-protocol" class="headerlink" title="class/protocol"></a>class/protocol</h3><p>对应的class&#95;XXX和protocol&#95;XXX函数 这里面的方法基本NS都包含了</p>
+<p>不过这里我们看一个声明</p>
+<pre><code>struct objc_class {
+    Class isa;
+
+#if !__OBJC2__
+    Class super_class                                OBJC2_UNAVAILABLE;
+    const char *name                              OBJC2_UNAVAILABLE;
+    long version                                          OBJC2_UNAVAILABLE;
+    long info                                                OBJC2_UNAVAILABLE;
+    long instance_size                             OBJC2_UNAVAILABLE;
+    struct objc_ivar_list *ivars                OBJC2_UNAVAILABLE;
+    struct objc_method_list **methodLists                    OBJC2_UNAVAILABLE;
+    struct objc_cache *cache                      OBJC2_UNAVAILABLE;
+    struct objc_protocol_list *protocols                     OBJC2_UNAVAILABLE;
+#endif
+
+} OBJC2_UNAVAILABLE;
+</code></pre><p>这是一个objectc class的原始定义 从里面就能看到一个Class 都包含了那些东西哦</p>
+<h3 id="method-SEL-IMP"><a href="#method-SEL-IMP" class="headerlink" title="method/SEL/IMP"></a>method/SEL/IMP</h3><p>这里说一下概念</p>
+<p>Method就是方法 实际上他包含了SEL和IMP 不同于SEL它是有宿主的,并不是单例</p>
+<p>SEL在上面已经介绍了实际上他就是等价于方法的名字</p>
+<p>而IMP实际就是方法的真正实现了</p>
+<p>如果要做动态方法解析 那么就可以自己作IMP来转换SEL对于的实现</p>
+<h3 id="ivar-property"><a href="#ivar-property" class="headerlink" title="ivar /property"></a>ivar /property</h3><p>ivar就是定义的变量,而property就是属性了</p>
+<p>这里要注意的就是取出一个class的ivar/property 用到的类似函数</p>
+<p><code>objc_property_t *class_copyPropertyList(Class cls, unsigned int *outCount)</code></p>
+<p>注意到它是copy的,也就是说这块内存是copy 你得自己负责最后去</p>
+<p>例子:</p>
+<pre><code>unsigned int propertyCount;
+ objc_property_t *pProperty = class_copyPropertyList(class, &amp;amp;propertyCount);
+ if (pProperty &amp;amp;&amp;amp; propertyCount &amp;gt; 0) {
+     for (unsigned int i = 0; i &amp;lt; propertyCount; i++) {
+         [self setPropertyToObject:o pProperty:pProperty[i] withDepth:depth AndClass:class];
+     }
+ }
+ if (pProperty) {
+     free(pProperty);
+ }
+</code></pre><p> 不过这里有个比较苦逼的事情就是 去的ivar/property的类型值,这里Objective-C使用<strong>属性类型编码</strong>来区分类型</p>
+<p> 所以最后通过<code>const char *property_getAttributes(objc_property_t property)</code>取到的是一个字符串, 得自己解析这个字符串来取得类型</p>
+<p> 对于的编码:</p>
+   <table><br>   <thead><br>   <tr><br>     <th>属性声明</th><br>     <th>属性描述</th><br>   </tr><br>   </thead><br>   <tbody><br>   <tr><br>     <td>@property char charDefault;</td><br>     <td>Tc,VcharDefault</td><br>   </tr><br>   <tr><br>     <td>@property double doubleDefault;</td><br>     <td>Td,VdoubleDefault</td><br>   </tr><br>   <tr><br>     <td>@property enum FooManChu enumDefault;</td><br>     <td>Ti,VenumDefault</td><br>   </tr><br>   <tr><br>     <td>@property float floatDefault;</td><br>     <td>Tf,VfloatDefault</td><br>   </tr><br>   <tr><br>     <td>@property int intDefault;</td><br>     <td>Ti,VintDefault</td><br>   </tr><br>   <tr><br>     <td>@property long longDefault;</td><br>     <td>Tl,VlongDefault</td><br>   </tr><br>   <tr><br>     <td>@property short shortDefault;</td><br>     <td>Ts,VshortDefault</td><br>   </tr><br>   <tr><br>     <td>@property signed signedDefault;</td><br>     <td>Ti,VsignedDefault</td><br>   </tr><br>   <tr><br>     <td>@property struct YorkshireTeaStruct structDefault;</td><br>     <td>T{YorkshireTeaStruct=”pot”i”lady”c},VstructDefault</td><br>   </tr><br>   <tr><br>     <td>@property YorkshireTeaStructType typedefDefault;</td><br>     <td>T{YorkshireTeaStruct=”pot”i”lady”c},VtypedefDefault</td><br>   </tr><br>   <tr><br>     <td>@property union MoneyUnion unionDefault;</td><br>     <td>T(MoneyUnion=”alone”f”down”d),VunionDefault</td><br>   </tr><br>   <tr><br>     <td>@property unsigned unsignedDefault;</td><br>     <td>TI,VunsignedDefault</td><br>   </tr><br>   <tr><br>     <td>@property int (<em>functionPointerDefault)(char </em>);</td><br>     <td>T\^?,VfunctionPointerDefault</td><br>   </tr><br>   <tr><br>     <td>@property id idDefault; Note: the compiler warns: no ‘assign’, ‘retain’, or ‘copy’ attribute is specified - ‘assign’ is assumed”</td><br>     <td>T@,VidDefault</td><br>   </tr><br>   <tr><br>     <td>@property int <em>intPointer;</em></td><br>     <td>T\^i,VintPointer</td><br>   </tr><br>   <tr><br>     <td>@property void voidPointerDefault;</td><br>     <td>T\^v,VvoidPointerDefault</td><br>   </tr><br>   <tr><br>     <td>@property int intSynthEquals;</td><br>     <td>In the implementation block:</td><br>   </tr><br>   <tr><br>     <td>@synthesize intSynthEquals=_intSynthEquals;</td><br>     <td>Ti,V_intSynthEquals</td><br>   </tr><br>   <tr><br>     <td>@property(getter=intGetFoo, setter=intSetFoo:) int intSetterGetter;</td><br>     <td>Ti,GintGetFoo,SintSetFoo:,VintSetterGetter</td><br>   </tr><br>   <tr><br>     <td>@property(readonly) int intReadonly;</td><br>     <td>Ti,R,VintReadonly</td><br>   </tr><br>   <tr><br>     <td>@property(getter=isIntReadOnlyGetter, readonly) int intReadonlyGetter;</td><br>     <td>Ti,R,GisIntReadOnlyGetter</td><br>   </tr><br>   <tr><br>     <td>@property(readwrite) int intReadwrite;</td><br>     <td>Ti,VintReadwrite</td><br>   </tr><br>   <tr><br>     <td>@property(assign) int intAssign;</td><br>     <td>Ti,VintAssign</td><br>   </tr><br>   <tr><br>     <td>@property(retain) id idRetain;</td><br>     <td>T@,&amp;,VidRetain</td><br>   </tr><br>   <tr><br>     <td>@property(copy) id idCopy;</td><br>     <td>T@,C,VidCopy</td><br>   </tr><br>   <tr><br>     <td>@property(nonatomic) int intNonatomic;</td><br>     <td>Ti,VintNonatomic</td><br>   </tr><br>   <tr><br>     <td>@property(nonatomic, readonly, copy) id idReadonlyCopyNonatomic;</td><br>     <td>T@,R,C,VidReadonlyCopyNonatomic</td><br>   </tr><br>   <tr><br>     <td>@property(nonatomic, readonly, retain) id idReadonlyRetainNonatomic;</td><br>     <td>T@,R,&amp;,VidReadonlyRetainNonatomic</td><br>   </tr><br>   </tbody><br>   </table>
+
+<p> 下面有个小程序用来解析这个属性编码</p>
+<pre><code>+ (PropertyAttributeInfo *)analyseProperty:(objc_property_t)pProperty WithClass:(Class)aClass {
+
+NSString *propertyAttributes = [NSString stringWithUTF8String:property_getAttributes(pProperty)];
+NSMutableString *propertyName = [NSMutableString stringWithUTF8String:property_getName(pProperty)];
+PropertyAttributeInfo *info;
+if ((info = [[PropertyAttributeInfoCache instance] getFromCacheWithClass:aClass
+                                                         AndPropertyName:propertyName]) != nil) {
+    return info;
+}
+TypeOfProperty typeOfProperty = NIL;
+Class class = nil;
+BOOL readOnly = NO;
+Class arrayClass = nil;
+NSString *dicPropertyName = propertyName;
+NSArray *array = [propertyAttributes componentsSeparatedByString:@&quot;,&quot;];
+NSString *typeAtt = [array objectAtIndex:0];
+if ([typeAtt hasPrefix:@&quot;Tc&quot;]) {
+    typeOfProperty = CHAR;
+} else if ([typeAtt hasPrefix:@&quot;Td&quot;]) {
+    typeOfProperty = DOUBLE;
+} else if ([typeAtt hasPrefix:@&quot;Ti&quot;]) {
+    typeOfProperty = INT;
+} else if ([typeAtt hasPrefix:@&quot;Tf&quot;]) {
+    typeOfProperty = FLOAT;
+} else if ([typeAtt hasPrefix:@&quot;Tl&quot;]) {
+    typeOfProperty = LONG;
+} else if ([typeAtt hasPrefix:@&quot;Ts&quot;]) {
+    typeOfProperty = SHORT;
+} else if ([typeAtt hasPrefix:@&quot;T{&quot;]) {
+    typeOfProperty = STRUCT;
+} else if ([typeAtt hasPrefix:@&quot;TI&quot;]) {
+    typeOfProperty = UNSIGNED;
+} else if ([typeAtt hasPrefix:@&quot;T^i&quot;]) {
+    typeOfProperty = INT_P;
+} else if ([typeAtt hasPrefix:@&quot;T^v&quot;]) {
+    typeOfProperty = VOID_P;
+} else if ([typeAtt hasPrefix:@&quot;T^?&quot;]) {
+    typeOfProperty = BLOCK;
+} else if ([typeAtt hasPrefix:@&quot;T@&quot;]) {
+    typeOfProperty = ID;
+    if ([typeAtt length] &amp;gt; 4) {
+        class = NSClassFromString([typeAtt substringWithRange:NSMakeRange(3, [typeAtt length] - 4)]);
+        if ([class isSubclassOfClass:[NSArray class]]) {
+            NSUInteger location = [propertyName rangeOfString:@&quot;$&quot;].location;
+            if (location != NSNotFound) {
+                arrayClass = NSClassFromString([propertyName substringWithRange:NSMakeRange(location + 1,
+                        [propertyName length] - location - 1)]);
+                dicPropertyName = [NSString stringWithString:[propertyName substringWithRange:NSMakeRange(0,
+                        location)]];
+            }
+        }
+    }
+}
+
+if ([array count] &amp;gt; 2) {
+    for (NSUInteger i = 1; i &amp;lt; [array count] - 1; i++) {
+        NSString *att = [array objectAtIndex:i];
+        if ([att isEqualToString:@&quot;R&quot;]) {
+            readOnly = YES;
+        }
+    }
+}
+info = [[PropertyAttributeInfo alloc] init];
+info.readOnly = readOnly;
+info.class = class;
+info.type = typeOfProperty;
+info.arrayClass = arrayClass;
+info.dicPropertyName = dicPropertyName;
+info.oriPropertyName = propertyName;
+
+[[PropertyAttributeInfoCache instance] putToCacheWithClass:aClass AndPropertyName:propertyName
+                                                  WithInfo:info];
+return info;
+
+}
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Objective-C/">Objective-C</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/685/" title="MBMvc开源啦~">
+  <strong>上一篇：</strong><br/>
+  <span>
+  MBMvc开源啦~</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/656/"  title="Objective-C 初体验 -- 语法篇">
+ <strong>下一篇：</strong><br/> 
+ <span>Objective-C 初体验 -- 语法篇
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="676" data-title="Objective-C 初体验 --反射篇" data-url="http://blog.zephyrleaves.net/?p=676"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本反射"><span class="toc-number">1.</span> <span class="toc-text">基本反射</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Class相关的一些操作"><span class="toc-number">1.1.</span> <span class="toc-text">Class相关的一些操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#selector相关"><span class="toc-number">1.2.</span> <span class="toc-text">selector相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#继承关系"><span class="toc-number">1.3.</span> <span class="toc-text">继承关系</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#高级反射"><span class="toc-number">2.</span> <span class="toc-text">高级反射</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#objc-msgSend"><span class="toc-number">2.1.</span> <span class="toc-text">objc_msgSend</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class-protocol"><span class="toc-number">2.2.</span> <span class="toc-text">class/protocol</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#method-SEL-IMP"><span class="toc-number">2.3.</span> <span class="toc-text">method/SEL/IMP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ivar-property"><span class="toc-number">2.4.</span> <span class="toc-text">ivar /property</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

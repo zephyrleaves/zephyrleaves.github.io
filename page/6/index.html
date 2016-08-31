@@ -1,0 +1,1242 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta property="og:type" content="website">
+<meta property="og:title" content="装逼程序员">
+<meta property="og:url" content="http://blog.zephyrleaves.net/page/6/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="装逼程序员">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/70/" title="我的RCP之旅(三) -- MVC" itemprop="url">我的RCP之旅(三) -- MVC</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-08-08T15:33:30.000Z" itemprop="datePublished"> 发表于 2007-08-08</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>RCP中的view基本上是由JFace的组件提供的. </p>
+<p>Eclipse JFace 用ContentProvider和LabelProvider实现 MVC 架构. </p>
+<p>RCP通过实例化viewer来实现MVC 的视图部分.而ContentProvider就是模型部分的. </p>
+<p>看ContentProvider是要继承IStructuredContentProvider,其源码: </p>
+<p>public Object[] getElements(Object inputElement); </p>
+<p>可以看到输入的是object,所以其模型是和view无关的领域模型. </p>
+<p>那要将这个模型展示在view上还需要通过LabelProvider来转换成适当的形式. 如下: </p>
+<p>class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {<br>public String getColumnText(Object obj, int index) {<br>return getText(obj);<br>} </p>
+<p>public Image getColumnImage(Object obj, int index) {<br>return getImage(obj);<br>} </p>
+<p>public Image getImage(Object obj) {<br>return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);<br>}<br>} </p>
+<p>就是在getColumnText中进行转换的,将Object中的需要显示的东西retrun出来. </p>
+<p>在 public void createPartControl(Composite parent)中 </p>
+<p>viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL); 1)<br>viewer.setContentProvider(new ViewContentProvider()); 2)<br>viewer.setLabelProvider(new ViewLabelProvider()); 3)<br>viewer.setInput(new String(){&quot;One&quot;,&quot;Two&quot;,&quot;Three&quot;}); 4) </p>
+<p>如上代码 1)实例化了一个viewer 2)注入一个 ContentProvider 3)注入一个LabelProvider 4)将数据模型传入view </p>
+<p>然后可以通过viewer.refresh();来刷新视图. </p>
+<p>可以看出JFace的做法在尽量强制你必须构建独立于GUI的模型． </p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Eclipse/">Eclipse</a><a href="/tags/RCP/">RCP</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/70/#comments" class="ds-thread-count comments-count-link" data-thread-key="70/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/69/" title="我的RCP之旅(二) -- IAdaptable" itemprop="url">我的RCP之旅(二) -- IAdaptable</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-08-06T07:25:59.000Z" itemprop="datePublished"> 发表于 2007-08-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p></p><p style="margin: 0cm 0cm 0pt" class="MsoNormal"><span><font face="Calibri"><span>&nbsp;</span>IAdaptable</font></span><span style="font-family: 宋体">在</span><span><font face="Calibri">Eclipse</font></span><span style="font-family: 宋体">里是一个非常重要的接口。</span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 5.25pt" class="MsoNormal"><span style="font-family: 宋体">乍看</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">是不是想到了</span><span><font face="Calibri">Adapter</font></span><span style="font-family: 宋体">模式</span><span><font face="Calibri">..</font></span><span style="font-family: 宋体">恩</span><span><font face="Calibri">~~,</font></span><span style="font-family: 宋体">他们的作用的确是差不多的</span><span><font face="Calibri">.. IAdaptable</font></span><span style="font-family: 宋体">也算是对</span><span><font face="Calibri">Adapter</font></span><span style="font-family: 宋体">模式的一种扩展</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">不过比之普通的</span><span><font face="Calibri">Adapter</font></span><span style="font-family: 宋体">模式</span><span><font face="Calibri">, IAdaptable</font></span><span style="font-family: 宋体">显得是那么的强大</span><span><font face="Calibri">&hellip;</font></span></p>
+<p><span><font face="Calibri">&nbsp;</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 5.25pt" class="MsoNormal"><span><font face="Calibri">Adapter</font></span><span style="font-family: 宋体">模式是能够将没有接口的实现</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">通过</span><span><font face="Calibri">Adapter</font></span><span style="font-family: 宋体">这个接口来体现出来</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">说白了这个实现还是存在的</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">而</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">做的不是添加接口来体现实现</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">他甚至可以将整个接口都改变</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">在数据保留的情况下将实现都改变</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">或者添加新的实现</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">所以</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">做的最多的是类型的转换</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">而且最主要的是这一切都可以是动态的</span><span><font face="Calibri">.</font></span></p>
+<p><span><font face="Calibri">&nbsp;</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 5.25pt" class="MsoNormal"><span style="font-family: 宋体">下面来看看</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">是怎么运作的</span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 26.25pt;text-indent: -21pt" class="MsoListParagraph"><span><span><font face="Calibri">1.</font><span style="font: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span style="font-family: 宋体">单单使用</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">接口</span><span><font face="Calibri">(</font></span><span style="font-family: 宋体">静态的</span><span><font face="Calibri">)</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: -21pt" class="MsoListParagraph"><span><span><font face="Calibri">a)</font><span style="font: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span style="font-family: 宋体">普通的类型转换</span><span><font face="Calibri">: </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 68.25pt;text-indent: 0cm" class="MsoListParagraph"><span><font face="Calibri">Object o = new ArrayList(); </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 15.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;</span>List list = (List)o</font></span><span style="font-family: 宋体">；</span></p>
+<p></p><p style="margin: 0cm 0cm 0pt" class="MsoNormal"><span><span><font face="Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></span></span><span style="font-family: 宋体">这种转换还是比较常见的</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">那我看来看看用</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">是怎么转换的</span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: -21pt" class="MsoListParagraph"><span><span><font face="Calibri">b)</font><span style="font: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span style="font-family: 宋体">通过</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">进行类型转换</span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp; </span>IAdaptable adaptable = new ArrayList(); </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 105pt;text-indent: -57.75pt" class="MsoNormal"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp; </span>//</font></span><span style="font-family: 宋体">注：这里的</span><span><font face="Calibri">ArrayList</font></span><span style="font-family: 宋体">不是指</span><span><font face="Calibri"> java.util.ArrayList </font></span><span style="font-family: 宋体">而是实现了</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">接口的一个</span><span><font face="Calibri">ArrayList</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 15.75pt" class="MsoListParagraph"><span><font face="Calibri">List list = (List)adaptable.getAdapter(java.util.List.class);</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 15.75pt" class="MsoListParagraph"><span style="font-family: 宋体">这就是上面所说的动态类型转换，我们所做的事情是试图把</span><span><font face="Calibri"> adaptable</font></span><span style="font-family: 宋体">转换为一个</span><font face="Calibri"> <span>List</span></font><span style="font-family: 宋体">实例。大家一定会想这不是对此一举么</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">但是如果我们想把一个</span><span><font face="Calibri">HashMap</font></span><span style="font-family: 宋体">通过</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">转换成一个</span><span><font face="Calibri">List.</font></span><span style="font-family: 宋体">这个时候</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">的威力就体现出来了</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">如下</span><span><font face="Calibri">:</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt" class="MsoListParagraph"><span><font face="Calibri">IAdaptable adaptable = new HashMap(); </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 105pt;text-indent: -57.75pt" class="MsoNormal"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp; </span>//</font></span><span style="font-family: 宋体">注：这里的</span><span><font face="Calibri">HashMap</font></span><span style="font-family: 宋体">不是指</span><span><font face="Calibri"> java.util. HashMap</font></span><span style="font-family: 宋体">而是实现了</span><span><font face="Calibri">IAdaptable</font></span><span style="font-family: 宋体">接口的一个</span><span><font face="Calibri">HashMap</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 15.75pt" class="MsoListParagraph"><span><font face="Calibri">List list = (List)adaptable.getAdapter(java.util.List.class);</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 15.75pt" class="MsoListParagraph"><span style="font-family: 宋体">我们来看看这个</span><span><font face="Calibri">getAdapter</font></span><span style="font-family: 宋体">是怎么实现的</span><span><font face="Calibri">:</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 15.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp; </span>public class HashMap implements IAdaptable { </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 42pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;</span>public Object getAdapter(Class clazz) { </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp; </span>if (clazz == java.util.List.class) {</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp; </span>List list = new ArrayList(this.size()); </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp; </span>list.addAll(this.values()); </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 105pt" class="MsoNormal"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp; </span>return list; </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp; </span>} </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp; </span>return null; </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 99.75pt" class="MsoNormal"><span><font face="Calibri">}</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 15.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp; </span><span>&nbsp;</span>&hellip;&hellip;.</font></span></p>
+<p><span style="font-size: 11.5pt"><font face="Calibri">}</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 44pt;text-indent: -23pt" class="MsoNormal"><span style="font-size: 11.5pt"><span><font face="Calibri">&nbsp;&nbsp;&nbsp; </font></span></span><span style="font-size: 11.5pt;font-family: 宋体">大家可以看到当</span><span style="font-size: 11.5pt"><font face="Calibri">clazz</font></span><span style="font-size: 11.5pt;font-family: 宋体">是</span><span style="font-size: 11.5pt"><font face="Calibri">List</font></span><span style="font-size: 11.5pt;font-family: 宋体">的时候</span><span><font face="Calibri">getAdapter</font></span><span style="font-family: 宋体">就会将</span><span><font face="Calibri">HashMap</font></span><span style="font-family: 宋体">转化为</span><span><font face="Calibri">List</font></span><span style="font-family: 宋体">如果还想将</span><span><font face="Calibri">HashMap</font></span><span style="font-family: 宋体">转为其他类型的话</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">只要再加一个</span><span><font face="Calibri">if(){}</font></span><span style="font-family: 宋体">就可以了</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">但是大家一定也觉得如果要增加一种转换类型就需要直接修改</span><span><font face="Calibri">HashMap</font></span><span style="font-family: 宋体">的源码并重新编译</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">这样做好像并不符合</span><span><font face="Calibri">Eclipse</font></span><span style="font-family: 宋体">的风格</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">所以</span><span><font face="Calibri">Eclipse</font></span><span style="font-family: 宋体">将他进一步抽象</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">提供了一个</span><span><font face="Calibri">PlatformObject</font></span><span style="font-family: 宋体">抽象类并通过</span><span><font face="Calibri">AdapterManager</font></span><span style="font-family: 宋体">来管理各种</span><span><font face="Calibri">adapter.</font></span><span style="font-family: 宋体">这样大家可以通过配置文件动态的添加</span><span><font face="Calibri">adapter</font></span><span style="font-family: 宋体">来动态的对一个类添加功能</span><span><font face="Calibri">..</font></span><span style="font-family: 宋体">大家往下看</span></p>
+<p><span style="font-size: 11.5pt"><span><font face="Calibri">2.</font><span style="font: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span style="font-size: 11.5pt;font-family: 宋体">通过</span><span style="font-size: 11.5pt"><font face="Calibri">IAdapterManager</font></span><span style="font-size: 11.5pt;font-family: 宋体">管理</span><span style="font-size: 11.5pt"><font face="Calibri">Adapter(</font></span><span style="font-size: 11.5pt;font-family: 宋体">动态的</span><span style="font-size: 11.5pt"><font face="Calibri">)</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 26.25pt" class="MsoNormal"><span style="font-family: 宋体">要通过</span><span><font face="Calibri">IAdapterManager</font></span><span style="font-family: 宋体">来管理</span><span><font face="Calibri">Adapter,</font></span><span style="font-family: 宋体">那需要转换的对象就要继承</span><span><font face="Calibri">PlatformObject, PlatformObject</font></span><span style="font-family: 宋体">里已经实现了</span><span><font face="Calibri">getAdapter:</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri">public Object getAdapter(Class adapter) {</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp; </span>return AdapterManager.getDefault().getAdapter(this, adapter);</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri">}</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 26.25pt" class="MsoNormal"><span style="font-family: 宋体">可以看到它是调用了</span><span><font face="Calibri">AdapterManager</font></span><span style="font-family: 宋体">的</span><span><font face="Calibri">getAdapter</font></span><span style="font-family: 宋体">来实现转换</span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 26.25pt" class="MsoNormal"><span style="font-family: 宋体">再看</span><span><font face="Calibri">AdapterManager</font></span><span style="font-family: 宋体">的</span><span><font face="Calibri">getAdapter</font></span><span style="font-family: 宋体">的源码</span><span><font face="Calibri">:</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri">public Object getAdapter(Object adaptable, Class adapterType) {</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>IAdapterFactory factory = (IAdapterFactory) getFactories(adaptable.getClass()).get(adapterType.getName());</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Object result = null;</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></font></span></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (factory != null)</p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>result = factory.getAdapter(adaptable, adapterType);</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if (result == null &amp;&amp; adapterType.isInstance(adaptable))</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>return adaptable;</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>return result;</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 21pt" class="MsoNormal"><span style="font-family: 宋体">可以看到它是将具体的转换实现封装在</span><span><font face="Calibri">IAdapterFactory</font></span><span style="font-family: 宋体">中</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">通过</span><span><font face="Calibri">IAdapterFactory. getAdapter</font></span><span style="font-family: 宋体">来实现转换</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">那具体的</span><span><font face="Calibri">IAdapterFactory</font></span><span style="font-family: 宋体">就得大家自己来实现了</span><span><font face="Calibri">.</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 21pt" class="MsoNormal"><span style="font-family: 宋体">记得还要将这个</span><span><font face="Calibri">IAdapterFactory</font></span><span style="font-family: 宋体">注册到</span><span><font face="Calibri">platform</font></span><span style="font-family: 宋体">上如下</span><span><font face="Calibri">:</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri">Platform.getAdapterManager().registerAdapters( </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp;&nbsp;&nbsp; </span>new NodeListFactory(), List.class </font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 47.25pt;text-indent: 57.75pt" class="MsoListParagraph"><span><font face="Calibri"><span>&nbsp; </span>);</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 15.75pt" class="MsoNormal"><span><font face="Calibri">(NodeListFactory</font></span><span style="font-family: 宋体">就是具体封装实现的那个</span><span><font face="Calibri">IAdapterFactory)</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt;text-indent: 15.75pt" class="MsoNormal"><span><font face="Calibri">,</font></span><span style="font-family: 宋体">不然</span><span><font face="Calibri">AdapterManager</font></span><span style="font-family: 宋体">可不知道要去调那个</span><span><font face="Calibri">IAdapterFactory.</font></span></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Eclipse/">Eclipse</a><a href="/tags/RCP/">RCP</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/69/#comments" class="ds-thread-count comments-count-link" data-thread-key="69/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/68/" title="我的RCP之旅(一) -- My First RCP" itemprop="url">我的RCP之旅(一) -- My First RCP</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-08-03T08:22:32.000Z" itemprop="datePublished"> 发表于 2007-08-03</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p></p><p style="margin: 0cm 0cm 0pt" class="MsoNormal"><span style="font-family: 宋体">一直觉得</span><span><font face="Calibri">RCP</font></span><span style="font-family: 宋体">很好玩</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">特别是</span><span><font face="Calibri">Europa</font></span><span style="font-family: 宋体">发布后</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">可以看到</span><span><font face="Calibri">Eclipse.org</font></span><span style="font-family: 宋体">对</span><span><font face="Calibri">RCP</font></span><span style="font-family: 宋体">的重视</span><span><font face="Calibri">.RCP</font></span><span style="font-family: 宋体">大有可为啊</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">可前段时候比较忙</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">没时间研究这个</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">现在空了点</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">照着</span><span><font face="Calibri">RCP</font></span><span style="font-family: 宋体">的教程做了我的第一个</span><span><font face="Calibri">RCP</font></span><span style="font-family: 宋体">程序</span><span><font face="Calibri">..</font></span><span style="font-family: 宋体">嘿嘿</span></p>
+<p><span><font face="Calibri">&nbsp;</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 21pt;text-indent: -21pt" class="MsoListParagraph"><span><span><font face="Calibri">1.</font><span style="font: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span style="font-family: 宋体">新建一个</span><span><font face="Calibri">RCP</font></span><span style="font-family: 宋体">工程</span><span><font face="Calibri">(</font></span><span style="font-family: 宋体">实际上就是一个</span><span><font face="Calibri">plug-in</font></span><span style="font-family: 宋体">工程啦</span><span><font face="Calibri">).</font></span><span style="font-family: 宋体">这个不用我说了吧</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">记得在</span><span><font face="Calibri">Would you like to create a rich client application?</font></span><span style="font-family: 宋体">上勾上勾</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">然后为了简单</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">可以选一个已存在的模板</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">来新建工程</span><span><font face="Calibri">..</font></span><span style="font-family: 宋体">我选了</span><span><font face="Calibri">Hello world </font></span><span style="font-family: 宋体">哦</span><span><font face="Calibri">.</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 21pt;text-indent: -21pt" class="MsoListParagraph"><span><span><font face="Calibri">2.</font><span style="font: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span style="font-family: 宋体">工程起来了</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">如果你选了模板</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">那直接</span><span><font face="Calibri">run as a eclipse application</font></span><span style="font-family: 宋体">就可以跑起来了</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">虽然只有简单的一个试图而已</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">但至少起来了么</span><span><font face="Calibri">..hoho</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 21pt;text-indent: -21pt" class="MsoListParagraph"><span><span><font face="Calibri">3.</font><span style="font: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span style="font-family: 宋体">接下来就是丰富这个</span><span><font face="Calibri">RCP</font></span><span style="font-family: 宋体">了</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">我搞了个</span><span><font face="Calibri">Designer 6.4.</font></span><span style="font-family: 宋体">可视化编程就是爽</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">现在先介绍一下</span><span><font face="Calibri">RCP</font></span><span style="font-family: 宋体">最基本的构成</span><span><font face="Calibri">.</font></span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 42pt;text-indent: -21pt" class="MsoListParagraph"><span><span><font face="Calibri">a)</font><span style="font: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span><font face="Calibri">Application:</font></span><span style="font-family: 宋体">这个就是整个</span><span><font face="Calibri">RCP</font></span><span style="font-family: 宋体">的启动程序了</span><span><font face="Calibri">,</font></span><span style="font-family: 宋体">里面有</span><strong><span style="font-size: 10pt;color: #7f0055;font-family: 'Courier New'">public</span></strong><span style="font-size: 10pt;color: black;font-family: 'Courier New'"> Object start(IApplicationContext context)</span><span style="font-size: 10pt;color: black;font-family: 宋体">方法和</span><strong><span style="font-size: 10pt;color: #7f0055;font-family: 'Courier New'">public</span></strong><span style="font-size: 10pt;color: black;font-family: 'Courier New'"> </span><strong><span style="font-size: 10pt;color: #7f0055;font-family: 'Courier New'">void</span></strong><span style="font-size: 10pt;color: black;font-family: 'Courier New'"> stop() </span><span style="font-size: 10pt;color: black;font-family: 宋体">方法</span><span style="font-size: 10pt;color: black;font-family: 'Courier New'">.</span><span style="font-size: 10pt;color: black;font-family: 宋体">用来启动和关闭</span><span style="font-size: 10pt;color: black;font-family: 'Courier New'">RCP</span><span style="font-size: 10pt;color: black;font-family: 宋体">应用的</span><span style="font-size: 10pt;color: black;font-family: 'Courier New'">.</span></p>
+<p></p><p style="margin: 0cm 0cm 0pt 42pt;text-indent: -21pt" class="MsoListParagraph"><span><span><font face="Calibri">b)</font><span style="font: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span><font face="Calibri">Perspective:</font></span><span style="font-family: 宋体">这个就是透视图了</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">透视图里可以包含视图和编辑器</span><span><font face="Calibri">.</font></span><span style="font-family: 宋体">每个</span><span><font face="Calibri">RCP</font></span><span style="font-family: 宋体">至少要有一个</span><span><font face="Calibri">Perspective,</font></span><span style="font-family: 宋体">不然没啥好显示了</span><span><font face="Calibri">.</font></span></p>
+<p>&lt;</p>
+<p>p style=”margin: 0cm 0cm 0pt 42pt;text-indent: -21pt” class=”MsoListParagraph”&gt;<span><span><font face="Calibri">c)</font><span style="font: 7pt 'Times New Roman'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span style="font-family: 宋体">各类</span><span style="font-size: 10pt;color: black;font-family: 'Courier New'">Advisor:</span><span style="font-size: 10pt;color: black;font-family: 宋体">最主要的有</span><span style="font-size: 10pt;color: black;font-family: 'Courier New'">ApplicationActionBarAdvisor:</span><span style="font-size: 10pt;color: black;font-family: 宋体">用于定义菜单和工具条上的操作</span><span style="font-size: 10pt;color: black;font-family: 'Courier New'">; ApplicationWorkbenchAdvisor:</span><span style="font-size: 10pt;color: black;font-family: 宋体">用户定</span></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Eclipse/">Eclipse</a><a href="/tags/RCP/">RCP</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/68/#comments" class="ds-thread-count comments-count-link" data-thread-key="68/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/67/" title="Java序列化之注意点" itemprop="url">Java序列化之注意点</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-07-06T14:23:59.000Z" itemprop="datePublished"> 发表于 2007-07-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Java 序列化和反序列化之后的对象是会不一样的…这个时候还是和原来一样的操作这个对象就有可能出错.</p>
+<p>jdk 1.5之后多了auto-boxing特性.它可以将int在使用是自动转化为Integer对象,或将Integer对象自动转化为int..所以在普通情况下两个Integer可以直接用==正确比较.但反序列化之后情况就不一样了,如果是两个Integer对象==这样的比较就不对了.必须用equal来比较.所以在重载equal方法的时候就要注意,如果是Integer比较的话,就要调用Integer的equal方法来比较,不然..嘿嘿…….</p>
+<p>&nbsp;同样的String也要注意了.</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/67/#comments" class="ds-thread-count comments-count-link" data-thread-key="67/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/66/" title="OSGi感想" itemprop="url">OSGi感想</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-05-30T08:48:42.000Z" itemprop="datePublished"> 发表于 2007-05-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>接触了一段时间的OSGi,现在也来谈一谈感想</p>
+<p>OSGi全称Open Service Gateway Initiative ,它作为一个规范提供了开放和通用的架构,使得使用者能统一的开发,管理和部署服务.<br>以前OSGi主要是为嵌入式开发提供规范.但它优异的架构也使它在其他地方有所建树…最著名的就是Eclipse了,它的基础架构Equinox就是OSGi的规范工程.<br>现在Dynamic Module System For Java&mdash;JSR 291也通过了复审..可能过段时间JRE就直接集成OSGi了..</p>
+<p>OSGi提供给人们一个模块设计的概念,将各种功能及服务做成Bundle即可实现热拔插.</p>
+<p>OSGi还有一个主要的特性就是它的动态化,它可以动态的改变系统的行为..通过对不同Bundle的启动和关闭来达到不同的实现效果.</p>
+<p>而OSGi采用的是微内核技术..以至于它能有一个稳定,健壮的系统.Bundle的崩溃不会影响到整个系统.而且它的动态加载机制,使其启动时间大幅缩短..BMW的汽车管理系统就是用的OSGi,而他启动只需要3.5秒.可见他的效率也是不差的.</p>
+<p>综合以上的特点..可以看出OSGi提供了一个模块设计,开发的规范<br>这样的设计能带来更好的重用,更低的耦合<br>而他的动态化,也实现了热部署,热升级,无须重启任何东西,就可实现一切</p>
+<p>但是我们也要看到OSGi不足的地方..<br>由于OSGi最初为嵌入式系统设计,他的Http Service很单薄,只提供了Servlet和静态资源的注册.还不能满足企业级的应用(一个OPENGOSS的开源项目扩充了OSGi的定义,已经能使它较为完整的运行web应用),以及OSGI对分布式部署和跨模块的事务支持都力不从心.而且由于设计理念的不同,将其他系统移植至OSGi下也会很困难.<br>现在基于Equinox的B/S应用是修改了jetty来作为http service,如其他的商业容器还不能和OSGi直接集成,不过现在IBM和BEA都在推广OSGi,相信不久的将来websphere和weblogic都将可以作为OSGi的http service.</p>
+<p>&nbsp;</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Eclipse/">Eclipse</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/66/#comments" class="ds-thread-count comments-count-link" data-thread-key="66/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/65/" title="Equinox Server-side(三)" itemprop="url">Equinox Server-side(三)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-05-29T04:21:31.000Z" itemprop="datePublished"> 发表于 2007-05-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>&nbsp;</p>
+<p>因为OSGi是最早为嵌入式系统设计，所以OSGi标准中的HTTP服务只提供了有限的Servlet与静态资源的发布功能，没有一个完整的WEB容器概念，这种模式更适合通过WEB方式暴露(Export)服务，不太适合开发展现层的WEB应用。</p>
+<p>现在有个开源项目opengoss通过对OSGi插件体系的扩展,基本实现了Servlet容器</p>
+<p>具体实现：&quot;插件&quot;与我们通常所说软件&quot;模块&quot;的一个区别是：插件能自我描述，加载运行在插件容器中。那么，我们可以分层扩展一个插件的自我描述，用类似Decorator的模式为插件增加&ldquo;特征&rdquo;描述。 所以，我们在OpenCore中定义了三种特征的插件.</p>
+<p>这三种插件类型间关系类似Decorator模式，从内到外增加&quot;特征&quot;描述：</p>
+<p><img src="http://canyousee.blogbus.com/files/11804125670.jpg" alt=""></p>
+<p>OSGi标准插件，自描述文件&quot;META-INF/MANIFEST.MF&quot;<br>OpenCore插件，增加自描述文件&quot;META-INF/opencore.xml&quot;，实现符合OSGi环境的依赖注册(IoC)与动态扩展点<br>OpenCore Web插件，增加自描述文件&quot;WEB-INF/web.xml&quot;(符合Servlet规范)，WEB特性的插件，可以部署在Servlet容器内 .</p>
+<p>部署图:</p>
+<p><img src="http://canyousee.blogbus.com/files/11804126170.jpg" alt=""></p>
+<p><img src="http://canyousee.blogbus.com/files/11804126230.jpg" alt=""></p>
+<p>来看看具体怎么做</p>
+<p>先下载opengoss的org.opengoss.osgi.core,org.opengoss.web.core,org.opengoss.web.jetty<br><a href="http://opengoss.googlecode.com/svn" target="_blank" rel="external">http://opengoss.googlecode.com/svn</a></p>
+<p>具体的bundle都要依赖于上面的bundle</p>
+<p>然后就可以基于这个写具体的web层了</p>
+<p>新建一个插件项目..这个时候的Activator和以前的就不一样了<br>它要继承自WebPluginActivator.如下<br>public class Activator extends WebPluginActivator {</p>
+<p>&nbsp;@Override<br>&nbsp;protected ClassLoader getClassLoader() {<br>&nbsp;&nbsp;return Activator.class.getClassLoader();<br>&nbsp;}</p>
+<p>}</p>
+<p>然后在META-INF下添加OPENCORE.xml如下<br>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;<br>&nbsp;&lt;plugin id=&quot;test&quot; version=&quot;1.0&quot; /&gt;<br>这里的id直接影响了这个应用的URI</p>
+<p>在web.xml里添加<br>&nbsp;&lt;servlet&gt;<br>&nbsp;&nbsp;&lt;servlet-name&gt;default&lt;/servlet-name&gt;<br>&nbsp;&nbsp;&lt;servlet-class&gt;<br>&nbsp;&nbsp;&nbsp;org.opengoss.web.internal.jetty.DefaultServlet<br>&nbsp;&nbsp;&lt;/servlet-class&gt;<br>&nbsp;&nbsp;&lt;init-param&gt;<br>&nbsp;&nbsp;&nbsp;&lt;param-name&gt;acceptRanges&lt;/param-name&gt;<br>&nbsp;&nbsp;&nbsp;&lt;param-value&gt;true&lt;/param-value&gt;<br>&nbsp;&nbsp;&lt;/init-param&gt;<br>&nbsp;&nbsp;&lt;init-param&gt;<br>&nbsp;&nbsp;&nbsp;&lt;param-name&gt;dirAllowed&lt;/param-name&gt;<br>&nbsp;&nbsp;&nbsp;&lt;param-value&gt;true&lt;/param-value&gt;<br>&nbsp;&nbsp;&lt;/init-param&gt;<br>&nbsp;&nbsp;&lt;init-param&gt;<br>&nbsp;&nbsp;&nbsp;&lt;param-name&gt;redirectWelcome&lt;/param-name&gt;<br>&nbsp;&nbsp;&nbsp;&lt;param-value&gt;false&lt;/param-value&gt;<br>&nbsp;&nbsp;&lt;/init-param&gt;<br>&nbsp;&nbsp;&lt;init-param&gt;<br>&nbsp;&nbsp;&nbsp;&lt;param-name&gt;maxCacheSize&lt;/param-name&gt;<br>&nbsp;&nbsp;&nbsp;&lt;param-value&gt;2000000&lt;/param-value&gt;<br>&nbsp;&nbsp;&lt;/init-param&gt;<br>&nbsp;&nbsp;&lt;init-param&gt;<br>&nbsp;&nbsp;&nbsp;&lt;param-name&gt;maxCachedFileSize&lt;/param-name&gt;<br>&nbsp;&nbsp;&nbsp;&lt;param-value&gt;254000&lt;/param-value&gt;<br>&nbsp;&nbsp;&lt;/init-param&gt;<br>&nbsp;&nbsp;&lt;init-param&gt;<br>&nbsp;&nbsp;&nbsp;&lt;param-name&gt;maxCachedFiles&lt;/param-name&gt;<br>&nbsp;&nbsp;&nbsp;&lt;param-value&gt;1000&lt;/param-value&gt;<br>&nbsp;&nbsp;&lt;/init-param&gt;<br>&nbsp;&nbsp;&lt;init-param&gt;<br>&nbsp;&nbsp;&nbsp;&lt;param-name&gt;useFileMappedBuffer&lt;/param-name&gt;<br>&nbsp;&nbsp;&nbsp;&lt;param-value&gt;true&lt;/param-value&gt;<br>&nbsp;&nbsp;&lt;/init-param&gt;<br>&nbsp;&nbsp;&lt;load-on-startup&gt;0&lt;/load-on-startup&gt;<br>&nbsp;&lt;/servlet&gt;<br>&nbsp;&lt;servlet-mapping&gt;<br>&nbsp;&nbsp;&lt;servlet-name&gt;default&lt;/servlet-name&gt;<br>&nbsp;&nbsp;&lt;url-pattern&gt;/&lt;/url-pattern&gt;<br>&nbsp;&lt;/servlet-mapping&gt;<br>&nbsp;<br>OK,接下去就可以写正真的应用了….</p>
+<p>写完之后连同opengoss的bunlde一起放到osgi环境下就可以跑起来了</p>
+<p>目前opencore还实现了简单的IOC容器<br>就是在opencore.xml来配置依赖关系</p>
+<p>OpenCore IoC容器有下面几个特性：</p>
+<p>1.完全基于OSGi的插件体系结构。<br>2.简单，远没有Spring IoC容器复杂，支持属性注射(Property Injection)与构造函数注册(Constructor Injection)。<br>3.分级IoC容器，分为插件级、应用程序级、网络级<br>4.IoC容器管理的服务与OSGi框架管理的服务可以互访，这样保证了OpenCore IoC不会屏蔽OSGi本身的模型，使得基于OpenCore IoC的插件与大量第三方基于完全基于OSGi服务模型的插件可以协作。<br>5.支持通过动态扩展点实现1对多的依赖注册机制。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Eclipse/">Eclipse</a><a href="/tags/Web应用/">Web应用</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/65/#comments" class="ds-thread-count comments-count-link" data-thread-key="65/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/64/" title="Equinox Server-side(二)" itemprop="url">Equinox Server-side(二)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-05-25T03:09:04.000Z" itemprop="datePublished"> 发表于 2007-05-25</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>这次讲讲如何将http作为一个bundle,让其他bundle来访问其http.</p>
+<p>从Eclipse.org上将以下的包下下来</p>
+<p>org.eclipse.equinox.http<br>OR</p>
+<p>org.eclipse.equinox.http.jetty<br>org.eclipse.equinox.http.servlet<br>org.mortbay.jetty (v5_1_11 - from Orbit Depot)<br>org.apache.commons.logging (v1_0_4 - from Orbit Depot) </p>
+<p>javax.servlet (v2_4 - from Orbit Depot)<br>[optional] org.eclipse.equinox.http.registry</p>
+<p>地址是<br><a href="http://www.eclipse.org/equinox/server/downloads/equinoxhttp-anon.psf" target="_blank" rel="external">http://www.eclipse.org/equinox/server/downloads/equinoxhttp-anon.psf</a><br><a href="http://www.eclipse.org/equinox/server/downloads/jettyhttp-anon.psf" target="_blank" rel="external">http://www.eclipse.org/equinox/server/downloads/jettyhttp-anon.psf</a><br>上面两个文件是ecplise的小组项目导入文件.<br>可任选一个导入,下面的是将jetty作为http响应</p>
+<p>这个时候就可以写web应用了.<br>可以先写一个在各种servlet容器能运行的程序,然后把它转化为bundle就可以了<br>具体做法是<br>先在plugin.xml中 加入资源的扩展<br>如下<br>&lt;plugin&gt;<br>&nbsp; &lt;extension point=&quot;org.eclipse.equinox.http.registry.resources&quot;&gt;<br>&nbsp;&nbsp;&nbsp; &lt;resource<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alias=&quot;/files&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; base-name=&quot;/web_files&quot;/&gt;<br>&nbsp; &lt;/extension&gt;<br>&lt;/plugin&gt;</p>
+<p>这样http就能访问web_files下的文件了</p>
+<p>在加入servlet扩展</p>
+<p>&lt;extension point=&quot;org.eclipse.equinox.http.registry.servlets&quot;&gt;<br>&nbsp;&nbsp;&nbsp; &lt;servlet<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alias=&quot;/test&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class=&quot;com.example.servlet.MyServlet&quot;/&gt;<br>&nbsp; &lt;/extension&gt;<br>这样.就能通过/test来访问com.example.servlet.MyServlet这个servlet了</p>
+<p>现在Equinox已经支持servlet和jsp</p>
+<p>ok,在OSGI框架下run一下这个bundle,然后在浏览器中输入<a href="http://localhost/files/index.html" target="_blank" rel="external">http://localhost/files/index.html</a><br>成功</p>
+<p>参考:<a href="http://www.eclipse.org/equinox/server/http_writing_application.php" target="_blank" rel="external">http://www.eclipse.org/equinox/server/http_writing_application.php</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Eclipse/">Eclipse</a><a href="/tags/Web应用/">Web应用</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/64/#comments" class="ds-thread-count comments-count-link" data-thread-key="64/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/63/" title="Equinox Server-side(一)" itemprop="url">Equinox Server-side(一)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-05-24T07:19:06.000Z" itemprop="datePublished"> 发表于 2007-05-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Equinox作为一个OSGI的示范工程.那是相当的牛b啊.Eclipse就是建立在Equinox上的.所以说Equinox是个好东西啊.</p>
+<p>既然Equinox是个好东西,那怎么将Equinox应用到Http Server上,让那些web应用作为bundle在Equinox如插件般插来插去,那是多么惬意的事情.</p>
+<p>现在就来看看怎么实现这个目标吧.</p>
+<p>现在Equinox实现与Http Server整合有两种方式<br>1.将Equinox建立在servlet容器上,由Equinox的servletbridge来转发request</p>
+<p><img src="http://canyousee.blogbus.com/files/11799914030.gif" alt=""></p>
+<p>2.将http服务作为一个bundle,让其他bundle来访问其http服务.</p>
+<p><img src="http://canyousee.blogbus.com/files/11799914360.gif" alt=""></p>
+<p>先来说说 1.<br>a)先装上tomcat<br>b)下载bridge.war (<a href="http://www.eclipse.org/equinox/server/downloads/bridge.war" target="_blank" rel="external">http://www.eclipse.org/equinox/server/downloads/bridge.war</a>) 它主要的作用是将HTTP请求转发给OSGI HTTP Services<br>c)将bridge.war拷到webapps下,启动tomcat!OK,OSGI也会随着一起起来.</p>
+<p>这个时候就可以在osgi下install ,start ,stop 各种bundle了<br>现在有两种方式将web应用发布成bunlde<br>i).用由org.eclipse.eqinox.servlet.bridge.http注册的OSGi HttpService来发布这个bundle<br>ii).作为org.eclipse.equinox.http.registry的扩展点来发布.</p>
+<p>现在看i.)<br>&nbsp; 先写一个servlet:<br>&nbsp;&nbsp;&nbsp;&nbsp; public class HelloWorldServlet extends HttpServlet {</p>
+<p>&nbsp;protected void doGet(HttpServletRequest req, HttpServletResponse resp)<br>&nbsp;&nbsp; throws ServletException, IOException {<br>&nbsp;&nbsp;resp.setContentType(&quot;text/html&quot;);<br>&nbsp;&nbsp;resp.getWriter().write(&quot;&lt;html&gt;&lt;body&gt;Hello World – sample servlet&lt;/body&gt;&lt;/html&gt;&quot;);<br>&nbsp;}</p>
+<p>&nbsp; }<br>&nbsp;<br>&nbsp; 这个时候需要一个Activator来获得BundleContext 并注册上面的Servlet为Http Service<br>&nbsp; public class Activator implements BundleActivator {</p>
+<p>&nbsp;private ServiceTracker httpServiceTracker;<br>&nbsp;<br>&nbsp;public void start(BundleContext context) throws Exception {<br>&nbsp;&nbsp;httpServiceTracker = new HttpServiceTracker(context);<br>&nbsp;&nbsp;httpServiceTracker.open();<br>&nbsp;}</p>
+<p>&nbsp;public void stop(BundleContext context) throws Exception {<br>&nbsp;&nbsp;httpServiceTracker.close();<br>&nbsp;&nbsp;httpServiceTracker = null;<br>&nbsp;}</p>
+<p>&nbsp;private class HttpServiceTracker extends ServiceTracker {</p>
+<p>&nbsp;&nbsp;public HttpServiceTracker(BundleContext context) {<br>&nbsp;&nbsp;&nbsp;super(context, HttpService.class.getName(), null);<br>&nbsp;&nbsp;}</p>
+<p>&nbsp;&nbsp;public Object addingService(ServiceReference reference) {<br>&nbsp;&nbsp;&nbsp;HttpService httpService = (HttpService) context.getService(reference);<br>&nbsp;&nbsp;&nbsp;try {&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;httpService.registerResources(&quot;/helloworld.html&quot;, &quot;/helloworld.html&quot;, null); //$NON-NLS-1$ //$NON-NLS-2$<br>&nbsp;&nbsp;&nbsp;&nbsp;httpService.registerServlet(&quot;/helloworld&quot;, new HelloWorldServlet(), null, null); //$NON-NLS-1$<br>&nbsp;&nbsp;&nbsp;} catch (Exception e) {<br>&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;return httpService;<br>&nbsp;&nbsp;}&nbsp;&nbsp;<br>&nbsp;&nbsp;<br>&nbsp;&nbsp;public void removedService(ServiceReference reference, Object service) {<br>&nbsp;&nbsp;&nbsp;HttpService httpService = (HttpService) service;<br>&nbsp;&nbsp;&nbsp;httpService.unregister(&quot;/helloworld.html&quot;); //$NON-NLS-1$<br>&nbsp;&nbsp;&nbsp;httpService.unregister(&quot;/helloworld&quot;); //$NON-NLS-1$<br>&nbsp;&nbsp;&nbsp;super.removedService(reference, service);<br>&nbsp;&nbsp;}<br>&nbsp;}<br>&nbsp; }</p>
+<p>首先从BundleContext中得到HttpService的reference。然后从BundleContext中拿到HttpService的实例。向httpService注册你的Servlet。最后导出为一个Bundle。</p>
+<p>现在导出成一个bundle,在刚才的OSGI中install 并start .然后在浏览器输入<a href="http://localhost/bridge/helloworld" target="_blank" rel="external">http://localhost/bridge/helloworld</a>,就可以看到效果了.</p>
+<p>在看ii)将web应用作为扩展点,这样Activator就可以省去了.用plugin.xml来代替Activator描述注册信息,如下</p>
+<p>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;<br>&lt;?eclipse version=&quot;3.0&quot;?&gt;<br>&lt;plugin&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp; &lt;extension-point id=&quot;servlets&quot; name=&quot;HttpService servlets&quot; schema=&quot;schema/servlets.exsd&quot;/&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp; &lt;extension-point id=&quot;resources&quot; name=&quot;HttpService resources&quot; schema=&quot;schema/resources.exsd&quot;/&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp; &lt;extension-point id=&quot;httpcontexts&quot; name=&quot;HttpService httpcontexts&quot; schema=&quot;schema/httpcontexts.exsd&quot;/&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp; &lt;extension<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id=&quot;helloServlet&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; point=&quot;org.eclipse.equinox.http.registry.servlets&quot;&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;servlet<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alias=&quot;/ext/helloworld&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class=&quot;sample.http.registry.HelloWorldServlet&quot;&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;init-param<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name=&quot;servlet-name&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; value=&quot;Test Servlet&quot;&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/init-param&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;init-param<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name=&quot;testParam&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; value=&quot;test param value&quot;&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/init-param&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/servlet&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp; &lt;/extension&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp; &lt;extension<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; id=&quot;helloResource&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; point=&quot;org.eclipse.equinox.http.registry.resources&quot;&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;resource<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alias=&quot;/ext/helloworld.html&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; base-name=&quot;/helloworld.html&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp; &lt;/extension&gt;<br>&lt;/plugin&gt;</p>
+<p>OK,现在导出成一个bundle,在刚才的OSGI中install 并start .然后在浏览器输入<a href="http://localhost/bridge/helloworld" target="_blank" rel="external">http://localhost/bridge/helloworld</a>,看看是不是和刚才的效果一样啊</p>
+<p>好了下次在讲讲2.是怎么实现的</p>
+<p>参考:<a href="http://www.eclipse.org/equinox" target="_blank" rel="external">http://www.eclipse.org/equinox</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Eclipse/">Eclipse</a><a href="/tags/Web应用/">Web应用</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/63/#comments" class="ds-thread-count comments-count-link" data-thread-key="63/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/62/" title="TDD感想" itemprop="url">TDD感想</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-05-12T06:02:47.000Z" itemprop="datePublished"> 发表于 2007-05-12</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><strong>Test Case 作用</strong></p>
+<p>1. 检查你的产品代码是否按预期工作, 这由函数体来完成</p>
+<p>2. 表达你的预期,让阅读代码的人知道你的产品能够干什么,如何使用, 甚至如何设计的;这除了函数体的assert语句外,Test case的名字更是重要的手段</p>
+<p>3.保证重构不出错</p>
+<p>4.展示API的用法, 最好的Quick Start</p>
+<p>5.Domain知识的载体, 最好的文档</p>
+<p>6……</p>
+<p>&nbsp;</p>
+<p><strong>Test Case的命名</strong></p>
+<p>1, 如果Domain比较简单,&nbsp; 比如上面的Calculator, 每个人都很清楚, 你就不需要再通过测试用例的名字罗里罗嗦了, 这时候可以选用表达实现的名字</p>
+<p>2, 如果Domain比较复杂, 进入项目的新人不一定了解, 这时候你的测试用例的名字就是最好的领域知识</p>
+<p><strong>Test Case的装配</strong><br>1. 如果一个对象很容易用一两句话装配, 一般可以在每个测试用例里就近创建它</p>
+<p>2. 如果初始化一个对象很复杂, 要不少代码, 就写一个函数来做初始化, 然后在每个测试用例里就近调用它</p>
+<p>3. setUp()里主要是一些对外部依赖环境的设置.</p>
+<p><strong>Mocks Vs. Stubs</strong> </p>
+<p>1. Stubs 属于 State Based Test方法的实现方式 .他测试的是方法的结果..对其中的过程并不关心.</p>
+<p>2. Mocks 属于 Interaction Based Test/ Behaviour verification Test的实现方式 .他还要测试方法的过程.</p>
+<p>3. <a href="http://martinfowler.com/articles/mocksArentStubs.html" target="_blank" rel="external">&lt;&lt;Mocks Aren&#039;t Stubs&gt;&gt;</a> </p>
+<p>4. Stubs 的注意事项:<br>&nbsp;&nbsp;&nbsp;&nbsp; 不要包含任何逻辑;<br>&nbsp;&nbsp;&nbsp;&nbsp; 强迫你重新考虑你的设计 (其实这几乎是任何高质量的测试用例都能带来的)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1), 调用链<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 如果调用链很长就需要写很多Stubs类.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2), 针对接口编程</p>
+<p>5.动态代理Stub(zz)</p>
+<p>&nbsp; 这是介于静态手写Stub和完全的MockObject之间的一种方式, 基本上用它来简化Stub的编写, 所以本质上还是属于 Stub, 尽管Mock Object可能是用动态代理实现的</p>
+<p>动态代理Stub相比静态手写Stub的主要好处就是不需要Stub实现所有API, 只要 在invoke之类的函数中针对测试用例用到的函数进行处理就可以了</p>
+<p>还有一种用反射实现的代理, 可以复用现有的Stub, 不需要这些Stub实现什么接口, 只需要函数签名一致即可</p>
+<p>6. Mock Object<br>&nbsp;&nbsp; 1)Mock则更多的关注于Mock 对象的某个方法是否被调用(行为是否发生), 以及调用时的参数和返回值.<br>&nbsp;&nbsp;<br>&nbsp;&nbsp; 2)重构会破坏测试用例(包含Mock Object), 即使你的重构是正确的</p>
+<p>&nbsp;&nbsp; 3)体现在那些紧凑的API上, 即单一API调用, 根据不同参数返回不同结果.不适合用Mock Object.最好使用真实数据.<br>&nbsp;<br>&nbsp;&nbsp; 4)Stub 不到万不得以不用, Mock 能用则用.<br>&nbsp;&nbsp;<br><strong>Don&rsquo;t Ask, Tell</strong></p>
+<p>&nbsp;&nbsp; Ask 带来的坏处:</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.&nbsp;&nbsp; 破坏对象的封装性, 你不得不暴露很多的属性供别人Ask.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.&nbsp;&nbsp; 容易使得一些对象过于复杂(会计部), 而一些对象(员工)又过于简单, 甚至成为了仅仅包含数据的&rdquo;哑&rdquo;对象.</p>
+<p>&nbsp;&nbsp; Tell 带来的好处:</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.&nbsp; 更多的考虑责任分配的合理性, 方法涉及的数据在哪里方法就应该在哪里. 这样对象的内聚性就大大加强了.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.&nbsp; 增强了对象的封装性, 对象不必暴露更多的属性.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.&nbsp; 可以充分发挥面向对象的特性,比如多态, 减少&rdquo;哑&rdquo;对象从而获得更强的可维护性,扩展性以及面对变化的能力. </p>
+<p>&nbsp;</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/62/#comments" class="ds-thread-count comments-count-link" data-thread-key="62/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/61/" title="让页面只打开一次" itemprop="url">让页面只打开一次</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-04-27T07:24:44.000Z" itemprop="datePublished"> 发表于 2007-04-27</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>&lt;script&gt; &nbsp;<br>&nbsp; function&nbsp;&nbsp; open() &nbsp;<br>&nbsp; {&nbsp;&nbsp;&nbsp;<br>&nbsp; newWindow=window.open(&quot;url&quot;,&quot;windowName&quot;);&nbsp;&nbsp;&nbsp;<br>&nbsp; newWindow.name=&quot;windowName&quot;;&nbsp;&nbsp;&nbsp;<br>&nbsp; newWindow.fecus; &nbsp;<br>&nbsp; }&nbsp;&nbsp;&nbsp;</p>
+<p>&lt;/script&gt;</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Web应用/">Web应用</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/61/#comments" class="ds-thread-count comments-count-link" data-thread-key="61/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/5/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/7/">Next<span></span></a>
+  </nav>
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>

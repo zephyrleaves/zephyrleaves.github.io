@@ -1,0 +1,903 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>TDH_Socket与HandlerSocket和MySQL的特性优缺点对比 | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="&amp;nbsp;
+
+
+                
+                
+                    TDH_SOCKET
+
+
+                
+                
+                    Hand">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TDH_Socket与HandlerSocket和MySQL的特性优缺点对比">
+<meta property="og:url" content="http://blog.zephyrleaves.net/610/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="&amp;nbsp;
+
+
+                
+                
+                    TDH_SOCKET
+
+
+                
+                
+                    Hand">
+<meta property="og:updated_time" content="2015-08-15T05:44:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TDH_Socket与HandlerSocket和MySQL的特性优缺点对比">
+<meta name="twitter:description" content="&amp;nbsp;
+
+
+                
+                
+                    TDH_SOCKET
+
+
+                
+                
+                    Hand">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/610/" title="TDH_Socket与HandlerSocket和MySQL的特性优缺点对比" itemprop="url">TDH_Socket与HandlerSocket和MySQL的特性优缺点对比</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2012-05-16T04:48:25.000Z" itemprop="datePublished"> 发表于 2012-05-16</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		
+<div>
+    <table border="1px solid" cellpadding="0" cellspacing="0">
+        <tbody>
+            <tr>
+                <td>
+                    <p lang="en-US">&nbsp;
+
+
+                </p></td>
+                <td>
+                    <p lang="en-US">TDH_SOCKET
+
+
+                </p></td>
+                <td>
+                    <p lang="en-US">HandlerSocket
+
+
+                </p></td>
+                <td>
+                    <p lang="en-US">SQL
+
+
+                </p></td>
+            </tr>
+            <tr>
+                <td>IO策略</td>
+                <td>
+                    <p lang="en-US">Dynamic IOStrategy
+
+
+                </p></td>
+                <td>
+                    <p lang="en-US">Same-thread IOStrategy
+
+
+                </p></td>
+                <td>
+                    <p lang="en-US">one-thread-per-connection
+
+
+                </p></td>
+            </tr>
+            <tr>
+                <td>优点</td>
+                <td>worker线程只处理与DB相关的逻辑
+                    &nbsp;
+
+
+                    最大化DB的操作吞吐量
+
+
+                </td>
+                <td>上下文切换真心很少</td>
+                <td>资源分离 不太会相互干扰</td>
+            </tr>
+            <tr>
+                <td>缺点</td>
+                <td>上下文切换一般,测试时最高在10w,但可以接受</td>
+                <td>IO逻辑对DB逻辑影响较大
+                    &nbsp;
+
+
+                    一旦io处理的慢了,会导致QPS下降很多(比如说较多的连接数并发请求导致io处理变慢也会是整体QPS下降)
+
+
+                </td>
+                <td>线程资源浪费严重,太多的线程会导致高并发是上下文切换多,从而影响性能,测试时最高60w</td>
+            </tr>
+            <tr>
+                <td>读策略</td>
+                <td>
+                    <ol>
+                        <li>无需SQL解析</li>
+                        <li>可在THD上cache open过的table(可配置关闭)</li>
+                        <li>一次轮询只lock一次table</li>
+                        <li>请求按table的hash值平均分配到可活动的线程上</li>
+                        <li>如果有table被过多访问,那么此table的请求可被分配到多个线程上</li>
+                        <li>在带io请求少时,可以用较少的线程work.来减少锁征用导致的上下文切换</li>
+                        <li>有一定量带io请求时,能调整worker线程数来充分利用io资源.</li>
+                        <li>当带io请求巨多时,将区分带io的请求和不带io的请求.分别用两个线程池来执行,防止带io的请求堵住不带io的请求.</li>
+                        <li>还可以设置流控带io的请求数来防止client的堵塞情况,能使DB继续输出较高的QPS</li>
+                        <li>如果返回大批量数据可以以stream的方式返回,避免过多占用内存</li>
+                    </ol>
+                </td>
+                <td>
+                    <ol>
+                        <li>无需SQL解析</li>
+                        <li>可在THD上cache open过的table(不可配置关闭)</li>
+                        <li>一次轮询只lock一次table</li>
+                        <li>worker线程数固定,且无法做请求数的平衡,只能做连接数的平衡</li>
+                    </ol>
+                </td>
+                <td>
+                    <ol>
+                        <li>可global的做table的cache</li>
+                        <li>每次请求都lock一次table</li>
+                    </ol>
+                </td>
+            </tr>
+            <tr>
+                <td>优点</td>
+                <td>多种策略配合能一直输出较高的QPS</td>
+                <td>在全缓存的请求下,输出的QPS很高</td>
+                <td>由于是一个连接一个请求,不会出现由带io的请求堵塞不带io的请求的情况出现</td>
+            </tr>
+            <tr>
+                <td>缺点</td>
+                <td>流控会丢失一部分请求,
+                    &nbsp;
+
+
+                    &nbsp;
+
+
+                    预测请求带不带io不是非常准确
+
+
+                    (如果使用row cache就能较精确的预测了)
+
+
+                </td>
+                <td>一旦有带io的请求出现,就很容易堵塞住不带io的请求出现,所以缓存命中率下降后QPS下降的非常厉害
+                    &nbsp;
+
+
+                    &nbsp;
+
+
+                    返回大批量数据会占用过多内存
+
+
+                </td>
+                <td>有极限一般QPS最高输出到6-7w</td>
+            </tr>
+            <tr>
+                <td>写策略</td>
+                <td>
+                    <ol>
+                        <li>一次轮询的请求一次commit</li>
+                        <li>请求按table的hash值平均分配到写线程上,即同一个表肯定在一个写线程的被执行,不会有死锁的问题,也不会有同一条row的锁问题.</li>
+                        <li>支持Batch方式的小事务,Batch内的请求保证同时成功,同时失败</li>
+                        <li>可以在Client端通过指定hash的方式,来控制请求被指定的线程执行,来避免一些锁或死锁</li>
+                    </ol>
+                </td>
+                <td>
+                    <ol>
+                        <li>一次轮询的请求一次commit</li>
+                        <li>可配置多个写线程,但是有一个user_lock保证只有一个写线程在工作,来防止死锁</li>
+                    </ol>
+                </td>
+                <td>
+                    <ol>
+                        <li>一次请求一次commit</li>
+                    </ol>
+                </td>
+            </tr>
+            <tr>
+                <td>优点</td>
+                <td>同一个表必然在同一个线程上执行,所以行锁的征用被降到最低,加上group commit就能提供很搞的TPS
+                    &nbsp;
+
+
+                    可以多个写线程并发写,不会有死锁问题
+
+
+                    支持batch小事务
+
+
+                </td>
+                <td>Group commit可以减少fsync次数,提高写性能
+                    &nbsp;
+
+
+                    &nbsp;
+
+
+                </td>
+                <td>支持大事务</td>
+            </tr>
+            <tr>
+                <td>缺点</td>
+                <td>写线程数有限,在有io堵塞请求下,性能会有下降</td>
+                <td>同一时刻只有一个写线程能被执行,很容易达到瓶颈,一旦有多表插入并发出现,很容易影响整体更新性能
+                    &nbsp;
+
+
+                    生成binlog没有执行时间(bug)
+
+
+                    多表insert会有自增id获取失败的问题(bug)
+
+
+                </td>
+                <td>性能受限于IOPS</td>
+            </tr>
+            <tr>
+                <td>可维护性</td>
+                <td>
+                    &nbsp;
+
+
+                    <ol type="1">
+                        <li>DDL操作不会被hang住(因为可以主动close 被cache的table)</li>
+                        <li>支持KILL 命令直接终止正在执行的操作</li>
+                        <li>大部分参数都为在线可配置</li>
+                        <li>status数据监控完善</li>
+                    </ol>
+                </td>
+                <td>
+                    <p lang="en-US">&nbsp;
+
+
+                    <ol>
+                        <li>DDL会被hang住,因为handlersocket只open table不管主动close table,只有在流量较小time out时才会close table</li>
+                    </ol>
+                </p></td>
+                <td>最高</td>
+            </tr>
+            <tr>
+                <td>易用性</td>
+                <td>
+                    <ul>
+                        <li>
+                            client端不需要openIndex,直接请求即可(如:
+
+
+                        </li>
+                    </ul>
+                    <p lang="en-US">client.query().use(&quot;test&quot;).select(&quot;id&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;).from(&quot;t&quot;)
+
+
+                    </p><p lang="en-US">.where().fields(&quot;a&quot;).in(["1", "1"], ["2"], ["1"]).get())
+
+
+                    <ul>
+                        <li>
+                            server端只需要一个port 就能做读写分离
+
+
+                        </li>
+                        <li>
+                            可支持一些MySQL的内置函数
+
+
+                            <ul>
+                                <li>
+                                    现在支持Update/Insert的时候可以插入now()
+
+
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            基于辅助索引的联合主键可以支持简单的order by
+
+
+                            <ul>
+                                <li>
+                                    只能支持=的order by
+
+
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            Java客户端支持JDBC
+
+
+                        </li>
+                    </ul>
+                </p></td>
+                <td>
+                    <ol>
+                        <li>读写分离需要在server端配置两个port是实现</li>
+                        <li>client请求前需要先openIndex</li>
+                    </ol>
+                </td>
+                <td>最高</td>
+            </tr>
+        </tbody>
+    </table>
+</div>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/C-C/">C/C++</a><a href="/tags/InnoDB/">InnoDB</a><a href="/tags/MySQL/">MySQL</a><a href="/tags/技术/">技术</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/628/" title="TDH_Socket的一些性能对比数据">
+  <strong>上一篇：</strong><br/>
+  <span>
+  TDH_Socket的一些性能对比数据</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/598/"  title="TDH_Socket开源介绍">
+ <strong>下一篇：</strong><br/> 
+ <span>TDH_Socket开源介绍
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="610" data-title="TDH_Socket与HandlerSocket和MySQL的特性优缺点对比" data-url="http://blog.zephyrleaves.net/?p=610"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

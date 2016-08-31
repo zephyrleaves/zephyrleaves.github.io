@@ -1,0 +1,2138 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta property="og:type" content="website">
+<meta property="og:title" content="装逼程序员">
+<meta property="og:url" content="http://blog.zephyrleaves.net/page/5/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="装逼程序员">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/80/" title="Annotation 和 Package" itemprop="url">Annotation 和 Package</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2008-04-22T09:55:23.000Z" itemprop="datePublished"> 发表于 2008-04-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>JDK 5.0以来推出Annotation.</p>
+<p>已经有很多文章介绍怎么使用&nbsp;Annotation,这里我也不多说了</p>
+<p>其中可以查到&nbsp;Annotation是可以打在Package上的.可是却很少看到介绍怎么在Package上打Annotation</p>
+<p>这里我就说一下:</p>
+<p>首先在Package下建个文件package-info.java</p>
+<p>在这个java文件中</p>
+<p>输入</p>
+<p>@Simple(value = &quot;package&quot;)//我自己定义的Annotation</p>
+<p>package com.annotation;//当前的Package</p>
+<p>&nbsp;</p>
+<p>OK完成,很简单吧</p>
+<p>&nbsp;</p>
+<p>看看怎么调用,在&nbsp; com.annotation下有个Test.java</p>
+<p>&nbsp;</p>
+<p>Simple s = Test.class.getPackage().getAnnotation(Simple.class);</p>
+<pre><code>System.out.println(s.value());
+</code></pre><p>&nbsp;</p>
+<p>可以看到打印出&nbsp;package了吧!</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/80/#comments" class="ds-thread-count comments-count-link" data-thread-key="80/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/79/" title="ANA" itemprop="url">ANA</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2008-03-14T08:24:44.000Z" itemprop="datePublished"> 发表于 2008-03-14</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>有趣的东西</p>
+<p><a href="http://www.chong4.net/" target="_blank" rel="external">http://www.chong4.net/</a></p>
+<p>从andyfire那里看来的,看我Blog的头上的语录,每次刷都会不一样哦&nbsp;</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/生活/">生活</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/随笔/">随笔</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/79/#comments" class="ds-thread-count comments-count-link" data-thread-key="79/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/78/" title="雪战" itemprop="url">雪战</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2008-02-03T02:47:29.000Z" itemprop="datePublished"> 发表于 2008-02-03</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>乱战:</p>
+<p><img src="http://canyousee.blogbus.com/files/12020067903.jpg" alt="">&nbsp;</p>
+<p>击中:</p>
+<p><img src="http://canyousee.blogbus.com/files/12020067901.jpg" alt="">&nbsp;</p>
+<p>犬尼的雪帽:</p>
+<p><img src="http://canyousee.blogbus.com/files/12020067902.jpg" alt="">&nbsp;</p>
+<p>大合照:</p>
+<p><img src="http://canyousee.blogbus.com/files/12020067900.jpg" alt="">&nbsp;</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/生活/">生活</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/随笔/">随笔</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/78/#comments" class="ds-thread-count comments-count-link" data-thread-key="78/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/77/" title="雪人" itemprop="url">雪人</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2008-02-02T05:16:07.000Z" itemprop="datePublished"> 发表于 2008-02-02</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><a href="http://canyousee.blogbus.com/files/s/12019295350.jpg" target="_blank" rel="external"><img src="http://canyousee.blogbus.com/files/12019295350.jpg" alt=""></a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/生活/">生活</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/随笔/">随笔</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/77/#comments" class="ds-thread-count comments-count-link" data-thread-key="77/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/76/" title="S.O.D.A理解" itemprop="url">S.O.D.A理解</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-12-10T09:42:29.000Z" itemprop="datePublished"> 发表于 2007-12-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>S.O.D.A. 全称 Simple Object Database Access </p>
+<p>Simple Object Database Access（S.O.D.A）API是Carl Rosenberger创建的，他也是db4o的创建者 </p>
+<p>S.O.D.A. 是用于数据库交流的对象接口(API). </p>
+<p>目前S.O.D.A.只定义了查询接口,由以下几个接口组成: </p>
+<p>Constraint(定义了约束) </p>
+<p>Constraints(约束的集合) </p>
+<p>Query(定义了查询节点) </p>
+<p>Candidate(封装了查询结果对象用于在Evaluation中调用) </p>
+<p>Evaluation(用在查询最后被回调来筛选数据) </p>
+<p>ObjectContainer(定义数据容器,用于生成Query) </p>
+<p>ObjectSet(Query返回的结果集) </p>
+<p>运用S.O.D.A，你可以动态地构建查询。查询API的基本框架就是查询图表（query graph）。 </p>
+<p>查询图表（query graph）这个词就很形象的描述了S.O.D.A.所需要的数据结构. </p>
+<p>一开始我是以树的方式去理解S.O.D.A.的结构,虽然是可以这样实现这个接口但最后去解析计算其树的路径就极其复杂. </p>
+<p>既然计算树的路径复杂,那就不去计算,一开始就以一个约定的方式保存好路径,直接使用这个路径就可以了. </p>
+<p>这样这个结构就变成一个图表的形式的,比如Query可以看成图表中的一条记录,Query通过不断descend指定的节点路径就相当于表的序号,Query通过constrain约束的条件就是一条记录的内容,而Constraint之间的and/or关系就是记录之间的关系,这样比较容易就可以实现S.O.D.A了 </p>
+<p>思想是,将这个查询图表(这里是一个Map),不断的通过descend传承下去,所有的Constraint和节点路径都放在查询图表中,而最后只要取出查询图表,那所有的关系都一目了然了. </p>
+<p>这里附上一个简单的实现代码: </p>
+<p>Query 的实现: </p>
+<pre>/**
+
+&nbsp;* 面向DAO的,采用SODA方式进行查询 此Query的用法和标准的SODA稍有不同
+
+&nbsp;* 此Query不能指定根查询节点的约束.此节点的约束由DAO指定(因为DAO使用了泛型,若此处指定的话,泛型cast的时候就会抛CastError的异常)
+
+&nbsp;*
+
+&nbsp;* @author Kevin.Huang
+
+&nbsp;* @date 2007-9-30
+
+&nbsp;*/
+
+public class ZQuery implements Query {
+
+/**
+
+&nbsp;* 此节点对应的域
+
+&nbsp;*/
+
+private String field = null;
+
+/**
+
+&nbsp;* 所有的约束的集合
+
+&nbsp;*/
+
+private MultiMap constraints;
+
+private List&lt; ZOrder &gt; orders;
+
+private List&lt; ZComparator &gt; comparators;
+
+/**
+
+&nbsp;* 父节点
+
+&nbsp;*/
+
+private ZQuery parentQuery;
+
+/**
+
+&nbsp;* 子节点
+
+&nbsp;*/
+
+private Map&lt; String, ZQuery &gt; querys = new HashMap&lt; String, ZQuery &gt;();
+
+public ZQuery() {
+
+this.constraints = new MultiValueMap();
+
+this.orders = new ArrayList&lt; ZOrder &gt;();
+
+this.comparators = new ArrayList&lt; ZComparator &gt;();
+
+}
+
+protected ZQuery(String field, ZQuery parentQuery) {
+
+this.field = field;
+
+this.parentQuery = parentQuery;
+
+this.constraints = parentQuery.getConstraint();
+
+this.orders = parentQuery.getOrders();
+
+this.comparators = parentQuery.getComparators();
+
+}
+
+public Constraint constrain(Object constraint) {
+
+if (field == null) {
+
+throw new RuntimeException(&quot;The Root Query Node can constraint only one condition!&quot;);
+
+}
+
+ZConstraint c = new ZConstraint(this, constraint);
+
+constraints.put(this.field, c);
+
+return c;
+
+}
+
+@SuppressWarnings(&quot;unchecked&quot;)
+
+public Constraints constraints() {
+
+return new ZConstraints((Collection&lt; ZConstraint &gt;) constraints.get(this.field));
+
+}
+
+public Query descend(String fieldName) {
+
+if (querys.keySet().contains(fieldName)) {
+
+return querys.get(fieldName);
+
+} else {
+
+ZQuery q = new ZQuery((this.field == null ? fieldName : (this.field + &quot;.&quot; + fieldName)), this);
+
+querys.put(fieldName, q);
+
+return q;
+
+}
+
+}
+
+public Query orderAscending() {
+
+if (field == null) {
+
+throw new RuntimeException(&quot;The Root Query Node cannot make order!&quot;);
+
+}
+
+this.orders.add(new ZOrder(this.field, true));
+
+return this;
+
+}
+
+public Query orderDescending() {
+
+if (field == null) {
+
+throw new RuntimeException(&quot;The Root Query Node cannot make order!&quot;);
+
+}
+
+this.orders.add(new ZOrder(this.field, false));
+
+return this;
+
+}
+
+@SuppressWarnings(&quot;unchecked&quot;)
+
+public Query sortBy(Comparator comparator) {
+
+this.comparators.add(new ZComparator(this.field, comparator));
+
+return this;
+
+}
+
+/**
+
+&nbsp;* @return the field
+
+&nbsp;*/
+
+public String getField() {
+
+return field;
+
+}
+
+/**
+
+&nbsp;* @return the constraints
+
+&nbsp;*/
+
+public MultiMap getConstraint() {
+
+return constraints;
+
+}
+
+/**
+
+&nbsp;* @return the querys
+
+&nbsp;*/
+
+public Map&lt; String, ZQuery &gt; getQuerys() {
+
+return querys;
+
+}
+
+/**
+
+&nbsp;* @return the parentQuery
+
+&nbsp;*/
+
+public ZQuery getParentQuery() {
+
+return parentQuery;
+
+}
+
+/**
+
+&nbsp;* @return the orders
+
+&nbsp;*/
+
+public List&lt; ZOrder &gt; getOrders() {
+
+return orders;
+
+}
+
+/**
+
+&nbsp;* @return the comparators
+
+&nbsp;*/
+
+public List&lt; ZComparator &gt; getComparators() {
+
+return comparators;
+
+}
+
+}
+</pre>
+
+<p>Constraint的实现: </p>
+<pre>/**
+
+&nbsp;* @author Kevin.Huang
+
+&nbsp;* @date 2007-9-30
+
+&nbsp;*/
+
+public class ZConstraint implements Constraint {
+
+/**
+
+&nbsp;* constant defination : value of &quot;=&quot; sql operator
+
+&nbsp;*/
+
+public static final String EQUAL = &quot;equal&quot;;
+
+/**
+
+&nbsp;* constant defination: value of &quot;!=&quot; sql operator
+
+&nbsp;*/
+
+public static final String NOT = &quot;not&quot;;
+
+/**
+
+&nbsp;* constant defination: value of &quot;&gt;=&quot; sql operator
+
+&nbsp;*/
+
+public static final String GREATER = &quot;greater&quot;;
+
+/**
+
+&nbsp;* constant defination: value of &quot;&lt;=&quot; sql operator
+
+&nbsp;*/
+
+public static final String SMALLER = &quot;smaller&quot;;
+
+/**
+
+&nbsp;* constant defination: value of &quot;between&quot; sql operator
+
+&nbsp;*/
+
+public static final String CONTAINS = &quot;contains&quot;;
+
+/**
+
+&nbsp;* constant defination: value of &quot;like&quot; sql operator
+
+&nbsp;*/
+
+public static final String LIKE = &quot;like&quot;;
+
+/**
+
+&nbsp;* constant defination: value of &quot;startsWith&quot; sql operator
+
+&nbsp;*/
+
+public static final String STARTSWITH_TRUE = &quot;startsWith:true&quot;;
+
+/**
+
+&nbsp;* constant defination: value of &quot;startsWith&quot; sql operator
+
+&nbsp;*/
+
+public static final String STARTSWITH_FALSE = &quot;startsWith:false&quot;;
+
+/**
+
+&nbsp;* constant defination: value of &quot;endsWith&quot; sql operator
+
+&nbsp;*/
+
+public static final String ENDSWITH_TRUE = &quot;endsWith:true&quot;;
+
+/**
+
+&nbsp;* constant defination: value of &quot;endsWith&quot; sql operator
+
+&nbsp;*/
+
+public static final String ENDSWITH_FALSE = &quot;endsWith:false&quot;;
+
+/**
+
+&nbsp;* 此约束所在的Query节点
+
+&nbsp;*/
+
+private ZQuery query;
+
+/**
+
+&nbsp;* 次约束的基准值
+
+&nbsp;*/
+
+private Object value;
+
+private List&lt; ZConstraintLink &gt; zConstraintLinks = new ArrayList&lt; ZConstraintLink &gt;();
+
+/**
+
+&nbsp;* 关联的约束
+
+&nbsp;*/
+
+private Collection&lt; String &gt; conditions = new ArrayList&lt; String &gt;();
+
+protected ZConstraint(ZQuery query, Object value) {
+
+this.query = query;
+
+this.value = value;
+
+}
+
+/*
+
+&nbsp;* (non-Javadoc)
+
+&nbsp;*
+
+&nbsp;* @see com.infowarelab.zephyr.domain.soda.Constraint#and(com.infowarelab.zephyr.domain.soda.Constraint)
+
+&nbsp;*/
+
+public Constraint and(Constraint with) {
+
+zConstraintLinks.add(new ZConstraintLink(ZConstraintLink.TYPE_AND, (ZConstraint) with));
+
+return this;
+
+}
+
+/*
+
+&nbsp;* (non-Javadoc)
+
+&nbsp;*
+
+&nbsp;* @see com.infowarelab.zephyr.domain.soda.Constraint#contains()
+
+&nbsp;*/
+
+public Constraint contains() {
+
+String[] c = {NOT };
+
+if (conflictOnly(c)) {
+
+throw new ConstraintConditionWrongException(&quot;contains&nbsp; only can with not!&quot;);
+
+}
+
+this.conditions.add(CONTAINS);
+
+return this;
+
+}
+
+public Constraint endsWith(boolean caseSensitive) {
+
+String[] c = {NOT };
+
+if (conflictOnly(c)) {
+
+throw new ConstraintConditionWrongException(&quot;endsWith&nbsp; only can with not!&quot;);
+
+}
+
+if (caseSensitive) {
+
+this.conditions.add(ENDSWITH_TRUE);
+
+} else {
+
+this.conditions.add(ENDSWITH_FALSE);
+
+}
+
+return this;
+
+}
+
+/*
+
+&nbsp;* (non-Javadoc)
+
+&nbsp;*
+
+&nbsp;* @see com.infowarelab.zephyr.domain.soda.Constraint#equal()
+
+&nbsp;*/
+
+public Constraint equal() {
+
+String[] c = {EQUAL, LIKE, CONTAINS, ENDSWITH_TRUE, ENDSWITH_FALSE, STARTSWITH_FALSE, STARTSWITH_TRUE };
+
+if (conflictExist(c)) {
+
+throw new ConstraintConditionWrongException(
+
+&quot;equal can't with contains , endsWith, startsWith, like or himself!&quot;);
+
+}
+
+this.conditions.add(EQUAL);
+
+return this;
+
+}
+
+/**
+
+&nbsp;* @return the conditions
+
+&nbsp;*/
+
+public Collection&lt; String &gt; getConditions() {
+
+return conditions;
+
+}
+
+/*
+
+&nbsp;* (non-Javadoc)
+
+&nbsp;*
+
+&nbsp;* @see com.infowarelab.zephyr.domain.soda.Constraint#getObject()
+
+&nbsp;*/
+
+public Object getObject() {
+
+return this.value;
+
+}
+
+/**
+
+&nbsp;* @return the query
+
+&nbsp;*/
+
+public ZQuery getQuery() {
+
+return query;
+
+}
+
+/*
+
+&nbsp;* (non-Javadoc)
+
+&nbsp;*
+
+&nbsp;* @see com.infowarelab.zephyr.domain.soda.Constraint#greater()
+
+&nbsp;*/
+
+public Constraint greater() {
+
+String[] c = {GREATER, LIKE, CONTAINS, ENDSWITH_TRUE, ENDSWITH_FALSE, STARTSWITH_FALSE,
+
+STARTSWITH_TRUE };
+
+if (conflictExist(c)) {
+
+throw new ConstraintConditionWrongException(
+
+&quot;greater can't with contains , endsWith, startsWith, like or himself!&quot;);
+
+}
+
+this.conditions.add(GREATER);
+
+return this;
+
+}
+
+/*
+
+&nbsp;* (non-Javadoc)
+
+&nbsp;*
+
+&nbsp;* @see com.infowarelab.zephyr.domain.soda.Constraint#like()
+
+&nbsp;*/
+
+public Constraint like() {
+
+String[] c = {NOT };
+
+if (conflictOnly(c)) {
+
+throw new ConstraintConditionWrongException(&quot;like&nbsp; only can with not!&quot;);
+
+}
+
+this.conditions.add(LIKE);
+
+return this;
+
+}
+
+/*
+
+&nbsp;* (non-Javadoc)
+
+&nbsp;*
+
+&nbsp;* @see com.infowarelab.zephyr.domain.soda.Constraint#not()
+
+&nbsp;*/
+
+public Constraint not() {
+
+if (conditions.contains(NOT)) {
+
+throw new ConstraintConditionWrongException(&quot;not already exist!&quot;);
+
+}
+
+this.conditions.add(NOT);
+
+return this;
+
+}
+
+/*
+
+&nbsp;* (non-Javadoc)
+
+&nbsp;*
+
+&nbsp;* @see com.infowarelab.zephyr.domain.soda.Constraint#or(com.infowarelab.zephyr.domain.soda.Constraint)
+
+&nbsp;*/
+
+public Constraint or(Constraint with) {
+
+zConstraintLinks.add(new ZConstraintLink(ZConstraintLink.TYPE_OR, (ZConstraint) with));
+
+return this;
+
+}
+
+/*
+
+&nbsp;* (non-Javadoc)
+
+&nbsp;*
+
+&nbsp;* @see com.infowarelab.zephyr.domain.soda.Constraint#smaller()
+
+&nbsp;*/
+
+public Constraint smaller() {
+
+String[] c = {SMALLER, LIKE, CONTAINS, ENDSWITH_TRUE, ENDSWITH_FALSE, STARTSWITH_FALSE,
+
+STARTSWITH_TRUE };
+
+if (conflictExist(c)) {
+
+throw new ConstraintConditionWrongException(
+
+&quot;Smaller can't with contains ,endsWith, startsWith, like or himself!&quot;);
+
+}
+
+this.conditions.add(SMALLER);
+
+return this;
+
+}
+
+public Constraint startsWith(boolean caseSensitive) {
+
+String[] c = {NOT };
+
+if (conflictOnly(c)) {
+
+throw new ConstraintConditionWrongException(&quot;endsWith&nbsp; only can with not!&quot;);
+
+}
+
+if (caseSensitive) {
+
+this.conditions.add(STARTSWITH_TRUE);
+
+} else {
+
+this.conditions.add(STARTSWITH_FALSE);
+
+}
+
+return this;
+
+}
+
+private boolean conflictExist(String[] conditionStrings) {
+
+for (String conditionString : conditionStrings) {
+
+if (conditions.contains(conditionString)) {
+
+return true;
+
+}
+
+}
+
+return false;
+
+}
+
+private boolean conflictOnly(String[] conditionStrings) {
+
+for (String existCondition : conditions) {
+
+for (String conditionString : conditionStrings) {
+
+if (existCondition.equals(conditionString)) {
+
+return true;
+
+}
+
+}
+
+}
+
+return false;
+
+}
+
+/**
+
+&nbsp;* @return the zConstraintLinks
+
+&nbsp;*/
+
+public List&lt; ZConstraintLink &gt; getZConstraintLinks() {
+
+return zConstraintLinks;
+
+}
+
+}
+</pre>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/OODBMS/">OODBMS</a><a href="/tags/数据库/">数据库</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/76/#comments" class="ds-thread-count comments-count-link" data-thread-key="76/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/75/" title="Java与Groovy的整合" itemprop="url">Java与Groovy的整合</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-10-23T05:35:42.000Z" itemprop="datePublished"> 发表于 2007-10-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Groovy是构建在JVM上的一个轻量级却强大的动态语言.因为Groovy就是用Java写的,Groovy可以做到与Java的无缝兼容,可以使用Java强大的类库 而且Groovy最终也会被编译成class文件. </p>
+<p>Groovy在1.0版的时候还存在性能问题,因为Groovy的很多实现都是用反射来做的,但是现在Groovy 1.1快推出了,据说快了10x…现在JetBrains也加入了Groovy Team旨在改善Groovy的性能,在Groovy2.0的时候还可能加上JIT,那性能就不成问题了,看来Groovy已经不是小打小闹了.而且随之而来的Grail.等基于Groovy的框架的推出,Groovy前景一片大好啊. </p>
+<p>这篇文章不是为了讲Groovy的一些语法,而是说他怎么和Java做整合. </p>
+<ul>
+<li>静态使用Groory</li>
+</ul>
+<blockquote>
+<blockquote>
+<p>1.运行Groovy类. </p>
+<blockquote>
+<p>Groovy最终是会被编译成Java 的Class类的,所以Java是可以直接使用Groovy的类的. </p>
+<p>如下,先是一个Groovy类: </p>
+<p>package com.test; </p>
+<p>class TestGroovyHelloWorld {<br>def doit(){<br>println &quot;hello world!&quot;<br>}<br>} </p>
+<p>此类定义了一个doit方法,打印出hello world!字符串 </p>
+<p>然后看看Java怎么用这个类: </p>
+<p>package com.test; </p>
+<p>public class TestHelloWorld { </p>
+<p>/** </p>
+<ul>
+<li>@param args<br>*/<br>public static void main(String[] args) {<br>TestGroovyHelloWorld test = new TestGroovyHelloWorld();<br>test.doit(); </li>
+</ul>
+<p>} </p>
+<p>} </p>
+<p>运行一下,果然打出了hello world! </p>
+<p>很简单吧,只要直接import就行了.hoho,而且定义一个GroovyBean比定义一个JavaBean要简单的多的多.</p><p dir="ltr">2.运行Groovy脚本 </p>
+<p></p><p dir="ltr">实际上和Groovy类差不多,只不过Groovy类是集成自GroovyObject,而Groovy脚本是集成GroovyScript的,实际看看例子吧 </p>
+<p></p><p dir="ltr">Groovy脚本: </p>
+<p></p><p dir="ltr">package com.test; </p>
+<p></p><p dir="ltr">println &quot;$test hello world!&quot; </p>
+<p></p><p dir="ltr">也很简单,就是打出hello world!不同的时候前面加上了$test ,这个有点类似与FreeMarker的格式($test也可以写成${test}),作用也是一样,通过外部将test参数引入,可以将$test替换成一个对象.看看下面Java怎么做的吧: </p>
+<p></p><p dir="ltr">public class TestMain { </p>
+<p></p><p dir="ltr">/** </p>
+<ul>
+<li>@param args<br>*/<br>public static void main(String[] args) {<br>Binding b = new Binding();<br>b.setVariable(&quot;test&quot;, &quot;Kevin&quot;);//向脚本中的$test传入对象&quot;Kevin&quot;<br>Script test = new TestScript(b);<br>test.run();<br>}<br>} </li>
+</ul>
+<p></p><p dir="ltr">打印出来一看是Kevin hello world!了..</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<ul>
+<li><div>动态使用Groovy </div>
+
+</li>
+</ul>
+<blockquote>
+<p>Groovy是一个动态的脚本语言,如果只是向上面那样静态的使用,那优势就少了一半,既然是动态语言,那就看看怎么动态的去使用Groovy吧 </p>
+<p>1.通过接口,动态载入并使用Groovy类 </p>
+<blockquote>
+<p><span><span style="font-family: Century">(1)</span></span><span style="font-family: SimSun">、定义</span><span><span style="font-family: Century">Java</span></span><span style="font-family: SimSun">接口包含在</span><span><span style="font-family: Century">Java</span></span><span style="font-family: SimSun">中需要调用的</span><span><span style="font-family: Century">Groovy</span></span><span style="font-family: SimSun">方法</span> </p>
+<p>public interface IFoo {<br>public Object run(Object foo);<br>} </p>
+<p>(2)、创建Groovy类实现该接口 </p>
+<p>class Foo implements IFoo {<br>public Object run(Object foo) {<br>println ‘Hello World!’<br>x = 123<br>foo * 10<br>}<br>} </p>
+<p>(3)、动态载入Groovy类，创建接口实例，调用接口中定义的方法 </p>
+<p>import groovy.lang.GroovyClassLoader;<br>import java.io.File;<br>public class InvokeGroovy {<br>public static void main(String[] args) {<br>ClassLoader cl = new InvokeGroovy().getClass().getClassLoader();<br>GroovyClassLoader groovyCl = new GroovyClassLoader(cl);<br>try {<br>Class groovyClass = groovyCl.parseClass(new File(&quot;src/Foo.groovy&quot;));<br>IFoo foo = (IFoo) groovyClass.newInstance();<br>System.out.println(foo.run(new Integer(2)));<br>} catch (Exception e) {<br>e.printStackTrace();<br>}<br>}<br>}</p><p dir="ltr">上面的方法是通过定义好接口来动态载入,如果没有接口怎么办…办法还是有的,那就是传说中的反射..Groovy也支持反射哦 </p>
+</blockquote>
+<p></p><p dir="ltr">2.通过反射,动态载入并使用Groovy类 </p>
+<blockquote>
+<p></p><p dir="ltr">import groovy.lang.GroovyClassLoader;<br>import groovy.lang.GroovyObject;<br>import java.io.File;<br>public class DynamicGroovy {<br>private GroovyObject groovyObject;<br>public Object getProperty(String name) {<br>return groovyObject.getProperty(name);<br>}<br>public Object invokeScriptMethod(String scriptName, String methodName, Object[] args) {<br>ClassLoader parent = getClass().getClassLoader();<br>GroovyClassLoader loader = new GroovyClassLoader(parent);<br>try {<br>Class groovyClass = loader.parseClass(new File(scriptName));<br>groovyObject = (GroovyObject) groovyClass<br>.newInstance();<br>return groovyObject.invokeMethod(methodName, args);<br>} catch (Exception e) {<br>e.printStackTrace();<br>return null;<br>}<br>}<br>public static void main(String[] args) {<br>DynamicGroovy dynamicGroovy = new DynamicGroovy();<br>Object[] params = {new Integer(2)};<br>Object result = dynamicGroovy.invokeScriptMethod(&quot;src/Foo.groovy&quot;, &quot;run&quot;, params);<br>System.out.println(result);<br>System.out.println(dynamicGroovy.getProperty(&quot;x&quot;));<br>}<br>}</p><p dir="ltr">3.动态的载入Groovy脚本 </p>
+</blockquote>
+<p></p><p dir="ltr">动态载入脚本就更简单了,因为Groovy提供了一个方法evaluate,,和javascript的eval很像吧: </p>
+<blockquote>
+<p></p><p dir="ltr">import groovy.lang.Binding;<br>import groovy.lang.GroovyShell; </p>
+<p></p><p dir="ltr">public class TestEval { </p>
+<p></p><p dir="ltr">public Object doit() {<br>Binding bb = new Binding();<br>bb.setVariable(&quot;test&quot;, &quot;hello world!&quot;);<br>GroovyShell gs = new GroovyShell(bb);<br>return gs.evaluate(&quot;println test&quot;);<br>} </p>
+<p></p><p dir="ltr">/** </p>
+<ul>
+<li>@param args<br>*/<br>public static void main(String[] args) {<br>TestEval te = new TestEval();<br>te.doit(); </li>
+</ul>
+<p></p><p dir="ltr">} </p>
+<p></p><p dir="ltr">}</p><p dir="ltr">简单吧,通过evaluate一个字符串就行了,evaluate还支持脚本文件和类文件哦….功能很强大的.</p>
+</blockquote>
+</blockquote>
+<ul>
+<li><div>Groovy与流行框架的集成 </div>
+
+</li>
+</ul>
+<blockquote>
+<p>1.与Spring的集成 </p>
+<p>现在Spring的核心包就提供了与Groovy的集成了,,很好,很强大,这样就可以显示业务逻辑的动态改变了 </p>
+<blockquote>
+<p>由于Groovy的代码中也有描述Java代码的机制，因此两者合用非常容易<br>Spring Bean: </p>
+<p>代码<br>class=&quot;org.springframework.beans.factory.groovy.GroovyFactory&quot;&gt;<br>20 </p>
+<p>下面是groovy的例子: </p>
+<p>代码<br>factory-bean=&quot;groovyScriptFactory&quot;<br>factory-method=&quot;create&quot;&gt; </p>
+<p>SimpleHello.groovy </p>
+<p>groovy文件: </p>
+<p>代码<br>package org.springframework.beans.factory.groovy; </p>
+<p>class Test implements Hello { </p>
+<p>String sayHello() {<br>&quot;hello world&quot;<br>}<br>}</p><p dir="ltr">2.与webwork的集成 </p>
+<p></p><p dir="ltr">在WebWork2中，可以使用Groovy实<br>现Action类来简化代码，提高编码效率 </p>
+<p></p><p dir="ltr">例子： </p>
+<p></p><p dir="ltr">package web </p>
+<p>import java.util.Date </p>
+<p>import org.apache.commons.logging.Log<br>import org.apache.commons.logging.LogFactory </p>
+<p>import com.opensymphony.xwork.ActionSupport </p>
+<p>class GroovyAction extends ActionSupport { </p>
+<p>protected final Log logger = LogFactory.getLog(getClass()) </p>
+<p>private String now </p>
+<p>String execute() {<br>now = &quot;${new Date()}&quot;<br>logger.info(&quot;returning view with ${now}&quot;) </p>
+<p>&quot;success&quot;<br>} </p>
+<p>void setNow(String now) {<br>this.now = now<br>} </p>
+<p>String getNow() {<br>now<br>} </p>
+<p>}<br>上面的Action类是Groovy类，同样扩展ActionSupport，这里要注意： </p>
+<p></p><p dir="ltr">execute()方法没有throws Exception语句，这是因为目前的Groovy还没有这个Java特性，这需要在以后的版本中增加；如果添加，编译会报错 </p>
+<p></p><p dir="ltr">execute()方法返回时，不要使用类似SUCCESS的常量，而是用对应的值（如&quot;success&quot;）；如果使用SUCCESS，Groovy会把它解析成类的属性，抛异常 </p>
+<p></p><p dir="ltr">当然，在/WEB-INF/lib目录下需要包含运行以依赖的jar文件：Groovy和ASM.</p>
+</blockquote>
+</blockquote>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Groovy/">Groovy</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/75/#comments" class="ds-thread-count comments-count-link" data-thread-key="75/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/74/" title="AWT+LCD+ClearType=ERROR" itemprop="url">AWT+LCD+ClearType=ERROR</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-10-21T08:59:14.000Z" itemprop="datePublished"> 发表于 2007-10-21</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>在我的笔记本上装了Intellij IDEA 7.0 结果启动不了 </p>
+<p>抛出了ERROR - llij.ide.plugins.PluginManager - java.lang.IllegalArgumentException: Missing extension point: com.intellij.errorHandler in area null </p>
+<p>一开始怎么都找不出原因,后来想到了DB4O manager 当时也启动不了是因为开了ClearType的原因</p>
+<p>记得加上-Dawt.useSystemAAFontSettings=lcd这个参数就解决了,果然在idea.exe.vmoptions上加上</p>
+<p>-Dawt.useSystemAAFontSettings=lcd之后idea启动了</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/74/#comments" class="ds-thread-count comments-count-link" data-thread-key="74/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/73/" title="DB4O 的 Filter" itemprop="url">DB4O 的 Filter</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-09-29T08:08:31.000Z" itemprop="datePublished"> 发表于 2007-09-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>DB4O的Filter如下,是用SODA实现的,,NQ不是太适合做这个</p>
+<p>/<em>*<br>&nbsp;</em> DB4O 的 Filter<br>&nbsp;<em><br>&nbsp;</em> @author Kevin.Huang<br>&nbsp;<em> @date 2007-9-29<br>&nbsp;</em>/<br>public class DB4OFilter extends Filter {</p>
+<p>&nbsp;/<em>*<br>&nbsp; </em> DB4o的SODA查询接口<br>&nbsp; */<br>&nbsp;private Query query;</p>
+<p>&nbsp;/<em>*<br>&nbsp; </em> @param persistentClass<br>&nbsp; <em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the persistentClass to set<br>&nbsp; </em>/<br>&nbsp;public void setPersistentClass(Class&lt; ? extends Base &gt; persistentClass) {<br>&nbsp;&nbsp;query.constrain(persistentClass);<br>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addBetween(String field, Object low, Object high) {<br>&nbsp;&nbsp;Query fieldQuery = query.descend(field);<br>&nbsp;&nbsp;fieldQuery.constrain(low).not().smaller().and(fieldQuery.constrain(high).not().greater());<br>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addEqualTo(String field, Object value) {<br>&nbsp;&nbsp;Query fieldQuery = query.descend(field);<br>&nbsp;&nbsp;fieldQuery.constrain(value);</p>
+<p>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addGreaterOrEqualThan(String field, Object value) {<br>&nbsp;&nbsp;Query fieldQuery = query.descend(field);<br>&nbsp;&nbsp;fieldQuery.constrain(value).not().smaller();</p>
+<p>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addGreaterThan(String field, Object value) {<br>&nbsp;&nbsp;Query fieldQuery = query.descend(field);<br>&nbsp;&nbsp;fieldQuery.constrain(value).greater();</p>
+<p>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addIn(String field, Collection&lt; Object &gt; value) {<br>&nbsp;&nbsp;Query fieldQuery = query.descend(field);<br>&nbsp;&nbsp;if (value != null &amp;&amp; !value.isEmpty()) {<br>&nbsp;&nbsp;&nbsp;boolean started = false;<br>&nbsp;&nbsp;&nbsp;Constraint c = null;<br>&nbsp;&nbsp;&nbsp;for (Object o : value) {<br>&nbsp;&nbsp;&nbsp;&nbsp;if (!started) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c = fieldQuery.constrain(o);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;started = true;<br>&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c = orCollection(fieldQuery, c, o);<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;} else {<br>&nbsp;&nbsp;&nbsp;fieldQuery.constrain(null);<br>&nbsp;&nbsp;}<br>&nbsp;}</p>
+<p>&nbsp;private Constraint orCollection(Query q, Constraint c, Object o) {<br>&nbsp;&nbsp;return c.or(q.constrain(o));<br>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addIsNull(String field) {<br>&nbsp;&nbsp;Query fieldQuery = query.descend(field);<br>&nbsp;&nbsp;fieldQuery.constrain(null);<br>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addLessOrEqualThan(String field, Object value) {<br>&nbsp;&nbsp;Query fieldQuery = query.descend(field);<br>&nbsp;&nbsp;fieldQuery.constrain(value).not().greater();</p>
+<p>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addLessThan(String field, Object value) {<br>&nbsp;&nbsp;Query fieldQuery = query.descend(field);<br>&nbsp;&nbsp;fieldQuery.constrain(value).smaller();</p>
+<p>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addLike(String field, String value) {<br>&nbsp;&nbsp;Query fieldQuery = query.descend(field);<br>&nbsp;&nbsp;fieldQuery.constrain(value).like();</p>
+<p>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addNotBetween(String field, Object low, Object high) {<br>&nbsp;&nbsp;Query fieldQuery = query.descend(field);<br>&nbsp;&nbsp;fieldQuery.constrain(low).smaller().and(fieldQuery.constrain(high).greater());<br>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addNotEqualTo(String field, Object value) {<br>&nbsp;&nbsp;Query fieldQuery = query.descend(field);<br>&nbsp;&nbsp;fieldQuery.constrain(value).not();</p>
+<p>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addNotIn(String field, Collection&lt; Object &gt; value) {<br>&nbsp;&nbsp;Query fieldQuery = query.descend(field);<br>&nbsp;&nbsp;if (value != null &amp;&amp; !value.isEmpty()) {<br>&nbsp;&nbsp;&nbsp;boolean started = false;<br>&nbsp;&nbsp;&nbsp;Constraint c = null;<br>&nbsp;&nbsp;&nbsp;for (Object o : value) {<br>&nbsp;&nbsp;&nbsp;&nbsp;if (!started) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c = fieldQuery.constrain(o);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;started = true;<br>&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c = orCollection(fieldQuery, c, o);<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;c.not();<br>&nbsp;&nbsp;} else {<br>&nbsp;&nbsp;&nbsp;fieldQuery.constrain(null).not();<br>&nbsp;&nbsp;}<br>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addNotLike(String field, String value) {<br>&nbsp;&nbsp;Query fieldQuery = query.descend(field);<br>&nbsp;&nbsp;fieldQuery.constrain(value).not().like();</p>
+<p>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addNotNull(String field) {<br>&nbsp;&nbsp;Query fieldQuery = query.descend(field);<br>&nbsp;&nbsp;fieldQuery.constrain(null).not();<br>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addPureLike(String field, String value) {<br>&nbsp;&nbsp;addLike(field, value);</p>
+<p>&nbsp;}</p>
+<p>&nbsp;@Override<br>&nbsp;public void addPureNotLike(String field, String value) {<br>&nbsp;&nbsp;addNotLike(field, value);</p>
+<p>&nbsp;}</p>
+<p>&nbsp;/<em>*<br>&nbsp; </em> @return the query<br>&nbsp; */<br>&nbsp;public Query getQuery() {<br>&nbsp;&nbsp;return query;<br>&nbsp;}</p>
+<p>&nbsp;/<em>*<br>&nbsp; </em> @param query<br>&nbsp; <em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the query to set<br>&nbsp; </em>/<br>&nbsp;public void setQuery(Query query) {<br>&nbsp;&nbsp;this.query = query;<br>&nbsp;}</p>
+<p>用法如下:</p>
+<p>public static void main(String[] args) {<br>&nbsp;&nbsp;ObjectContainer db = null;<br>&nbsp;&nbsp;db = Db4o.openFile(&quot;data/persons.data&quot;);</p>
+<p>&nbsp;&nbsp;Person kevin = new Person();<br>&nbsp;&nbsp;kevin.setName(&quot;Kevin&quot;);<br>&nbsp;&nbsp;kevin.setAge(26);</p>
+<p>&nbsp;&nbsp;Person vivan = new Person();<br>&nbsp;&nbsp;vivan.setName(&quot;Alex&quot;);<br>&nbsp;&nbsp;vivan.setAge(28);</p>
+<p>&nbsp;&nbsp;Person John = new Person();<br>&nbsp;&nbsp;John.setName(&quot;John&quot;);<br>&nbsp;&nbsp;John.setAge(30);</p>
+<p>&nbsp;&nbsp;db.set(kevin);<br>&nbsp;&nbsp;db.set(vivan);<br>&nbsp;&nbsp;db.set(John);<br>&nbsp;&nbsp;db.commit();</p>
+<p>&nbsp;&nbsp;DB4OFilter f = new DB4OFilter();<br>&nbsp;&nbsp;f.setQuery(db.query());//注入query<br>&nbsp;&nbsp;f.setPersistentClass(Person.class);//注入要查询的类<br>&nbsp;&nbsp;f.addEqualTo(&quot;name&quot;, &quot;Kevin&quot;);<br>&nbsp;&nbsp;f.addEqualTo(&quot;age&quot;, 28);<br>&nbsp;&nbsp;ObjectSet&lt; Person &gt; list = f.getQuery().execute();//开始查询<br>&nbsp;&nbsp;for (Person p : list) {<br>&nbsp;&nbsp;&nbsp;System.out.println(p.getName());<br>&nbsp;&nbsp;&nbsp;db.delete(p);<br>&nbsp;&nbsp;}<br>&nbsp;&nbsp;db.commit();<br>&nbsp;&nbsp;db.close();<br>&nbsp;}</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/OODBMS/">OODBMS</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/73/#comments" class="ds-thread-count comments-count-link" data-thread-key="73/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/72/" title="AspectJ初体验" itemprop="url">AspectJ初体验</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-09-28T11:49:35.000Z" itemprop="datePublished"> 发表于 2007-09-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>最近在写自己的框架,由于框架不是很稳定,有较多的重构,用RDBMS的话,重构数据库就能把我搞死..所以选择OODBMS ,</p>
+<p>OODBMS用起来还是不错的,可惜没有如Spring等事务管理措施的辅助,处理起事务来还是比较吃力.</p>
+<p>既然Spring帮不了我,那就只有自己帮自己了,做事务处理现在流行用AOP来做..对于Spring AOP这种用动态代理机制来模拟AOP</p>
+<p>感觉不是很爽,所以一下子就选择AspectJ作为自己的AOP框架,</p>
+<p>从<a href="http://www.eclipse.org/adjt" target="_blank" rel="external">www.eclipse.org/adjt</a>下载了AspectJ的IDE之后,AspectJ之旅就开始了.</p>
+<p>学着例子,自己摆弄了一个aj先:</p>
+<p>被AOP的代码:</p>
+<blockquote>
+<blockquote>
+<p>/<em>*<br>&nbsp;</em> @author Kevin.Huang<br>&nbsp;<em> @date 2007-9-27<br>&nbsp;</em>/<br>public class Test {</p>
+<blockquote>
+<blockquote>
+<p>&nbsp;/<em>*<br>&nbsp; </em> @param args<br>&nbsp; */<br>&nbsp;public static void main(String[] args) {<br>&nbsp;&nbsp;sayHello();</p>
+<p>&nbsp;}</p>
+<p>&nbsp;public static void sayHello() {<br>&nbsp;&nbsp;System.out.println(&quot;Hello&quot;);<br>&nbsp;}}</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p></p><p dir="ltr"><br>AspectJ的代码</p>
+<blockquote>
+<p></p><p dir="ltr">/<em>*<br>&nbsp;</em> @author Kevin.Huang<br>&nbsp;<em> @date 2007-9-27<br>&nbsp;</em>/<br>public aspect World {</p>
+<blockquote>
+<p></p><p dir="ltr">&nbsp;pointcut greeting():execution(* Test.sayHello(..));</p>
+<p></p><p dir="ltr">&nbsp;after() returning() : greeting() {<br>&nbsp;&nbsp;System.out.println(&quot; World!&quot;);<br>&nbsp;}</p><p dir="ltr">}</p>
+</blockquote>
+</blockquote>
+<p></p><p dir="ltr">这是Eclipse的AspectJ插件上展示的例子,很简单.这个时候运行Test,就会打出Hello World!..World!就是通过AOP加上去的,反编译源代码发现实际上AspectJ就是在Test.class上再加上自己的字节码来实现AOP.所以一定程度上也破坏了封装性,但能跑起来,管他呢.</p>
+<p>现在来看看AspectJ特有的一下语法:</p>
+<p>pointcut&nbsp; :定义了从joinPoint运行的函数,</p>
+<p>execution:定义了AOP运用的范围,有* .. 等通配符可以使用,所以一个aj文件可以为多个同类的方法提供AOP服务</p>
+<p>after,before,around,这些就是指定pointcut&nbsp; 从那里开始运行了..</p>
+<p>after 后面还可以跟return,throw来判断返回的类型,这个可是写事务管理很重要的特性了..</p>
+<p>我这里就简单说说,说太多还怕误人子弟..hoho,自己才刚开始用..</p>
+<p>下面就给大家看看我用AspectJ怎么做了一个事务管理的:</p>
+<p>被管理的DAO(我用的是db4o作为数据库..hoho):</p>
+<blockquote>
+<p>public class DB4ODAO implements IGenericDAO {</p>
+<blockquote>
+<p>&nbsp;/<em>*<br>&nbsp; </em><br>&nbsp; */<br>&nbsp;protected Class&lt; ? extends Base &gt; persistentClass;</p>
+<p>&nbsp;/<em>*<br>&nbsp; </em> @return the persistentClass<br>&nbsp; */<br>&nbsp;public Class&lt; ? extends Base &gt; getPersistentClass() {<br>&nbsp;&nbsp;return persistentClass;<br>&nbsp;}</p>
+<p>&nbsp;/<em>*<br>&nbsp; </em> @param persistentClass<br>&nbsp; <em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the persistentClass to set<br>&nbsp; </em>/<br>&nbsp;public void setPersistentClass(Class&lt; ? extends Base &gt; persistentClass) {<br>&nbsp;&nbsp;this.persistentClass = persistentClass;<br>&nbsp;}</p>
+<p>&nbsp;/<em>*<br>&nbsp; </em> db4o的session<br>&nbsp; */<br>&nbsp;protected ObjectContainer db;</p>
+<p>&nbsp;public void delete(Base entity) {<br>&nbsp;&nbsp;db.delete(entity);<br>&nbsp;}</p>
+<p>&nbsp;public List&lt; ? extends Base &gt; findAll() {<br>&nbsp;&nbsp;return db.query(getPersistentClass());<br>&nbsp;}</p>
+<p>&nbsp;public &lt; K extends Base&gt; List&lt; K &gt; findByExample(K exampleInstance) {<br>&nbsp;&nbsp;return db.get(exampleInstance);<br>&nbsp;}</p>
+<p>&nbsp;public &lt; K extends Base&gt; List&lt; K &gt; findByFilter(Filter filter) {<br>&nbsp;&nbsp;// TODO Auto-generated method stub<br>&nbsp;&nbsp;return null;<br>&nbsp;}</p>
+<p>&nbsp;public &lt; K extends Base&gt; K findById(Serializable id) {<br>&nbsp;&nbsp;Base obj = null;<br>&nbsp;&nbsp;try {<br>&nbsp;&nbsp;&nbsp;obj = getPersistentClass().newInstance();<br>&nbsp;&nbsp;} catch (InstantiationException e) {<br>&nbsp;&nbsp;&nbsp;// XXX 记录异常<br>&nbsp;&nbsp;&nbsp;throw new RuntimeException(&quot;Domain Model is ERROR!&quot;, e);<br>&nbsp;&nbsp;} catch (IllegalAccessException e) {<br>&nbsp;&nbsp;&nbsp;// XXX 记录异常<br>&nbsp;&nbsp;&nbsp;throw new RuntimeException(&quot;Domain Model is ERROR!&quot;, e);<br>&nbsp;&nbsp;}<br>&nbsp;&nbsp;obj.setUuid((String) id);<br>&nbsp;&nbsp;ObjectSet&lt; K &gt; result = db.get(obj);<br>&nbsp;&nbsp;if (result.hasNext()) {<br>&nbsp;&nbsp;&nbsp;return result.next();<br>&nbsp;&nbsp;} else {<br>&nbsp;&nbsp;&nbsp;return null;<br>&nbsp;&nbsp;}<br>&nbsp;}</p>
+<p>&nbsp;public Integer findCountByFilter(Filter filter) {<br>&nbsp;&nbsp;// TODO Auto-generated method stub<br>&nbsp;&nbsp;return null;<br>&nbsp;}</p>
+<p>&nbsp;public &lt; K extends Base&gt; K saveAndUpdate(K entity) {<br>&nbsp;&nbsp;Base obj = findById(entity.getUuid());<br>&nbsp;&nbsp;if (obj != null) {<br>&nbsp;&nbsp;&nbsp;db.ext().bind(entity, db.ext().getID(obj));<br>&nbsp;&nbsp;}<br>&nbsp;&nbsp;db.set(entity);<br>&nbsp;&nbsp;return entity;<br>&nbsp;}</p>
+<p>&nbsp;public ObjectContainer getDb() {<br>&nbsp;&nbsp;return db;<br>&nbsp;}</p>
+<p>&nbsp;public void setDb(ObjectContainer db) {<br>&nbsp;&nbsp;this.db = db;<br>&nbsp;}}</p>
+</blockquote>
+</blockquote>
+<p></p><p dir="ltr">里面的find<em>,save</em>,delete等都需要做事务管理</p>
+<p></p><p dir="ltr">下面就是针对这个DAO的一个aj:</p>
+<blockquote>
+<blockquote>
+<p></p><p dir="ltr">public aspect TransactionDAOAOP {<br>&nbsp;private static final Logger LOGGER = Logger.getLogger(TransactionDAOAOP.class);</p>
+<p></p><p dir="ltr">&nbsp;private ObjectContainer db;</p>
+<p></p><p dir="ltr">&nbsp;private Object joinPoint;</p>
+<p></p><p dir="ltr">&nbsp;pointcut readOnly(DB4ODAO dao):execution(<em> </em>DB4ODAO.find*(..))&amp;&amp;this(dao);</p>
+<p></p><p dir="ltr">&nbsp;pointcut update(DB4ODAO dao):execution(<em> </em>DB4ODAO.save*(..))&amp;&amp;this(dao);</p>
+<p></p><p dir="ltr">&nbsp;pointcut delete(DB4ODAO dao):execution(<em> </em>DB4ODAO.delete(..))&amp;&amp;this(dao);</p>
+<p></p><p dir="ltr">&nbsp;before(DB4ODAO dao) :&nbsp; readOnly(dao) {<br>&nbsp;&nbsp;start(dao, thisJoinPoint);<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;after(DB4ODAO dao) returning()&nbsp; :&nbsp; readOnly(dao) {<br>&nbsp;&nbsp;if (joinPoint.equals(thisJoinPoint)) {<br>&nbsp;&nbsp;&nbsp;close();<br>&nbsp;&nbsp;}<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;after(DB4ODAO dao) throwing():&nbsp; readOnly(dao) {<br>&nbsp;&nbsp;close();<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;before(DB4ODAO dao) :&nbsp; update(dao) {<br>&nbsp;&nbsp;if (LOGGER.isDebugEnabled()) {<br>&nbsp;&nbsp;&nbsp;LOGGER.debug(&quot;before updata @&quot; + dao.toString());<br>&nbsp;&nbsp;}<br>&nbsp;&nbsp;start(dao, thisJoinPoint);<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;after(DB4ODAO dao) returning()&nbsp; :&nbsp; update(dao) {<br>&nbsp;&nbsp;if (joinPoint.equals(thisJoinPoint)) {<br>&nbsp;&nbsp;&nbsp;commit();<br>&nbsp;&nbsp;&nbsp;close();<br>&nbsp;&nbsp;}<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;after(DB4ODAO dao) throwing():&nbsp; update(dao) {<br>&nbsp;&nbsp;rollback();<br>&nbsp;&nbsp;close();<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;before(DB4ODAO dao) :&nbsp; delete(dao) {<br>&nbsp;&nbsp;start(dao, thisJoinPoint);<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;after(DB4ODAO dao) returning()&nbsp; :&nbsp; delete(dao) {<br>&nbsp;&nbsp;if (joinPoint.equals(thisJoinPoint)) {<br>&nbsp;&nbsp;&nbsp;commit();<br>&nbsp;&nbsp;&nbsp;close();<br>&nbsp;&nbsp;}<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;after(DB4ODAO dao) throwin<br>g():&nbsp; delete(dao) {<br>&nbsp;&nbsp;rollback();<br>&nbsp;&nbsp;close();<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;private void start(DB4ODAO dao, Object thisPoint) {<br>&nbsp;&nbsp;if (LOGGER.isDebugEnabled()) {<br>&nbsp;&nbsp;&nbsp;LOGGER.debug(&quot;db is closed? @&quot; + isClose(dao));<br>&nbsp;&nbsp;}<br>&nbsp;&nbsp;if (isClose(dao)) {<br>&nbsp;&nbsp;&nbsp;db = Db4o.openFile(DB4OConfig.getDataPath());<br>&nbsp;&nbsp;&nbsp;dao.setDb(db);<br>&nbsp;&nbsp;&nbsp;joinPoint = thisPoint;<br>&nbsp;&nbsp;}<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;private void commit() {<br>&nbsp;&nbsp;db.commit();<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;private void rollback() {<br>&nbsp;&nbsp;db.rollback();<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;private void close() {<br>&nbsp;&nbsp;db.close();<br>&nbsp;}</p>
+<p></p><p dir="ltr">&nbsp;private boolean isClose(DB4ODAO dao) {<br>&nbsp;&nbsp;if (dao.getDb() == null) {<br>&nbsp;&nbsp;&nbsp;return true;<br>&nbsp;&nbsp;} else {<br>&nbsp;&nbsp;&nbsp;return dao.getDb().ext().isClosed();<br>&nbsp;&nbsp;}<br>&nbsp;}</p>
+</blockquote>
+</blockquote>
+<p></p><p dir="ltr">}</p>
+<p>这样一来就为DAO做了AOP了</p>
+<p></p><p dir="ltr">基本的思想就是</p>
+<p></p><p dir="ltr">开始方法前.先判断Session是否开启,如果没有则开启,并作记录是这个方法开启的Session</p>
+<p></p><p dir="ltr">然后再运行中如果有其他的AOP的方法插入,这时Session已开启就不用在开启,最后运行到开始记录的方法结束之后就commit再close</p>
+<p></p><p dir="ltr">如果当中遇到异常则直接rollback并close</p>
+<p></p><p dir="ltr">记录方法的方法是&nbsp;joinPoint = thisJoinPoint;</p>
+<p></p><p dir="ltr">thisJoinPoint是关键字,就是记录了方法开始的点…</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/72/#comments" class="ds-thread-count comments-count-link" data-thread-key="72/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/71/" title="我的RCP之旅(四)-- Extension" itemprop="url">我的RCP之旅(四)-- Extension</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2007-08-09T10:20:53.000Z" itemprop="datePublished"> 发表于 2007-08-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Eclipse基于Extension Point的扩展机制果然不同凡响.不用改变源码,通过扩展点添加插件即可实现功能的增强. </p>
+<p>先看看如何通过扩展实现功能增强: </p>
+<p>我们就看看用户是如何编写一个自己的view,然后扩展org.eclipse.ui.Views来将自己的view在RCP框架中运行起来. </p>
+<ul>
+<li>首先要自己实现一个view:</li>
+</ul>
+<blockquote>
+<blockquote>
+<p>public class View extends ViewPart { </p>
+<p>public static final String ID = &quot;com.rcp.test.view.View&quot;; //$NON-NLS-1$ </p>
+<p>/** </p>
+<ul>
+<li>Create contents of the view part </li>
+<li>@param parent<br>*/<br>@Override<br>public void createPartControl(Composite parent) {<br>Composite container = new Composite(parent, SWT.NONE);<br>//<br>createActions();<br>initializeToolBar();<br>initializeMenu();<br>} </li>
+</ul>
+<p>/** </p>
+<ul>
+<li>Create the actions<br>*/<br>private void createActions() {<br>// Create the actions<br>} </li>
+</ul>
+<p>/** </p>
+<ul>
+<li>Initialize the toolbar<br>*/<br>private void initializeToolBar() {<br>IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();<br>} </li>
+</ul>
+<p>/** </p>
+<ul>
+<li>Initialize the menu<br>*/<br>private void initializeMenu() {<br>IMenuManager menuManager = getViewSite().getActionBars().getMenuManager();<br>} </li>
+</ul>
+<p>@Override<br>public void setFocus() {<br>// Set the focus<br>} </p>
+<p>}</p>
+</blockquote>
+</blockquote>
+<p>可以看到只要继承了ViewPart 的类就可以进行扩展(因为在Views这个扩展点定义了扩展这个扩展点的时候必须继承ViewPart ) </p>
+<ul>
+<li>在pulgin.xml中配置扩展信息:</li>
+</ul>
+<blockquote>
+<blockquote>
+<p>&lt;extension<br>point=&quot;org.eclipse.ui.views&quot;&gt;<br>&lt;view<br>class=&quot;com.rcp.test.view.View&quot;<br>id=&quot;com.rcp.test.view.View&quot;<br>name=&quot;New ViewPart&quot;&gt;<br>&lt;/view&gt;<br>&lt;/extension&gt; </p>
+<p>很简单在org.eclipse.ui.views下添加这个类就可以了..</p>
+</blockquote>
+</blockquote>
+<p>大家看到了实现一个扩展,那接下来看看如果定义一个扩展点: </p>
+<p>通过Eclipse的图形话工具是很容易就可以定义一个扩展点的.不过我还是说说直接配xml吧(嘿嘿!) </p>
+<ul>
+<li>首先在plugin.xml配置一个扩展点:</li>
+</ul>
+<blockquote>
+<p>&lt;extension-point id=&quot;ChatListener&quot; name=&quot;Chat Listener&quot; schema=&quot;schema/ChatListener.exsd&quot;/&gt; </p>
+<p>这里只要定义扩展点的id,名字和schema文件,schema就是真正约束扩展点的定义.</p>
+</blockquote>
+<ul>
+<li>定义schema</li>
+</ul>
+<blockquote>
+<p>如上一般schema都是放在schema文件夹下的.来看看schema都包含些什么: </p>
+<p>&lt;?xml version=&#039;1.0&#039; encoding=&#039;UTF-8&#039;?&gt;<br>&lt;!– Schema file written by PDE –&gt;<br>&lt;schema targetNamespace=&quot;com.kevin.im&quot;&gt;<br>&lt;annotation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.schema plugin=&quot;com.kevin.im&quot; id=&quot;ChatListener&quot; name=&quot;Chat Listener&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;documentation&gt;<br>[文档信息] </p>
+<p>&lt;/documentation&gt;<br>&lt;/annotation&gt; </p>
+<p>&lt;element name=&quot;extension&quot;&gt;<br>&lt;complexType&gt;<br>&lt;sequence minOccurs=&quot;2&quot; maxOccurs=&quot;2&quot;&gt;<br>&lt;element ref=&quot;rosterListener&quot;/&gt;<br>&lt;element ref=&quot;receiver&quot;/&gt;<br>&lt;/sequence&gt;<br>&lt;attribute name=&quot;point&quot; type=&quot;string&quot; use=&quot;required&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;attribute name=&quot;id&quot; type=&quot;string&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;attribute name=&quot;name&quot; type=&quot;string&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.attribute translatable=&quot;true&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;/complexType&gt;<br>&lt;/element&gt; </p>
+<p>&lt;element name=&quot;rosterListener&quot;&gt;<br>&lt;complexType&gt;<br>&lt;attribute name=&quot;class&quot; type=&quot;string&quot; use=&quot;required&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.attribute kind=&quot;java&quot; basedOn=&quot;:org.eclipse.ecf.presence.roster.IRosterListener&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;/complexType&gt;<br>&lt;/element&gt; </p>
+<p>&lt;element name=&quot;receiver&quot;&gt;<br>&lt;complexType&gt;<br>&lt;attribute name=&quot;class&quot; type=&quot;string&quot; use=&quot;required&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.attribute kind=&quot;java&quot; basedOn=&quot;:com.kevin.im.client.IMessageReceiver&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;/complexType&gt;<br>&lt;/element&gt; </p>
+<p>&lt;annotation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.section type=&quot;since&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;documentation&gt;<br>[Enter the first release in which this extension point appears.]<br>&lt;/documentation&gt;<br>&lt;/annotation&gt; </p>
+<p>&lt;annotation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.section type=&quot;examples&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;documentation&gt;<br>[Enter extension point usage example here.]<br>&lt;/documentation&gt;<br>&lt;/annotation&gt; </p>
+<p>&lt;annotation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.section type=&quot;apiInfo&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;documentation&gt;<br>[Enter API information here.]<br>&lt;/documentation&gt;<br>&lt;/annotation&gt; </p>
+<p>&lt;annotation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.section type=&quot;implementation&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;documentation&gt;<br>[Enter information about supplied implementation of this extension point.]<br>&lt;/documentation&gt;<br>&lt;/annotation&gt; </p>
+<p>&lt;annotation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.section type=&quot;copyright&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;/annotation&gt; </p>
+<p>&lt;/schema&gt; </p>
+<p>如上 &lt;meta.schema plugin=&quot;com.kevin.im&quot; id=&quot;ChatListener&quot; name=&quot;Chat Listener&quot;/&gt;<br>这句定义了扩展点的plugin id和扩展点的id,在代码中寻找这个扩展点的时候要用 #plugin#.#id#的形式来取..注意:id不能包含&quot;.&quot;,不然程序会解析不出来 </p>
+<p>&lt;element name=&quot;extension&quot;&gt;<br>&lt;complexType&gt;<br>&lt;sequence minOccurs=&quot;2&quot; maxOccurs=&quot;2&quot;&gt;<br>&lt;element ref=&quot;rosterListener&quot;/&gt;<br>&lt;element ref=&quot;receiver&quot;/&gt;<br>&lt;/sequence&gt;<br>&lt;attribute name=&quot;point&quot; type=&quot;string&quot; use=&quot;required&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;attribute name=&quot;id&quot; type=&quot;string&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;attribute name=&quot;name&quot; type=&quot;string&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.attribute translatable=&quot;true&quot;/&amp;gt<br>;<br>&lt;/appInfo&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;/complexType&gt;<br>&lt;/element&gt; </p>
+<p>&lt;element name=&quot;rosterListener&quot;&gt;<br>&lt;complexType&gt;<br>&lt;attribute name=&quot;class&quot; type=&quot;string&quot; use=&quot;required&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.attribute kind=&quot;java&quot; basedOn=&quot;:org.eclipse.ecf.presence.roster.IRosterListener&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;/complexType&gt;<br>&lt;/element&gt; </p>
+<p>&lt;element name=&quot;receiver&quot;&gt;<br>&lt;complexType&gt;<br>&lt;attribute name=&quot;class&quot; type=&quot;string&quot; use=&quot;required&quot;&gt;<br>&lt;annotation&gt;<br>&lt;documentation&gt; </p>
+<p>&lt;/documentation&gt;<br>&lt;appInfo&gt;<br>&lt;meta.attribute kind=&quot;java&quot; basedOn=&quot;:com.kevin.im.client.IMessageReceiver&quot;/&gt;<br>&lt;/appInfo&gt;<br>&lt;/annotation&gt;<br>&lt;/attribute&gt;<br>&lt;/complexType&gt;<br>&lt;/element&gt; </p>
+<p>这一段实际上就是XML schema 的定义….这个我这里就不介绍了..直接用可视化编辑很很容易的定义</p>
+</blockquote>
+<p>&nbsp;</p>
+<ul>
+<li>最后看看然后在代码中直接访问这些扩展点:</li>
+</ul>
+<blockquote>
+<p>IExtensionRegistry reg = Platform.getExtensionRegistry();&nbsp; //从系统中获得扩展点信息<br>IExtensionPoint extPointForChat = reg.getExtensionPoint(&quot;com.test.View&quot;);&nbsp; //根据扩展点id获得整个扩展点</p>
+<p>for (IConfigurationElement config : extPointForChat.getConfigurationElements()) {//遍历扩展点的配置</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View&nbsp; view=(View) config.createExecutableExtension(&quot;class&quot;);&nbsp; //通过class这个attribute来创建这个类<br>}</p>
+<p>//接下去的,就看你用取到的属性干吗了..hoho</p>
+<p>&nbsp;</p>
+<p>如果自定义扩展点的信息较多较复杂，则可以模仿*.ui.views读取扩展点信息的方式，分成3种不同的类：</p>
+<p></p><p style="margin-left: 42pt" class="a5">&nbsp;&nbsp;● ViewDescriptor&mdash;&mdash;这是一个和自定义扩展点某一项信息相对应的数据类，它实际上为外界封闭了对IConfigurationElement类的访问。</p>
+<p></p><p style="margin-left: 42pt" class="a5">&nbsp;&nbsp;● ViewRegistry&mdash;&mdash;如果说ViewDescriptor是扩展点某一项的信息封装，那么ViewRegistry就是对自定义扩展点所有信息的封装。如果把ViewDescriptor比作某个省份，那么ViewRegistry就是整个国家。</p>
+<p></p><p style="margin-left: 42pt" class="a5">&nbsp;&nbsp;● ViewRegistryReader&mdash;&mdash;这个类负责向ViewRegistry输送数据，如果说ViewRegistry是盲人，那么ViewRegistryReader就是读报人。</p>
+</blockquote>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Eclipse/">Eclipse</a><a href="/tags/RCP/">RCP</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/71/#comments" class="ds-thread-count comments-count-link" data-thread-key="71/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/4/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/6/">Next<span></span></a>
+  </nav>
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>

@@ -1,0 +1,596 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>JavaScript代码风格 | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="This document follows the basic outline of the Java Programming ConventionsGuide, a copy of which may be found at http://geosoft.no/javastyle.html.
+# Conventions## GeneralAny violation to this guide i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript代码风格">
+<meta property="og:url" content="http://blog.zephyrleaves.net/39/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="This document follows the basic outline of the Java Programming ConventionsGuide, a copy of which may be found at http://geosoft.no/javastyle.html.
+# Conventions## GeneralAny violation to this guide i">
+<meta property="og:updated_time" content="2015-08-15T04:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript代码风格">
+<meta name="twitter:description" content="This document follows the basic outline of the Java Programming ConventionsGuide, a copy of which may be found at http://geosoft.no/javastyle.html.
+# Conventions## GeneralAny violation to this guide i">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/39/" title="JavaScript代码风格" itemprop="url">JavaScript代码风格</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-11-25T16:15:43.000Z" itemprop="datePublished"> 发表于 2006-11-26</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>This document follows the basic outline of the Java Programming Conventions<br>Guide, a copy of which may be found at <a href="http://geosoft.no/javastyle.html" target="_blank" rel="external">http://geosoft.no/javastyle.html</a>.</p>
+<div class="section"><br><br># <a href="http://dojotoolkit.org/docs/js_style_guide.html#id1" target="_blank" rel="external">Conventions</a><br><br><div class="section"><br><br>## <a href="http://dojotoolkit.org/docs/js_style_guide.html#id2" target="_blank" rel="external">General</a><br><br>Any violation to this guide is allowed if it enhances readability.<br><br>Guidelines in this document are informed by discussions carried out among the<br>Dojo core developers. The most weight has been given to considerations that<br>impact external developer interaction with Dojo code and APIs. Rules such as<br>whitespace placement are of a much lower order importance for Dojo developers,<br>but should be followed in the main in order to improve developer coordination.<br><br></div><br><div class="section"><br><br>## <a href="http://dojotoolkit.org/docs/js_style_guide.html#id3" target="_blank" rel="external">Quick Reference</a><br><br>Table of core API naming constructs:<br><br><table border="1" class="docutils"><br><br><col width="8%"><br><col width="16%"><br><col width="75%"><br><br><thead valign="bottom"><br><tr><th class="head">Construct</th><br><th class="head">Convention</th><br><th class="head">Comment</th><br></tr><br></thead><br><tbody valign="top"><br><tr><td>package</td><br><td>lower</td><br><td>never multiple words</td><br></tr><br><tr><td>class</td><br><td>UpperLower</td><br><td>&nbsp;</td><br></tr><br><tr><td>public method</td><br><td>lowerUpper</td><br><td>whether class or instance method. lower_case() is acceptable only if the particular function is mimicing another API.</td><br></tr><br><tr><td>public var</td><br><td>lowerUpper</td><br><td>&nbsp;</td><br></tr><br><tr><td>constant</td><br><td>UpperLower or UPPER_LOWER</td><br><td>&nbsp;</td><br></tr><br></tbody><br></table><br>Table of constructs that are not visible in the API, and therefore are optional<br>and carry less weight of enforcement.<br><br><table border="1" class="docutils"><br><br><col width="29%"><br><col width="56%"><br><col width="15%"><br><br><thead valign="bottom"><br><tr><th class="head">Construct</th><br><th class="head">Convention</th><br><th class="head">Comment</th><br></tr><br></thead><br><tbody valign="top"><br><tr><td>private method</td><br><td><tt><span class="pre">_lowerUpper</span></tt></td><br><td>&nbsp;</td><br></tr><br><tr><td>private var</td><br><td><tt><span class="pre">_lowerUpper</span></tt></td><br><td>&nbsp;</td><br></tr><br><tr><td>method args</td><br><td><tt><span class="pre">_lowerUpper</span></tt>, lowerUpper</td><br><td>&nbsp;</td><br></tr><br><tr><td>local vars</td><br><td><tt><span class="pre">_lowerUpper</span></tt>, lowerUpper</td><br><td>&nbsp;</td><br></tr><br></tbody><br></table><br></div><br><div class="section"><br><br>## <a href="http://dojotoolkit.org/docs/js_style_guide.html#id4" target="_blank" rel="external">Naming Conventions</a><br><br>1.  <p class="first">Names representing packages SHOULD be in all lower case.<br><br>2.  </p><p class="first">Names representing types (classes) MUST be nouns and written in<br>UpperLower case:<br><br><pre>Account, EventHandler<br></pre><br><br>3.  </p><p class="first">Constants SHOULD be placed within a single object created as a holder<br>for constants, emulating an Enum; the enum SHOULD be named<br>appropriately, and members SHOULD be named using either UpperLower or<br>UPPER_LOWER case:<br><br><pre>var NodeTypes = {<br>    Element : 1,<br>    DOCUMENT: 2<br>}<br></pre><br><br>4.  </p><p class="first">Abbreviations and acronyms SHOULD NOT be uppercase when used as a name:<br><br><pre>getInnerHtml(), getXml(), XmlDocument<br></pre><br><br>5.  </p><p class="first">Names representing methods SHOULD be verbs or verb phrases:<br><br><pre>obj.getSomeValue()<br></pre><br><br>6.  </p><p class="first">Public class variables MUST be written using upperLower case.<br><br>7.  </p><p class="first">Private class variables MAY be written using <tt><span class="pre">_upperLower</span></tt> (with<br>preceding underscore):<br><br><pre>var MyClass = function(){<br>    var <em>buffer;<br>    this.doSomething = function(){<br>    };<br>}<br></em></pre><br><br>8.  </p><p class="first">Variables that are intended to be private, but cannot be based on the<br>semantics of Javascript, SHOULD prepended with a &quot;&quot; (underscore) char:<br><br><pre>this._somePrivateVariable = statement ;<br></pre><br>NB  Note that the above variable also follows the convention for a<br>private variable.<br><br>9.  </p><p class="first">Generic variables SHOULD have the same name as their type:<br><br><pre>setTopic(topic) //  where topic isTypeOf Topic<br></pre><br><br>10.  </p><p class="first">All names SHOULD be written in English.<br><br>11.  </p><p class="first">Variables with a large scope SHOULD have globally unambiguious names,<br>ambiguity MAY be distinguished by package memebership. Variables with<br>small or private scope MAY be more terse still.<br><br>12.  </p><p class="first">The name of the return object is implicit, and SHOULD be avoided in a<br>method name:<br><br><pre>getHandler(); //    NOT getEventHandler()<br></pre><br><br>1.  </p><p class="first">Public names SHOULD be as clear as necessary and SHOULD avoid unclear<br>shortenings and contractions:<br><br><pre>MouseEventHandler, NOT MseEvtHdlr.<br></pre><br>Note that, again, any context that can be determined by package<br>membership SHOULD be used when determining if a variable name is clear.<br>For example, a class that represents a mouse event handler:<br><br><pre>dojo.events.mouse.Handler, NOT dojo.events.mouse.MouseEventHandler<br></pre><br><br>2.  </p><p class="first">Classes/constructors MAY be named based on their inheritance<br>pattern, with the base class to the right of the name:<br><br><pre>EventHandler<br>UIEventHandler<br>MouseEventHandler<br></pre><br>NB  The base class CAN be dropped from a name if it is obviously<br>implicit in the name:<br><br><pre>MouseEventHandler as opposed to MouseUIEventHandler.<br></pre><br></p></div><br><div class="section"><br><br>## <a href="http://dojotoolkit.org/docs/js_style_guide.html#id5" target="_blank" rel="external">Specific Naming conventions</a><br><br>1.  <p class="first">The terms get/set SHOULD NOT used where a field is accessed, unless the<br>variable being accessed is lexically private.<br><br>2.  </p><p class="first">&quot;is&quot; prefix SHOULD be used for boolean variables and methods<br>NB. Alternatives include &quot;has&quot;, &quot;can&quot; and &quot;should&quot;<br><br>3.  </p><p class="first">The term &quot;compute&quot; CAN be used in methods where something is computed.<br><br>4.  </p><p class="first">The term &quot;find&quot; CAN be used in methods where something is looked up.<br><br>5.  </p><p class="first">The terms &quot;initialize&quot; or &quot;init&quot; CAN be used where an object or a<br>concept is established.<br><br>6.  </p><p class="first">UI Control variables SHOULD be suffixed by the control type.<br>ex.  leftComboBox, topScrollPane<br><br>7.  </p><p class="first">Plural form MUST be used to name collections.<br><br>8.  </p><p class="first">&quot;num&quot; prefix or &quot;count&quot; postfix SHOULD be used for variables<br>representing a number of objects.<br><br>9.  </p><p class="first">Iterator variables SHOULD be called &quot;i&quot;, &quot;j&quot;, &quot;k&quot;, etc.<br><br>10.  </p><p class="first">Compliment names MUST be used for compliment entities.<br>ex.  get/set, add/remove, create/destroy, start/stop, insert/delete,<br>begin/end, etc.<br><br>11.  </p><p class="first">Abbreviations in names SHOULD be avoided.<br><br>12.  </p><p class="first">Negated boolean variable names MUST be avoided:<br><br><pre>isNotError, isNotFound are unacceptable.<br></pre><br><br>13.  </p><p class="first">Exception classes SHOULD be suffixed with &quot;Exception&quot; or &quot;Error&quot; .. FIXME (trt) not sure about this?<br><br>14.  </p><p class="first">Methods returning an object MAY be named after what they return, and<br>methods returning void after what they do.<br></p></div><br><div class="section"><br><br>## <a href="http://dojotoolkit.org/docs/js_style_guide.html#id6" target="_blank" rel="external">Files</a><br><br>1.  <p class="first">Class or object-per-file guidelines are not yet determined.<br><br>2.  </p><p class="first">Tabs (set to 4 spaces) SHOULD be used for indentation.<br><br>3.  </p><p class="first">If your editor supports &quot;file tags&quot;, please append the appropriate tag<br>at the end of the file enable others to effortlessly obey the correct<br>indentation guidelines for that file:<br><br><pre>// vim:ts=4:noet:tw=0:<br></pre><br><br>1.  </p><p class="first">The incompleteness of split line MUST be made obvious:<br><br><pre>var someExpression = Expression1<br>    + Expression2<br>    + Expression3 ;<br><br>    var o = someObject.get(<br>        Expression1,<br>        Expression2,<br>        Expression3<br>    );<br></pre><br>Note the indentation for expression continuation is indented relative<br>to the variable name, while indentation for parameters is relative to<br>the method being called.<br><br>Note also the position of the parenthesis in the method call;<br>positioning SHOULD be similar to the use of block notation.<br></p></div><br><div class="section"><br><br>## <a href="http://dojotoolkit.org/docs/js_style_guide.html#id7" target="_blank" rel="external">Variables</a><br><br>1.  Variables SHOULD be initialized where they are declared and they SHOULD<br>be declared in the smallest scope possible. A null initialization is<br>acceptable.<br>2.  Variables MUST never have a dual meaning.<br>3.  Related variables of the same type CAN be declared in a common<br>statement; unrelated variables SHOULD NOT be declared in the same<br>statement.<br>4.  Variables SHOULD be kept alive for as short a time as possible.<br>5.  Loops / iterative declarations<br><br>        1.  Only loop control statements MUST be included in the &quot;for()&quot;<br>construction.<br>    2.  Loop variables SHOULD be initialized immediately before the loop;<br>loop variables in a &quot;for&quot; statement MAY be initialized in the &quot;for&quot;<br>loop construction.<br>    3.  The use of &quot;do…while&quot; loops are acceptable (unlike in Java)<br>    4.  The use of &quot;break&quot; and &quot;continue&quot; is not discouraged (unlike in Java)<br><br>6.  Conditionals<br><br>        1.  Complex conditional expressions SHOULD be avoided; use temporary<br>boolean variables instead.<br>    2.  The nominal case SHOULD be put in the &quot;if&quot; part and the exception<br>in the &quot;else&quot; part of an &quot;if&quot; statement.<br>    3.  Executable statements in conditionals MUST be avoided.<br><br>7.  Miscellaneous<br><br>        1.  The use of magic numbers in the code SHOULD be avoided; they SHOULD<br>be declared using named &quot;constants&quot; instead.<br>    2.  Floating point constants SHOULD ALWAYS be written with decimal<br>point and at least one decimal.<br>    3.  Floating point constants SHOULD ALWAYS be written with a digit<br>before the decimal point.<br></div><br><div class="section"><br><br>## <a href="http://dojotoolkit.org/docs/js_style_guide.html#id8" target="_blank" rel="external">Layout</a><br><br>1.  <p class="first">Block statements.<br>1.  Block layout SHOULD BE as illustrated below:<br><br><pre>while(!isDone){<br>    doSomething();<br>    isDone = moreToDo();<br>}<br></pre><br><br>    1.  </p><p class="first">If statements SHOULD have the following form:<br><br>    <pre>if(someCondition){<br>    statements;<br>}else if(someOtherCondition){<br>    statements;<br>}else{<br>    statements;<br>}<br></pre><br><br>        2.  </p><p class="first">for statements SHOULD have the following form:<br><br>    <pre>for(initialization; condition; update){<br>    statements;<br>}<br></pre><br><!-- FIXME: (alex) this reference should use reST reference syntax! --><br><br>    1.  </p><p class="first">while statement SHOULD follow the form in example VI.A.1.<br><br>    2.  </p><p class="first">a do…while statement SHOULD have the following form:<br><br>    <pre>do{<br>    statements;<br>}while (condition);<br></pre><br><br>        3.  </p><p class="first">a switch statement SHOULD have the following form:<br><br>    <pre>switch (condition){<br>    case ABC:<br>        statements;<br>        //  fallthrough<br>    case DEF:<br>        statements;<br>        break;<br>    default :<br>        statements;<br>        break;<br>}<br></pre><br><br>        4.  </p><p class="first">A try…catch…finally statement SHOULD have the following form:<br><br>    <pre>try{<br>    statements;<br>}catch (ex){<br>    statements;<br>}finally{<br>    statements;<br>}<br></pre><br><br>        5.  </p><p class="first">Single statement if-else, while or for MUST NOT be written without<br>brackets, but CAN be written on the same line:<br><br>    <pre>if(condition){ statement; }<br>while(condition){ statement; }<br>for(intialization; condition; update){ statement; }<br></pre><br><br>2.  </p><p class="first">Whitespace<br><br>    1.  Conventional operators MAY be surrounded by a space (including<br>ternary operators).<br>    2.  Reserved words SHOULD be followed by a space.<br>    3.  Commas SHOULD be followed by a space.<br>    4.  Colons MAY be surrounded by a space.<br>    5.  Semi-colons in for statements SHOULD be followed by a space.<br>    6.  Semi-colons SHOULD NOT be preceded by a space.<br>    7.  Functions/method calls SHOULD NOT be followed by a space.<br>ex. doSomething(someParameter);     //  NOT doSomething (someParameter)<br>    8.  Logical units within a block SHOULD be separated by one blank line.<br>    9.  Statements MAY be aligned wherever this enhances readability.<br><br>3.  </p><p class="first">Comments<br><br>    1.  Tricky code SHOULD not be commented, but rewritten.<br>    2.  All comments SHOULD be written in English.<br>    3.  Comments SHOULD be indented relative to their position in the code,<br>preceding or to the right of the code in question.<br>    4.  The declaration of collection variables SHOULD be followed by a<br>comment stating the common type of the elements in the collection.<br>    5.  Comments SHOULD be included to explain BLOCKS of code, to explain<br>the point of the following block.<br>    6.  Comments SHOULD NOT be included for every single line of code.<br>            </p></div></div>
+
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/AJAX/">AJAX</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/40/" title="JasperReport使用注意事项">
+  <strong>上一篇：</strong><br/>
+  <span>
+  JasperReport使用注意事项</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/38/"  title="Dojo的压缩">
+ <strong>下一篇：</strong><br/> 
+ <span>Dojo的压缩
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="39" data-title="JavaScript代码风格" data-url="http://blog.zephyrleaves.net/?p=39"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

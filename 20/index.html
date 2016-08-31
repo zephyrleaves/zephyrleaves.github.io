@@ -1,0 +1,630 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>linux下java中文字体问题 | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="将Windows下的字体文件simsun.ttc拷贝到/usr/share/fonts/zh_CN，如果目录下本没有该目录，仅有/usr/share/fonts/zh_TW，创建该目录。将JAVA_HOME/jre/lib/下fontconfig.*开头的文件全部删除或备份起来，改成如下的文件：
+
+@(#)linux.fontconfig.Sun.properties   1.5 03/11/14">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux下java中文字体问题">
+<meta property="og:url" content="http://blog.zephyrleaves.net/20/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="将Windows下的字体文件simsun.ttc拷贝到/usr/share/fonts/zh_CN，如果目录下本没有该目录，仅有/usr/share/fonts/zh_TW，创建该目录。将JAVA_HOME/jre/lib/下fontconfig.*开头的文件全部删除或备份起来，改成如下的文件：
+
+@(#)linux.fontconfig.Sun.properties   1.5 03/11/14">
+<meta property="og:updated_time" content="2015-08-15T04:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux下java中文字体问题">
+<meta name="twitter:description" content="将Windows下的字体文件simsun.ttc拷贝到/usr/share/fonts/zh_CN，如果目录下本没有该目录，仅有/usr/share/fonts/zh_TW，创建该目录。将JAVA_HOME/jre/lib/下fontconfig.*开头的文件全部删除或备份起来，改成如下的文件：
+
+@(#)linux.fontconfig.Sun.properties   1.5 03/11/14">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/20/" title="linux下java中文字体问题" itemprop="url">linux下java中文字体问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-10-16T01:23:30.000Z" itemprop="datePublished"> 发表于 2006-10-16</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#linux-fontconfig-Sun-properties-1-5-03-11-14"><span class="toc-number">1.</span> <span class="toc-text">@(#)linux.fontconfig.Sun.properties   1.5 03/11/14</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Copyright-2003-Sun-Microsystems-Inc-All-rights-reserved"><span class="toc-number">2.</span> <span class="toc-text">Copyright 2003 Sun Microsystems, Inc. All rights reserved.</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Version"><span class="toc-number">3.</span> <span class="toc-text">Version</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Component-Font-Mappings"><span class="toc-number">4.</span> <span class="toc-text">Component Font Mappings</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Search-Sequences"><span class="toc-number">5.</span> <span class="toc-text">Search Sequences</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Exclusion-Ranges"><span class="toc-number">6.</span> <span class="toc-text">Exclusion Ranges</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Font-File-Names"><span class="toc-number">7.</span> <span class="toc-text">Font File Names</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AWT-X11-font-paths"><span class="toc-number">8.</span> <span class="toc-text">AWT X11 font paths</span></a></li></ol>
+		
+		</div>
+		
+		<p></p><p align="left">将Windows下的字体文件simsun.ttc拷贝到/usr/share/fonts/zh_CN，如果目录下本没有该目录，仅有/usr/share/fonts/zh_TW，创建该目录。<br>将JAVA_HOME/jre/lib/下fontconfig.*开头的文件全部删除或备份起来，改成如下的文件：</p>
+<p></p><p align="left"></p>
+<h1 id="linux-fontconfig-Sun-properties-1-5-03-11-14"><a href="#linux-fontconfig-Sun-properties-1-5-03-11-14" class="headerlink" title="@(#)linux.fontconfig.Sun.properties   1.5 03/11/14"></a>@(#)linux.fontconfig.Sun.properties   1.5 03/11/14</h1><p>#</p>
+<h1 id="Copyright-2003-Sun-Microsystems-Inc-All-rights-reserved"><a href="#Copyright-2003-Sun-Microsystems-Inc-All-rights-reserved" class="headerlink" title="Copyright 2003 Sun Microsystems, Inc. All rights reserved."></a>Copyright 2003 Sun Microsystems, Inc. All rights reserved.</h1><p>#</p>
+<h1 id="Version"><a href="#Version" class="headerlink" title="Version"></a>Version</h1><p>version=1</p>
+<h1 id="Component-Font-Mappings"><a href="#Component-Font-Mappings" class="headerlink" title="Component Font Mappings"></a>Component Font Mappings</h1><p>allfonts.chinese-gbk=-misc-simsun-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-gbk-0<br>allfonts.chinese-gb2312=-misc-simsun-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-gb2312.1980-0<br>allfonts.chinese-cn-iso10646=-misc-simsun-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso10646-1<br>allfonts.chinese-big5=-misc-fzmingti-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-big5-0<br>allfonts.chinese-tw-iso10646=-misc-fzmingti-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso10646-1<br>allfonts.chinese-big5hkscs=-misc-fzheiti-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-big5hkscs-0<br>allfonts.lucida=-b&amp;h-lucidasans-medium-r-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>serif.plain.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>serif.plain.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>serif.plain.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>serif.plain.latin-1=-b&amp;h-lucidabright-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>serif.plain.latin-1.motif=-b&amp;h-luxi serif-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>serif.bold.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>serif.bold.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>serif.bold.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>serif.bold.latin-1=-b&amp;h-lucidabright-demibold-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>serif.bold.latin-1.motif=-b&amp;h-luxi serif-bold-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>serif.italic.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>serif.italic.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>serif.italic.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>serif.italic.latin-1=-b&amp;h-lucidabright-medium-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>serif.italic.latin-1.motif=-b&amp;h-luxi serif-medium-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>serif.bolditalic.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>serif.bolditalic.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>serif.bolditalic.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>serif.bolditalic.latin-1=-b&amp;h-lucidabright-demibold-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>serif.bolditalic.latin-1.motif=-b&amp;h-luxi serif-bold-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>sansserif.plain.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>sansserif.plain.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>sansserif.plain.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>sansserif.plain.latin-1=-b&amp;h-lucidasans-medium-r-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>sansserif.plain.latin-1.motif=-b&amp;h-luxi sans-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>sansserif.bold.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>sansserif.bold.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>sansserif.bold.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>sansserif.bold.latin-1=-b&amp;h-lucidasans-bold-r-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>sansserif.bold.latin-1.motif=-b&amp;h-luxi sans-bold-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>sansserif.italic.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>sansserif.italic.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>sansserif.italic.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>sansserif.italic.latin-1=-b&amp;h-lucidasans-medium-i-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>sansserif.italic.latin-1.motif=-b&amp;h-luxi sans-medium-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>sansserif.bolditalic.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>sansserif.bolditalic.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>sansserif.bolditalic.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>sansserif.bolditalic.latin-1=-b&amp;h-lucidasans-bold-i-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>sansserif.bolditalic.latin-1.motif=-b&amp;h-luxi sans-bold-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>monospaced.plain.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>monospaced.plain.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>monospaced.plain.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>monospaced.plain.latin-1=-b&amp;h-lucidatypewriter-medium-r-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>monospaced.plain.latin-1.motif=-b&amp;h-luxi mono-medium-r-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<p>monospaced.bold.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>monospaced.bold.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>monospaced.bold.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>monospaced.bold.latin-1=-b&amp;h-lucidatypewriter-bold-r-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>monospaced.bold.latin-1.motif=-b&amp;h-luxi mono-bold-r-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<p>monospaced.italic.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>monospaced.italic.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>monospaced.italic.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>monospaced.italic.latin-1=-b&amp;h-lucidatypewriter-medium-i-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>monospaced.italic.latin-1.motif=-b&amp;h-luxi mono-medium-i-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<p>monospaced.bolditalic.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>monospaced.bolditalic.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>monospaced.bolditalic.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>monospaced.bolditalic.latin-1=-b&amp;h-lucidatypewriter-bold-i-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>monospaced.bolditalic.latin-1.motif=-b&amp;h-luxi mono-bold-i-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<p>dialog.plain.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialog.plain.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialog.plain.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialog.plain.latin-1=-b&amp;h-lucidasans-medium-r-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>dialog.plain.latin-1.motif=-b&amp;h-luxi sans-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>dialog.bold.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialog.bold.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialog.bold.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialog.bold.latin-1=-b&amp;h-lucidasans-bold-r-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>dialog.bold.latin-1.motif=-b&amp;h-luxi sans-bold-r-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>dialog.italic.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialog.italic.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialog.italic.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialog.italic.latin-1=-b&amp;h-lucidasans-medium-i-normal-sans-<em>-%d-</em>-<em>-<br>p-</em>-iso8859-1<br>dialog.italic.latin-1.motif=-b&amp;h-luxi sans-medium-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>dialog.bolditalic.japanese-x0201=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialog.bolditalic.japanese-x0208=-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialog.bolditalic.korean=-hwan-baekmuk gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialog.bolditalic.latin-1=-b&amp;h-lucidasans-bold-i-normal-sans-<em>-%d-</em>-<em>-p-</em>-iso8859-1<br>dialog.bolditalic.latin-1.motif=-b&amp;h-luxi sans-bold-i-normal–<em>-%d-</em>-<em>-p-</em>-iso8859-1</p>
+<p>dialoginput.plain.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialoginput.plain.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialoginput.plain.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialoginput.plain.latin-1=-b&amp;h-lucidatypewriter-medium-r-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>dialoginput.plain.latin-1.motif=-b&amp;h-luxi mono-medium-r-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<p>dialoginput.bold.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialoginput.bold.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialoginput.bold.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialoginput.bold.latin-1=-b&amp;h-lucidatypewriter-bold-r-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>dialoginput.bold.latin-1.motif=-b&amp;h-luxi mono-bold-r-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<p>dialoginput.italic.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialoginput.italic.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialoginput.italic.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialoginput.italic.latin-1=-b&amp;h-lucidatypewriter-medium-i-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>dialoginput.italic.latin-1.motif=-b&amp;h-luxi mono-medium-i-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<p>dialoginput.bolditalic.japanese-x0201=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0<br>dialoginput.bolditalic.japanese-x0208=-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0<br>dialoginput.bolditalic.korean=-hwan-baekmuk batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0<br>dialoginput.bolditalic.latin-1=-b&amp;h-lucidatypewriter-bold-i-normal-sans-<em>-%d-</em>-<em>-m-</em>-iso8859-1<br>dialoginput.bolditalic.latin-1.motif=-b&amp;h-luxi mono-bold-i-normal–<em>-%d-</em>-<em>-m-</em>-iso8859-1</p>
+<h1 id="Search-Sequences"><a href="#Search-Sequences" class="headerlink" title="Search Sequences"></a>Search Sequences</h1><p>sequence.allfonts=latin-1<br>sequence.allfonts.Big5=latin-1,chinese-big5<br>sequence.allfonts.Big5-HKSCS=latin-1,chinese-big5hkscs<br>sequence.allfonts.GB18030=latin-1,chinese-gbk,chinese-cn-iso10646<br>sequence.allfonts.GBK=latin-1,chinese-gbk<br>sequence.allfonts.GB2312=latin-1,chinese-gb2312<br>sequence.allfonts.EUC-KR=latin-1,korean<br>sequence.allfonts.x-euc-jp-linux=latin-1,japanese-x0201,japanese-x0208<br>sequence.allfonts.UTF-8.ko.KR=latin-1,korean,japanese-x0208,japanese-x0201,chinese-gbk<br>sequence.allfonts.UTF-8.ja.JP=latin-1,japanese-x0208,japanese-x0201,chinese-gbk,korean<br>sequence.allfonts.UTF-8.zh.CN=latin-1,chinese-cn-iso10646,japanese-x0208,japanese-x0201,korean<br>sequence.allfonts.UTF-8.zh.TW=latin-1,chinese-tw-iso10646,japanese-x0208,japanese-x0201,korean<br>sequence.allfonts.UTF-8.zh.HK=latin-1,chinese-tw-iso10646,japanese-x0208,japanese-x0201,korean</p>
+<p>sequence.fallback=lucida,chinese-big5,chinese-gbk,japanese-x0208,korean</p>
+<h1 id="Exclusion-Ranges"><a href="#Exclusion-Ranges" class="headerlink" title="Exclusion Ranges"></a>Exclusion Ranges</h1><p>exclusion.japanese-x0201=0390-03d6,2200-22ef,2701-27be<br>exclusion.japanese-x0208=0390-03d6,2200-22ef,2701-27be</p>
+<h1 id="Font-File-Names"><a href="#Font-File-Names" class="headerlink" title="Font File Names"></a>Font File Names</h1><p>filename.-misc-fzmingti-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-big5-0=/usr/share/fonts/zh_CN/ming_big5.ttf<br>filename.-misc-fzheiti-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-big5hkscs-0=/usr/share/fonts/zh_CN/ming_big5.ttf<br>filename.-misc-fzmingti-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso10646-1=/usr/share/fonts/zh_CN/ming_big5.ttf<br>filename.-misc-simsun-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-gbk-0=/usr/share/fonts/zh_CN/simsun.ttc<br>filename.-misc-simsun-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-gb2312.1980-0=/usr/share/fonts/zh_CN/simsun.ttc<br>filename.-misc-simsun-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-iso10646-1=/usr/share/fonts/zh_CN/simsun.ttc<br>filename.-hwan-baekmuk_batang-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0=/usr/share/fonts/zh_CN/batang.ttf<br>filename.-hwan-baekmuk_gulim-medium-r-normal–<em>-%d-</em>-<em>-p-</em>-ksc5601.1987-0=/usr/share/fonts/zh_CN/gulim.ttf<br>filename.-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0=/usr/share/fonts/zh_CN/kochi-gothic.ttf<br>filename.-kochi-gothic-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0=/usr/share/fonts/zh_CN/kochi-gothic.ttf<br>filename.-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0208.1983-0=/usr/share/fonts/zh_CN/kochi-mincho.ttf<br>filename.-kochi-mincho-medium-r-normal–<em>-%d-</em>-<em>-c-</em>-jisx0201.1976-0=/usr/share/fonts/zh_CN/kochi-mincho.ttf</p>
+<h1 id="AWT-X11-font-paths"><a href="#AWT-X11-font-paths" class="headerlink" title="AWT X11 font paths"></a>AWT X11 font paths</h1><p>awtfontpath.chinese-big5=/usr/share/fonts/zh_CN<br>awtfontpath.chinese-big5hkscs=/usr/share/fonts/zh_CN<br>awtfontpath.chinese-gb2312=/usr/share/fonts/zh_CN<br>awtfontpath.chinese-gbk=/usr/share/fonts/zh_CN<br>awtfontpath.chinese-chinese-cn-iso10646=/usr/share/fonts/zh_CN<br>awtfontpath.chinese-chinese-tw-iso10646=/usr/share/fonts/zh_CN<br>awtfontpath.japanese-x0201=/usr/share/fonts/zh_CN<br>awtfontpath.japanese-x0208=/usr/share/fonts/zh_CN<br>awtfontpath.korean=/usr/share/fonts/zh_CN</p>
+<p align="left">
+
+</p><p></p><p align="left">参考：<a href="http://www-128.ibm.com/developerworks/cn/websphere/library/techarticles/yangyaping0307/waslinux.html" target="_blank" rel="external">http://www-128.ibm.com/developerworks/cn/websphere/library/techarticles/yangyaping0307/waslinux.html</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/21/" title="Linux下安装WebSphere Application Server">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Linux下安装WebSphere Application Server</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/19/"  title="Domino 如何外载 Tomcat">
+ <strong>下一篇：</strong><br/> 
+ <span>Domino 如何外载 Tomcat
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="20" data-title="linux下java中文字体问题" data-url="http://blog.zephyrleaves.net/?p=20"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#linux-fontconfig-Sun-properties-1-5-03-11-14"><span class="toc-number">1.</span> <span class="toc-text">@(#)linux.fontconfig.Sun.properties   1.5 03/11/14</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Copyright-2003-Sun-Microsystems-Inc-All-rights-reserved"><span class="toc-number">2.</span> <span class="toc-text">Copyright 2003 Sun Microsystems, Inc. All rights reserved.</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Version"><span class="toc-number">3.</span> <span class="toc-text">Version</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Component-Font-Mappings"><span class="toc-number">4.</span> <span class="toc-text">Component Font Mappings</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Search-Sequences"><span class="toc-number">5.</span> <span class="toc-text">Search Sequences</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Exclusion-Ranges"><span class="toc-number">6.</span> <span class="toc-text">Exclusion Ranges</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Font-File-Names"><span class="toc-number">7.</span> <span class="toc-text">Font File Names</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AWT-X11-font-paths"><span class="toc-number">8.</span> <span class="toc-text">AWT X11 font paths</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

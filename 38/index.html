@@ -1,0 +1,609 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Dojo的压缩 | 装逼程序员</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="淘宝文通">
+    
+
+    
+    <meta name="description" content="内容：http://dojotoolkit.org/docs/compressor_system.html
+在Dojo的build过程最后一个可选步骤是compression(压缩).像其它JavaScript工具一样,Dojo也用工具减少代码量,可以被浏览器更快的下载.  当然,太多的压缩工具存在,但各方面因素决定Dojo的压缩工具是唯一的.Example为了运行以下的例子,推荐你安装jdk1.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dojo的压缩">
+<meta property="og:url" content="http://blog.zephyrleaves.net/38/index.html">
+<meta property="og:site_name" content="装逼程序员">
+<meta property="og:description" content="内容：http://dojotoolkit.org/docs/compressor_system.html
+在Dojo的build过程最后一个可选步骤是compression(压缩).像其它JavaScript工具一样,Dojo也用工具减少代码量,可以被浏览器更快的下载.  当然,太多的压缩工具存在,但各方面因素决定Dojo的压缩工具是唯一的.Example为了运行以下的例子,推荐你安装jdk1.">
+<meta property="og:updated_time" content="2015-08-15T04:32:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dojo的压缩">
+<meta name="twitter:description" content="内容：http://dojotoolkit.org/docs/compressor_system.html
+在Dojo的build过程最后一个可选步骤是compression(压缩).像其它JavaScript工具一样,Dojo也用工具减少代码量,可以被浏览器更快的下载.  当然,太多的压缩工具存在,但各方面因素决定Dojo的压缩工具是唯一的.Example为了运行以下的例子,推荐你安装jdk1.">
+<meta name="twitter:creator" content="@zephyrleaves">
+
+    
+    <link rel="alternative" href="/atom.xml" title="装逼程序员" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.svg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.svg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/jacman.svg" alt="装逼程序员" title="装逼程序员"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="装逼程序员">装逼程序员</a></h1>
+				<h2 class="blog-motto">无装逼不程序</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+						<li><a href="/comment">给我留言</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+ 					
+						<form class="search">
+							<label>Search</label>
+						<input type="text" id="ts-search-input" name="q" size="30" placeholder="搜索"><br>
+						</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/38/" title="Dojo的压缩" itemprop="url">Dojo的压缩</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="淘宝文通" target="_blank" itemprop="author">淘宝文通</a>
+		
+  <p class="article-time">
+    <time datetime="2006-11-25T16:11:38.000Z" itemprop="datePublished"> 发表于 2006-11-26</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>内容：<br><a href="http://dojotoolkit.org/docs/compressor_system.html" target="_blank" rel="external">http://dojotoolkit.org/docs/compressor_system.html</a></p>
+<p>在Dojo的build过程最后一个可选步骤是compression(压缩).像其它JavaScript工具一样,Dojo也用工具减少代码量,可以被浏览器更快的下载.<br>  当然,太多的压缩工具存在,但各方面因素决定Dojo的压缩工具是唯一的.<br>Example<br>为了运行以下的例子,推荐你安装jdk1.4.从Dojo官网下载压缩工具.<br><a href="http://dojotoolkit.org/svn" target="_blank" rel="external">http://dojotoolkit.org/svn</a>…<br>如果你看了前文，D:&#092;zkj&#092;dojosource&#092;buildscripts&#092;lib下有这个包</p>
+<p>然后编辑infile.js文件,内容如下:</p>
+<p>function MyClass(){<br>  this.foo = function(argument1, argument2){<br>    var addedArgs = parseInt(argument1)+parseInt(argument2);<br>    return addedArgs;<br>  }</p>
+<p>  var anonymousInnerFunction = function(){<br>    // do stuff here!<br>  }<br>}</p>
+<p>function MyFunc(){<br>  // this is a top-level function<br>}</p>
+<p>// 你可以输入一些空格</p>
+<p>我们在命令行输入以下命令得到 outfile.js文件</p>
+<p>java -jar custom_rhino.jar -c infile.js &gt; outfile.js 2&gt;&amp;1<br>outfile.js的内容是以下代码.</p>
+<p>function MyClass(){<br>this.foo=function(_1,_2){<br>var _3=parseInt(_1)+parseInt(_2);<br>return _3;<br>};<br>var _4=function(){<br>};<br>}<br>function MyFunc(){<br>}</p>
+<p>你可以比较一下文件大小.<br>obelisk:/tmp/compress alex$ ls -lah<br>…<br>-rw-r–r–  1 alex users 321B Aug 12 09:21 infile.js<br>-rw-r–r–  1 alex users 140B Aug 12 09:21 outfile.js<br>321 bytes to 140 bytes, a 56% reduction. Not bad!</p>
+<p>我在window操作系统,但看代码也知道压缩不少.</p>
+<p>Riding a Rhino</p>
+<p>  这些工作是怎么完成的呢?为什么选择这个工具而不是其它呢?Dojo的compressor基础是Rhino. Rhino是来自the Mozilla project的javascript解释引擎(java实现).而其它一些压缩工具一般是自定义的规则表达式来完成压缩的.<br>  相比那些regular-expression为基础的工具,通过Rhino对js代码的解析,Dojo compressor能得到更好的效果,体现在变量的上下文环境,变量名等.Dojo compressor不会改变代码的public API.</p>
+<p>API Safety</p>
+<p>There are many &quot;obfuscators&quot; available in addition to size reduction tools. Over the years, many people have attempted to &quot;encrypt&quot; or otherwise obfuscate JavaScript sent over the wire to browsers, and it never pans out. Why not? For starters, JavaScript (as implemented in browsers) is completely interpreted. This means that any further compilation beyond source transformations will not work everywhere, and the tool provides a &quot;decryption&quot; tool along with the &quot;encrypted&quot; or obfuscated source, the unencrypted version will be available at runtime for anyone with a debugger to see. For those tools that just transform source code by mangling variable names, it’s even easier to revert their changes. Therefore, obfuscation and encryption aren’t useful goals. Size reduction, on the other hand, is a useful goal.<br>But not if your size-reduction tool breaks things. There are, of course, many increments available for the &quot;compression&quot; process. Potential choices available to a tool author include:<br>· removing comments<br>· collapsing line-beginning whitespace<br>· removing line-ending whitespace<br>· collapsing multiple blank lines<br>· removing all new-line characters<br>· removing whitespace around operators<br>· removing whitespace near/around curly braces<br>· replacing symbols with shorter names (this is how most &quot;obfuscation&quot; is done)<br>And the list goes on and gets ever-more esoteric as one tries to squeeze every last K out of a JavaScript file. But at some point, you can go too far. The Dojo compressor attempts to strike a balance between debuggability (not replacing all symbols and not removing all newlines) and size reduction.<br>Getting The Source<br>Rhino的源代码可以从Mozilla CVS服务器得到:<br><a href="http://www.mozilla.org/cvs" target="_blank" rel="external">http://www.mozilla.org/cvs</a>…<br>具体路径在:<br>/cvsroot/mozilla/js/rhino<br>Our patches should apply cleanly against Rhino HEAD and are available in unified diff format from:<br><a href="http://dojotoolkit.org/svn" target="_blank" rel="external">http://dojotoolkit.org/svn</a>…<br>Unlike the rest of Dojo, the Dojo Foundation does not control the copyright of the original work, and we therefore cannot license this code under there AFL. It is made available under the tri-licensing terms of the Mozilla project.<br>The Future<br>The Dojo compression tool is by no means the last word in file-size or on-the-wire reduction. Gzipping content on the wire is the next obvious improvement for those deploying applications.<br>The Dojo package system and JSAN allow developers to include just those packages from a library that they require, and future work on real JS linkers will further strip down capable libraries like Dojo to only absolutely what is needed by application authors.<br>The Dojo project intends to continue to produce the best Open Source tools for JS and webapp developers, and we will make these transparently available in the Dojo build system, as we do today with the compression and package systems.<br>About The Author<br>Alex Russell is the project lead for Dojo and can be reached at . His blog is at: <a href="http://alex.dojotoolkit.or" target="_blank" rel="external">http://alex.dojotoolkit.or</a>… </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/技术/">技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/AJAX/">AJAX</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+     ralateuid:{"tsina":"1715949742"},hideMore:false}
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2054562" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/39/" title="JavaScript代码风格">
+  <strong>上一篇：</strong><br/>
+  <span>
+  JavaScript代码风格</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/37/"  title="Dojo的打包系统">
+ <strong>下一篇：</strong><br/> 
+ <span>Dojo的打包系统
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="38" data-title="Dojo的压缩" data-url="http://blog.zephyrleaves.net/?p=38"></div>
+	<!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'zephyrleaves'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/学海无涯/" title="学海无涯">学海无涯<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/技术/" title="技术">技术<sup>91</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/游戏人生/" title="游戏人生">游戏人生<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/生活/" title="生活">生活<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/谈音赏乐/" title="谈音赏乐">谈音赏乐<sup>6</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MySQL/" title="MySQL">MySQL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C-C/" title="C/C++">C/C++<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AJAX/" title="AJAX">AJAX<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Eclipse/" title="Eclipse">Eclipse<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/InnoDB/" title="InnoDB">InnoDB<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web应用/" title="Web应用">Web应用<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Objective-C/" title="Objective-C">Objective-C<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Music/" title="Music">Music<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/无线/" title="无线">无线<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Flex/" title="Flex">Flex<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RCP/" title="RCP">RCP<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Groovy/" title="Groovy">Groovy<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cache/" title="Cache">Cache<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/开源/" title="开源">开源<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+<div class="commentslist">
+  <p class="asidetitle">最近评论</p>
+  <ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="32" data-show-title="1"></ul>
+</div>
+<!--多说js加载开始，一个页面只需要加载一次 -->
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!--多说js加载结束，一个页面只需要加载一次 -->
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Kevin Huang in Alibaba. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1715949742" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/zephyrleaves" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/zephyrleaves" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/kevin.huang.33046" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/zephyrleaves" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		
+		
+		
+		<a href="mailto:zephyrleaves@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="淘宝文通">淘宝文通</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zephyrleaves"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?caf9488f7d7075299a8a32597f11861d";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '33705c4343bfcd5aed49'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
